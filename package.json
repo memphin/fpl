@@ -1,0 +1,10 @@
+{
+  "name": "fixture-lens",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-public.mjs",
+    "test": "node --test",
+    "validate": "node scripts/validate-data.mjs && node scripts/validate-public.mjs"
+  }
+}

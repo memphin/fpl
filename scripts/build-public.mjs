@@ -32,32 +32,39 @@ function sanitizeFixtures(snapshot, nextGameweek) {
   };
 }
 
-function sanitizePlayers(snapshot, nameSnapshot) {
+function sanitizePlayers(snapshot, nameSnapshot, fixtureSnapshot) {
   const names = nameSnapshot.names || {};
+  const matches = nameSnapshot.matches || {};
   return {
+    season: fixtureSnapshot.meta.fixtureSeason,
     gameweeks: { min: snapshot.gameweeks.min, max: snapshot.gameweeks.max },
     nextGameweek: Number(nameSnapshot.nextGameweek),
-    players: snapshot.players.map((player) => ({
-      fullName: player.fullName,
-      displayName: displayNameFor(player.fullName, names),
-      position: player.position,
-      team: { fullName: player.team.fullName },
-      price: Number(player.price),
-      ownership: Number(player.ownership || 0),
-      fixtures: player.fixtures.map((fixture) => ({
-        gameweek: fixture.gameweek,
-        points: Number(fixture.predictions?.points || 0).toFixed(1),
-        opponentName: fixture.opponent?.fullName || fixture.opponent?.shortName || '',
-        opponentShort: fixture.opponent?.shortName || '',
-        venue: fixture.isHome ? 'H' : 'A',
-      })),
-    })),
+    players: snapshot.players.map((player) => {
+      const match = matches[player.fullName];
+      if (!match) throw new Error(`Missing official FPL match for ${player.fullName}. Run build-player-display-names.mjs.`);
+      return {
+        id: Number(match.id),
+        fullName: player.fullName,
+        displayName: match.displayName || displayNameFor(player.fullName, names),
+        position: player.position,
+        team: { id: Number(match.teamId), fullName: player.team.fullName },
+        price: Number(player.price),
+        ownership: Number(player.ownership || 0),
+        fixtures: player.fixtures.map((fixture) => ({
+          gameweek: fixture.gameweek,
+          points: Number(Number(fixture.predictions?.points || 0).toFixed(1)),
+          opponentName: fixture.opponent?.fullName || fixture.opponent?.shortName || '',
+          opponentShort: fixture.opponent?.shortName || '',
+          venue: fixture.isHome ? 'H' : 'A',
+        })),
+      };
+    }),
   };
 }
 
 await rm(output, { recursive: true, force: true });
 await mkdir(assets, { recursive: true });
-for (const file of ['index.html', 'predictions.html', 'styles.css', 'app.js', 'predictions.js']) {
+for (const file of ['index.html', 'predictions.html', 'my-team.html', 'styles.css', 'app.js', 'predictions.js', 'my-team.js', 'my-team-model.js']) {
   await cp(join(root, file), join(output, file));
 }
 const [fixtures, players, names] = await Promise.all([
@@ -67,6 +74,6 @@ const [fixtures, players, names] = await Promise.all([
 ]);
 await Promise.all([
   writeFile(join(assets, 'fixtures.json'), `${JSON.stringify(sanitizeFixtures(fixtures, names.nextGameweek))}\n`),
-  writeFile(join(assets, 'players.json'), `${JSON.stringify(sanitizePlayers(players, names))}\n`),
+  writeFile(join(assets, 'players.json'), `${JSON.stringify(sanitizePlayers(players, names, fixtures))}\n`),
 ]);
 console.log(`Created static release bundle: ${output}`);

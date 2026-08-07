@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Build an FPL squad and plan predicted lineups across upcoming gameweeks." />
+    <title>FPL Jurke · My Team</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell team-app-shell">
+      <nav class="page-nav" aria-label="Primary navigation">
+        <a class="page-tab" href="index.html">Fixture Ratings</a>
+        <a class="page-tab" href="predictions.html">Predictions</a>
+        <a class="page-tab is-active" href="my-team.html" aria-current="page">My Team</a>
+      </nav>
+
+      <header class="team-page-header">
+        <div>
+          <h1>My Team</h1>
+          <p>Build a legal 15-player squad, then plan your best predicted XI for every gameweek.</p>
+        </div>
+        <button class="reset-button team-reset" type="button" id="reset-team">Reset My Team</button>
+      </header>
+
+      <div class="team-notice" id="team-notice" role="status" aria-live="polite"></div>
+
+      <section class="team-overview" aria-label="Squad summary">
+        <div class="team-stat"><span>Players</span><strong id="team-player-count">0 / 15</strong></div>
+        <div class="team-stat"><span>Squad cost</span><strong id="team-cost">£0.0m</strong></div>
+        <div class="team-stat"><span>Remaining</span><strong id="team-remaining">£100.0m</strong></div>
+        <div class="team-stat team-position-stat"><span>Positions</span><strong id="team-positions">GK 0/2 · DEF 0/5 · MID 0/5 · FWD 0/3</strong></div>
+        <div class="team-stat team-transfer-stat"><span>GW transfers</span><strong id="team-transfer-summary">1 FT available · 0 hits</strong></div>
+        <label class="team-horizon" for="team-horizon">
+          <span>Planning horizon</span>
+          <select id="team-horizon">
+            <option value="4">4 gameweeks</option>
+            <option value="5">5 gameweeks</option>
+            <option value="6" selected>6 gameweeks</option>
+            <option value="7">7 gameweeks</option>
+            <option value="8">8 gameweeks</option>
+          </select>
+        </label>
+        <label class="team-horizon starting-ft-control" for="starting-free-transfers">
+          <span>Starting free transfers</span>
+          <select id="starting-free-transfers"><option value="0">0 free transfers</option><option value="1" selected>1 free transfer</option><option value="2">2 free transfers</option><option value="3">3 free transfers</option><option value="4">4 free transfers</option><option value="5">5 free transfers</option></select>
+        </label>
+      </section>
+
+      <div class="team-builder-layout">
+        <section class="squad-panel" aria-labelledby="squad-heading">
+          <div class="team-section-heading">
+            <div>
+              <h2 id="squad-heading">15-player squad</h2>
+              <p id="squad-guidance">Select players from the list to fill your squad.</p>
+            </div>
+            <button class="secondary-button" type="button" id="cancel-replacement" hidden>Cancel replacement</button>
+          </div>
+          <div class="squad-groups" id="squad-groups"></div>
+        </section>
+
+        <details class="player-picker-panel" id="player-picker" open>
+          <summary>Player picker</summary>
+          <div class="player-picker-content">
+            <div class="player-picker-filters">
+              <label class="filter-field" for="team-player-search"><span>Player</span><input id="team-player-search" type="search" placeholder="Search players" autocomplete="off" /></label>
+              <label class="filter-field" for="team-position-filter"><span>Position</span><select id="team-position-filter"><option value="">All positions</option><option>GK</option><option>DEF</option><option>MID</option><option>FWD</option></select></label>
+              <label class="filter-field" for="team-club-filter"><span>Club</span><select id="team-club-filter"><option value="">All clubs</option></select></label>
+              <label class="filter-field compact-filter" for="team-min-price"><span>Min £m</span><input id="team-min-price" type="number" min="0" step="0.5" /></label>
+              <label class="filter-field compact-filter" for="team-max-price"><span>Max £m</span><input id="team-max-price" type="number" min="0" step="0.5" /></label>
+              <label class="filter-field" for="team-player-sort"><span>Sort</span><select id="team-player-sort"><option value="points">Horizon points</option><option value="value">Points per £m</option><option value="name">Name</option><option value="price">Price</option><option value="ownership">Selected %</option></select></label>
+            </div>
+            <p class="picker-summary" id="picker-summary"></p>
+            <div class="player-picker-table-wrap" id="player-picker-results"></div>
+          </div>
+        </details>
+      </div>
+
+      <section class="lineup-planner" id="lineup-planner" aria-labelledby="lineup-heading" hidden>
+        <div class="team-section-heading lineup-heading-row">
+          <div>
+            <h2 id="lineup-heading">Gameweek lineups</h2>
+            <p>Auto-pick from predictions, then adjust starters, bench order and captaincy.</p>
+          </div>
+          <button class="primary-button" type="button" id="auto-pick-all">Auto-pick all GWs</button>
+        </div>
+        <div class="gameweek-tabs" id="team-gameweek-tabs" role="tablist" aria-label="Planned gameweeks"></div>
+        <div class="lineup-toolbar">
+          <div id="lineup-description"></div>
+          <label class="chip-control" for="gameweek-chip"><span>Chip</span><select id="gameweek-chip"><option value="">No chip</option><option value="wildcard">Wildcard</option><option value="free_hit">Free Hit</option><option value="bench_boost">Bench Boost</option><option value="triple_captain">Triple Captain</option></select></label>
+          <button class="secondary-button" type="button" id="auto-pick-gameweek">Auto-pick this GW</button>
+        </div>
+        <div class="lineup-stats" id="lineup-stats"></div>
+        <div class="lineup-pitch" id="lineup-pitch" aria-label="Starting lineup"></div>
+        <div class="lineup-bench-section">
+          <h3>Substitutes</h3>
+          <p>Select one starter and one substitute to swap them.</p>
+          <div class="lineup-bench" id="lineup-bench"></div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="my-team.js"></script>
+  </body>
+</html>

@@ -41,14 +41,19 @@ const fpl = await response.json();
 const teamNames = new Map(fpl.teams.map((team) => [team.id, team.name]));
 const nextGameweek = fpl.events.find((event) => event.is_next)?.id ?? snapshot.gameweeks.min;
 const names = {};
+const matches = {};
+const matchedIds = new Set();
 
 for (const player of snapshot.players) {
   const teamCandidates = fpl.elements.filter((candidate) => teamNames.get(candidate.team) === player.team.fullName);
   let match = bestMatch(player, teamCandidates);
   if (!match || match.score === 0) match = bestMatch(player, fpl.elements);
   if (!match || match.score === 0) throw new Error(`Could not match ${player.fullName} to an FPL player.`);
+  if (matchedIds.has(match.candidate.id)) throw new Error(`Official FPL player ${match.candidate.web_name} matched more than once.`);
+  matchedIds.add(match.candidate.id);
   names[player.fullName] = match.candidate.web_name;
+  matches[player.fullName] = { id: match.candidate.id, displayName: match.candidate.web_name, teamId: match.candidate.team };
 }
 
-await writeFile(outputPath, `${JSON.stringify({ source: 'https://fantasy.premierleague.com/api/bootstrap-static/', fetchedAt: new Date().toISOString(), nextGameweek, names }, null, 2)}\n`);
-console.log(`Wrote ${Object.keys(names).length} official FPL display names to ${outputPath}.`);
+await writeFile(outputPath, `${JSON.stringify({ source: 'https://fantasy.premierleague.com/api/bootstrap-static/', fetchedAt: new Date().toISOString(), nextGameweek, names, matches }, null, 2)}\n`);
+console.log(`Wrote ${Object.keys(matches).length} official FPL player matches to ${outputPath}.`);

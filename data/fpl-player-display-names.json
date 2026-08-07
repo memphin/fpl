@@ -1,6 +1,6 @@
 {
   "source": "https://fantasy.premierleague.com/api/bootstrap-static/",
-  "fetchedAt": "2026-08-07T20:23:05.724Z",
+  "fetchedAt": "2026-08-07T22:24:31.572Z",
   "nextGameweek": 1,
   "names": {
     "David Raya Martín": "Raya",
@@ -495,5 +495,2467 @@
     "Enis Destan": "Destan",
     "Sean Thomas Neave": "Neave",
     "Sindre Walle Egeli": "Walle Egeli"
+  },
+  "matches": {
+    "David Raya Martín": {
+      "id": 1,
+      "displayName": "Raya",
+      "teamId": 1
+    },
+    "Gianluigi Donnarumma": {
+      "id": 384,
+      "displayName": "Donnarumma",
+      "teamId": 15
+    },
+    "Jordan Lee Pickford": {
+      "id": 226,
+      "displayName": "Pickford",
+      "teamId": 9
+    },
+    "Alisson Ramsés Becker": {
+      "id": 350,
+      "displayName": "A.Becker",
+      "teamId": 14
+    },
+    "Dean Bradley Henderson": {
+      "id": 198,
+      "displayName": "Henderson",
+      "teamId": 8
+    },
+    "Damián Emiliano Martínez Romero": {
+      "id": 28,
+      "displayName": "Martinez",
+      "teamId": 2
+    },
+    "Matz Willy Els Sels": {
+      "id": 467,
+      "displayName": "Sels",
+      "teamId": 18
+    },
+    "Senne Lammens": {
+      "id": 412,
+      "displayName": "Lammens",
+      "teamId": 16
+    },
+    "Caoimhín Odhrán Kelleher": {
+      "id": 82,
+      "displayName": "Kelleher",
+      "teamId": 4
+    },
+    "Robin Gerardus Petrus Roefs": {
+      "id": 529,
+      "displayName": "Roefs",
+      "teamId": 20
+    },
+    "Robert Lynch Sánchez": {
+      "id": 140,
+      "displayName": "Sánchez",
+      "teamId": 6
+    },
+    "Nicholas David Pope": {
+      "id": 442,
+      "displayName": "Pope",
+      "teamId": 17
+    },
+    "Walter Daniel Benítez": {
+      "id": 199,
+      "displayName": "Benitez",
+      "teamId": 8
+    },
+    "Đorđe Petrović": {
+      "id": 57,
+      "displayName": "Petrović",
+      "teamId": 3
+    },
+    "Melker Åke Ellborg": {
+      "id": 531,
+      "displayName": "Ellborg",
+      "teamId": 20
+    },
+    "Guglielmo Vicario": {
+      "id": 494,
+      "displayName": "Vicario",
+      "teamId": 19
+    },
+    "Marcus Bettinelli": {
+      "id": 386,
+      "displayName": "Bettinelli",
+      "teamId": 15
+    },
+    "Altay Bayındır": {
+      "id": 413,
+      "displayName": "Bayindir",
+      "teamId": 16
+    },
+    "Carl Andrew Rushworth": {
+      "id": 110,
+      "displayName": "Rushworth",
+      "teamId": 7
+    },
+    "Hákon Rafn Valdimarsson": {
+      "id": 83,
+      "displayName": "Valdimarsson",
+      "teamId": 4
+    },
+    "Jack Butland": {
+      "id": 274,
+      "displayName": "Butland",
+      "teamId": 11
+    },
+    "Antonín Kinský": {
+      "id": 496,
+      "displayName": "Kinsky",
+      "teamId": 19
+    },
+    "Thomas Lloyd King": {
+      "id": 228,
+      "displayName": "King",
+      "teamId": 9
+    },
+    "Bernd Leno": {
+      "id": 250,
+      "displayName": "Leno",
+      "teamId": 10
+    },
+    "Bart Verbruggen": {
+      "id": 109,
+      "displayName": "Verbruggen",
+      "teamId": 5
+    },
+    "Christian Timothy Walton": {
+      "id": 300,
+      "displayName": "Walton",
+      "teamId": 12
+    },
+    "John Victor Maciel Furtado": {
+      "id": 468,
+      "displayName": "John",
+      "teamId": 18
+    },
+    "Ben Wilson": {
+      "id": 172,
+      "displayName": "Wilson",
+      "teamId": 7
+    },
+    "Lucas Estella Perri": {
+      "id": 326,
+      "displayName": "Perri",
+      "teamId": 13
+    },
+    "Konstantinos Tzolakis": {
+      "id": 572,
+      "displayName": "Tzolakis",
+      "teamId": 11
+    },
+    "Ewen Jaouen": {
+      "id": 444,
+      "displayName": "Jaouen",
+      "teamId": 17
+    },
+    "Karl Darlow": {
+      "id": 325,
+      "displayName": "Darlow",
+      "teamId": 16
+    },
+    "Kjell Scherpen": {
+      "id": 564,
+      "displayName": "Scherpen",
+      "teamId": 12
+    },
+    "Mike Louis Penders": {
+      "id": 560,
+      "displayName": "Penders",
+      "teamId": 6
+    },
+    "Kayne van Oevelen": {
+      "id": 554,
+      "displayName": "Van Oevelen",
+      "teamId": 12
+    },
+    "Marco Bizot": {
+      "id": 29,
+      "displayName": "M.Bizot",
+      "teamId": 2
+    },
+    "Mark Joseph Gillespie": {
+      "id": 443,
+      "displayName": "Gillespie",
+      "teamId": 17
+    },
+    "Dillon Phillips": {
+      "id": 273,
+      "displayName": "Phillips",
+      "teamId": 11
+    },
+    "Alexander Palmer": {
+      "id": 301,
+      "displayName": "Palmer",
+      "teamId": 12
+    },
+    "Anthony Patterson": {
+      "id": 530,
+      "displayName": "Patterson",
+      "teamId": 20
+    },
+    "William Jonathan Dennis": {
+      "id": 59,
+      "displayName": "Dennis",
+      "teamId": 3
+    },
+    "Brandon Anthony Austin": {
+      "id": 495,
+      "displayName": "Austin",
+      "teamId": 19
+    },
+    "Thimothée Jacques Orcel Lo-Tutala": {
+      "id": 276,
+      "displayName": "Lo-Tutala",
+      "teamId": 11
+    },
+    "Remi Luke Matthews": {
+      "id": 555,
+      "displayName": "Matthews",
+      "teamId": 8
+    },
+    "Harvey Jay Cartwright": {
+      "id": 275,
+      "displayName": "Cartwright",
+      "teamId": 11
+    },
+    "Thomas David Heaton": {
+      "id": 414,
+      "displayName": "Heaton",
+      "teamId": 16
+    },
+    "Fraser Gerard Forster": {
+      "id": 58,
+      "displayName": "Forster",
+      "teamId": 3
+    },
+    "Vítězslav Jaroš": {
+      "id": 354,
+      "displayName": "Jaros",
+      "teamId": 14
+    },
+    "Martin Dúbravka": {
+      "id": 497,
+      "displayName": "Dubravka",
+      "teamId": 19
+    },
+    "Harvey Peter Davies": {
+      "id": 355,
+      "displayName": "Davies",
+      "teamId": 14
+    },
+    "David Robert Edmund Button": {
+      "id": 302,
+      "displayName": "Button",
+      "teamId": 12
+    },
+    "Benjamin Pascal Lecomte": {
+      "id": 251,
+      "displayName": "Lecomte",
+      "teamId": 10
+    },
+    "Jason Sean Steele": {
+      "id": 111,
+      "displayName": "Steele",
+      "teamId": 5
+    },
+    "Frederick John Woodman": {
+      "id": 352,
+      "displayName": "Woodman",
+      "teamId": 14
+    },
+    "Oliver Lukas Dozae Nnonyelu Dovin": {
+      "id": 171,
+      "displayName": "Dovin",
+      "teamId": 7
+    },
+    "Gabriel dos Santos Magalhães": {
+      "id": 4,
+      "displayName": "Gabriel",
+      "teamId": 1
+    },
+    "Nico O'Reilly": {
+      "id": 387,
+      "displayName": "O'Reilly",
+      "teamId": 15
+    },
+    "Jurriën David Norman Timber": {
+      "id": 5,
+      "displayName": "J.Timber",
+      "teamId": 1
+    },
+    "Virgil van Dijk": {
+      "id": 356,
+      "displayName": "Virgil",
+      "teamId": 14
+    },
+    "Maxence Guy Lacroix": {
+      "id": 200,
+      "displayName": "Lacroix",
+      "teamId": 6
+    },
+    "Marcos Nicolás Senesi Barón": {
+      "id": 498,
+      "displayName": "Senesi",
+      "teamId": 19
+    },
+    "Matheus Luiz Nunes": {
+      "id": 389,
+      "displayName": "Matheus N.",
+      "teamId": 15
+    },
+    "James Alan Tarkowski": {
+      "id": 229,
+      "displayName": "Tarkowski",
+      "teamId": 9
+    },
+    "Addji Keaninkin Marc-Israel Guéhi": {
+      "id": 388,
+      "displayName": "Guéhi",
+      "teamId": 15
+    },
+    "Jarrad Paul Branthwaite": {
+      "id": 230,
+      "displayName": "Branthwaite",
+      "teamId": 9
+    },
+    "Nikola Milenković": {
+      "id": 471,
+      "displayName": "Milenković",
+      "teamId": 18
+    },
+    "Nordi Mukiele Mulere": {
+      "id": 533,
+      "displayName": "Mukiele",
+      "teamId": 20
+    },
+    "Daniel Muñoz Mejía": {
+      "id": 201,
+      "displayName": "Muñoz",
+      "teamId": 8
+    },
+    "Cristhian Andrey Mosquera Ibargüen": {
+      "id": 11,
+      "displayName": "Mosquera",
+      "teamId": 1
+    },
+    "Joško Gvardiol": {
+      "id": 391,
+      "displayName": "Gvardiol",
+      "teamId": 15
+    },
+    "James Clayton Hill": {
+      "id": 60,
+      "displayName": "Hill",
+      "teamId": 3
+    },
+    "Nathan Michael Collins": {
+      "id": 84,
+      "displayName": "Collins",
+      "teamId": 4
+    },
+    "Riccardo Calafiori": {
+      "id": 8,
+      "displayName": "Calafiori",
+      "teamId": 1
+    },
+    "Pedro Antonio Porro Sauceda": {
+      "id": 499,
+      "displayName": "Pedro Porro",
+      "teamId": 19
+    },
+    "Piero Martín Hincapié Reyna": {
+      "id": 9,
+      "displayName": "Hincapie",
+      "teamId": 1
+    },
+    "Benjamin William White": {
+      "id": 10,
+      "displayName": "White",
+      "teamId": 1
+    },
+    "Abdukodir Khusanov": {
+      "id": 393,
+      "displayName": "Khusanov",
+      "teamId": 15
+    },
+    "Marco Palestra": {
+      "id": 152,
+      "displayName": "Palestra",
+      "teamId": 6
+    },
+    "Reece Lewis James": {
+      "id": 142,
+      "displayName": "James",
+      "teamId": 6
+    },
+    "Rúben dos Santos Gato Alves Dias": {
+      "id": 390,
+      "displayName": "Rúben",
+      "teamId": 15
+    },
+    "Murillo Santiago Costa dos Santos": {
+      "id": 472,
+      "displayName": "Murillo",
+      "teamId": 18
+    },
+    "Trevoh Tom Chalobah": {
+      "id": 143,
+      "displayName": "Chalobah",
+      "teamId": 6
+    },
+    "Adrien Lilian Gaëtan Truffert": {
+      "id": 61,
+      "displayName": "Truffert",
+      "teamId": 3
+    },
+    "Miloš Kerkez": {
+      "id": 358,
+      "displayName": "Kerkez",
+      "teamId": 14
+    },
+    "Jeremie Agyekum Frimpong": {
+      "id": 357,
+      "displayName": "Frimpong",
+      "teamId": 14
+    },
+    "Rayan Aït-Nouri": {
+      "id": 392,
+      "displayName": "Aït-Nouri",
+      "teamId": 15
+    },
+    "Malo Arthur Gusto": {
+      "id": 144,
+      "displayName": "Gusto",
+      "teamId": 6
+    },
+    "Lewis Kieran Hall": {
+      "id": 449,
+      "displayName": "Hall",
+      "teamId": 17
+    },
+    "Christopher Jeffrey Richards": {
+      "id": 202,
+      "displayName": "Richards",
+      "teamId": 8
+    },
+    "Pascal Augustus Struijk": {
+      "id": 328,
+      "displayName": "Struijk",
+      "teamId": 5
+    },
+    "Luka Vušković": {
+      "id": 504,
+      "displayName": "Vuskovic",
+      "teamId": 5
+    },
+    "José Diogo Dalot Teixeira": {
+      "id": 417,
+      "displayName": "Dalot",
+      "teamId": 16
+    },
+    "Jaydee Bruce Hamady Canvot": {
+      "id": 203,
+      "displayName": "Canvot",
+      "teamId": 8
+    },
+    "Jérémy Jacquet": {
+      "id": 362,
+      "displayName": "Jacquet",
+      "teamId": 14
+    },
+    "Daniel Johnson Burn": {
+      "id": 448,
+      "displayName": "Burn",
+      "teamId": 17
+    },
+    "Micky van de Ven": {
+      "id": 503,
+      "displayName": "Van de Ven",
+      "teamId": 19
+    },
+    "Jaka Bijol": {
+      "id": 327,
+      "displayName": "Bijol",
+      "teamId": 13
+    },
+    "Jacob Harry Maguire": {
+      "id": 418,
+      "displayName": "Maguire",
+      "teamId": 16
+    },
+    "Joachim Christian Andersen": {
+      "id": 253,
+      "displayName": "Andersen",
+      "teamId": 10
+    },
+    "Veljko Milosavljević": {
+      "id": 63,
+      "displayName": "Milosavljević",
+      "teamId": 3
+    },
+    "Omar Federico Alderete Fernández": {
+      "id": 535,
+      "displayName": "Alderete",
+      "teamId": 20
+    },
+    "Fabian Lukas Schär": {
+      "id": 446,
+      "displayName": "Schär",
+      "teamId": 17
+    },
+    "Konstantinos Tsimikas": {
+      "id": 364,
+      "displayName": "Tsimikas",
+      "teamId": 14
+    },
+    "Bafodé Diakité": {
+      "id": 62,
+      "displayName": "Diakité",
+      "teamId": 3
+    },
+    "Michael Vincent Keane": {
+      "id": 231,
+      "displayName": "Keane",
+      "teamId": 9
+    },
+    "Wesley Tidjan Fofana": {
+      "id": 145,
+      "displayName": "Fofana",
+      "teamId": 6
+    },
+    "Joseph Dave Gomez": {
+      "id": 359,
+      "displayName": "Gomez",
+      "teamId": 14
+    },
+    "Leny Jean-Luc Yoro": {
+      "id": 420,
+      "displayName": "Yoro",
+      "teamId": 16
+    },
+    "Lisandro Martínez": {
+      "id": 419,
+      "displayName": "Martinez",
+      "teamId": 16
+    },
+    "Tarik Muharemović": {
+      "id": 334,
+      "displayName": "Muharemović",
+      "teamId": 13
+    },
+    "Levi Lamar Samuels Colwill": {
+      "id": 149,
+      "displayName": "Colwill",
+      "teamId": 6
+    },
+    "Michael Svoboda": {
+      "id": 120,
+      "displayName": "Svoboda",
+      "teamId": 5
+    },
+    "Daniel George Ballard": {
+      "id": 532,
+      "displayName": "Ballard",
+      "teamId": 20
+    },
+    "Felipe Rodrigues da Silva": {
+      "id": 470,
+      "displayName": "Morato",
+      "teamId": 18
+    },
+    "Mats Henrik Berne Wieffer": {
+      "id": 130,
+      "displayName": "Wieffer",
+      "teamId": 5
+    },
+    "Cristian Gabriel Romero": {
+      "id": 500,
+      "displayName": "Romero",
+      "teamId": 19
+    },
+    "Kevin Danso": {
+      "id": 501,
+      "displayName": "Danso",
+      "teamId": 19
+    },
+    "Malick Thiaw": {
+      "id": 445,
+      "displayName": "Thiaw",
+      "teamId": 17
+    },
+    "Sven Adriaan Botman": {
+      "id": 447,
+      "displayName": "Botman",
+      "teamId": 17
+    },
+    "Neco Shay Williams": {
+      "id": 469,
+      "displayName": "N.Williams",
+      "teamId": 18
+    },
+    "Jan Paul van Hecke": {
+      "id": 112,
+      "displayName": "Van Hecke",
+      "teamId": 19
+    },
+    "Jake Patrick O'Brien": {
+      "id": 232,
+      "displayName": "O'Brien",
+      "teamId": 9
+    },
+    "António João Pereira de Albuquerque Tavares da Silva": {
+      "id": 566,
+      "displayName": "Silva",
+      "teamId": 3
+    },
+    "Jannik Schuster": {
+      "id": 93,
+      "displayName": "Schuster",
+      "teamId": 4
+    },
+    "Calvin Chinedu Bassey": {
+      "id": 257,
+      "displayName": "Bassey",
+      "teamId": 10
+    },
+    "Timothy Castagne": {
+      "id": 258,
+      "displayName": "Castagne",
+      "teamId": 10
+    },
+    "Lewis Carl Dunk": {
+      "id": 116,
+      "displayName": "Dunk",
+      "teamId": 5
+    },
+    "Rio Solomon Cardines": {
+      "id": 220,
+      "displayName": "Cardines",
+      "teamId": 8
+    },
+    "Antonee Robinson": {
+      "id": 254,
+      "displayName": "Robinson",
+      "teamId": 10
+    },
+    "Ji-Soo Kim": {
+      "id": 92,
+      "displayName": "Ji-soo",
+      "teamId": 4
+    },
+    "Kouassi Ryan Sessegnon": {
+      "id": 269,
+      "displayName": "Sessegnon",
+      "teamId": 10
+    },
+    "Ayden Edford Heaven": {
+      "id": 421,
+      "displayName": "Heaven",
+      "teamId": 16
+    },
+    "Diop Tehuti Djed-Hotep Spence": {
+      "id": 505,
+      "displayName": "Spence",
+      "teamId": 19
+    },
+    "Jenson Seelt": {
+      "id": 537,
+      "displayName": "Seelt",
+      "teamId": 20
+    },
+    "Chadi Riad Dnanou": {
+      "id": 206,
+      "displayName": "Chadi Riad",
+      "teamId": 8
+    },
+    "Michael Olabode Kayode": {
+      "id": 88,
+      "displayName": "Kayode",
+      "teamId": 4
+    },
+    "Aaron Anselmino": {
+      "id": 561,
+      "displayName": "Anselmino",
+      "teamId": 6
+    },
+    "Aaron Buchanan Hickey": {
+      "id": 90,
+      "displayName": "Hickey",
+      "teamId": 4
+    },
+    "Ferdi Erenay Kadıoğlu": {
+      "id": 113,
+      "displayName": "F.Kadıoğlu",
+      "teamId": 5
+    },
+    "Jorge Cuenca Barreno": {
+      "id": 255,
+      "displayName": "J.Cuenca",
+      "teamId": 10
+    },
+    "Luke Paul Hoare Shaw": {
+      "id": 423,
+      "displayName": "Shaw",
+      "teamId": 16
+    },
+    "Kenny Joelle Tete": {
+      "id": 256,
+      "displayName": "Tete",
+      "teamId": 10
+    },
+    "Gabriel Johan Gudmundsson": {
+      "id": 331,
+      "displayName": "Gudmundsson",
+      "teamId": 13
+    },
+    "Juan Luis Sánchez Velasco": {
+      "id": 573,
+      "displayName": "Sanchez",
+      "teamId": 3
+    },
+    "Ian Ethan Maatsen": {
+      "id": 36,
+      "displayName": "Maatsen",
+      "teamId": 2
+    },
+    "Rico Antonio Henry": {
+      "id": 89,
+      "displayName": "Henry",
+      "teamId": 4
+    },
+    "Ethan Rupert Pinnock": {
+      "id": 91,
+      "displayName": "Pinnock",
+      "teamId": 4
+    },
+    "Joshua Kofi Acheampong": {
+      "id": 151,
+      "displayName": "Acheampong",
+      "teamId": 6
+    },
+    "Borna Sosa": {
+      "id": 205,
+      "displayName": "Sosa",
+      "teamId": 8
+    },
+    "Tyrick Kwon Mitchell": {
+      "id": 204,
+      "displayName": "Mitchell",
+      "teamId": 8
+    },
+    "Jayden Ian Bogle": {
+      "id": 330,
+      "displayName": "Bogle",
+      "teamId": 13
+    },
+    "Olivier Maxime Boscagli": {
+      "id": 114,
+      "displayName": "Boscagli",
+      "teamId": 5
+    },
+    "Maxim Peter De Cuyper": {
+      "id": 115,
+      "displayName": "De Cuyper",
+      "teamId": 5
+    },
+    "Ezri Ngoyo Konsa": {
+      "id": 31,
+      "displayName": "Konsa",
+      "teamId": 2
+    },
+    "Pau Francisco Torres": {
+      "id": 34,
+      "displayName": "Pau",
+      "teamId": 2
+    },
+    "Tyrone Deon Mings": {
+      "id": 33,
+      "displayName": "Mings",
+      "teamId": 2
+    },
+    "Jair Paula da Cunha Filho": {
+      "id": 474,
+      "displayName": "Jair Cunha",
+      "teamId": 18
+    },
+    "Jorrel Evan Hato": {
+      "id": 148,
+      "displayName": "Hato",
+      "teamId": 6
+    },
+    "Rico Henry Mark Lewis": {
+      "id": 395,
+      "displayName": "Lewis",
+      "teamId": 15
+    },
+    "Reinildo Isnard Mandava": {
+      "id": 536,
+      "displayName": "Reinildo",
+      "teamId": 20
+    },
+    "Nathan Kenneth Patterson": {
+      "id": 234,
+      "displayName": "Patterson",
+      "teamId": 9
+    },
+    "Victor Jörgen Nilsson Lindelöf": {
+      "id": 37,
+      "displayName": "Lindelöf",
+      "teamId": 2
+    },
+    "Ashley Phillips": {
+      "id": 507,
+      "displayName": "Phillips",
+      "teamId": 19
+    },
+    "Abdul-Nasir Oluwatosin Oluwadoyinsolami Adarabioyo": {
+      "id": 147,
+      "displayName": "Tosin",
+      "teamId": 6
+    },
+    "Nicolò Savona": {
+      "id": 475,
+      "displayName": "Savona",
+      "teamId": 18
+    },
+    "Axel Wilson Arthur Disasi Mhakinis Belho": {
+      "id": 153,
+      "displayName": "Disasi",
+      "teamId": 6
+    },
+    "Lucas Digne": {
+      "id": 30,
+      "displayName": "Digne",
+      "teamId": 2
+    },
+    "Noussair Mazraoui": {
+      "id": 422,
+      "displayName": "Mazraoui",
+      "teamId": 16
+    },
+    "Andrew Henry Robertson": {
+      "id": 502,
+      "displayName": "Robertson",
+      "teamId": 19
+    },
+    "Thomas André Meunier": {
+      "id": 541,
+      "displayName": "Meunier",
+      "teamId": 20
+    },
+    "James Michael Justin": {
+      "id": 332,
+      "displayName": "Justin",
+      "teamId": 13
+    },
+    "Adam James Smith": {
+      "id": 64,
+      "displayName": "Smith",
+      "teamId": 3
+    },
+    "Kristoffer Vassbakk Köpp Ajer": {
+      "id": 87,
+      "displayName": "Ajer",
+      "teamId": 4
+    },
+    "Vitor de Oliveira Nunes dos Reis": {
+      "id": 396,
+      "displayName": "Vitor Reis",
+      "teamId": 15
+    },
+    "Temitayo Olufisayo Olaoluwa Aina": {
+      "id": 473,
+      "displayName": "Aina",
+      "teamId": 18
+    },
+    "Mamadou Sarr": {
+      "id": 150,
+      "displayName": "M.Sarr",
+      "teamId": 6
+    },
+    "Igor Julio dos Santos de Paulo": {
+      "id": 118,
+      "displayName": "Igor",
+      "teamId": 5
+    },
+    "João Pedro Loureiro da Costa": {
+      "id": 119,
+      "displayName": "Costinha",
+      "teamId": 5
+    },
+    "Matthew Stuart Cash": {
+      "id": 32,
+      "displayName": "Cash",
+      "teamId": 2
+    },
+    "Benoît Ntambue Badiashile Mukinayi Baya": {
+      "id": 146,
+      "displayName": "B.Badiashile",
+      "teamId": 6
+    },
+    "Joseph Peter Rodon": {
+      "id": 329,
+      "displayName": "Rodon",
+      "teamId": 13
+    },
+    "Sebastiaan Bornauw": {
+      "id": 333,
+      "displayName": "Bornauw",
+      "teamId": 13
+    },
+    "Luca Netz": {
+      "id": 478,
+      "displayName": "Netz",
+      "teamId": 18
+    },
+    "Vitalii Mykolenko": {
+      "id": 233,
+      "displayName": "Mykolenko",
+      "teamId": 9
+    },
+    "Trai Hume": {
+      "id": 534,
+      "displayName": "Hume",
+      "teamId": 20
+    },
+    "Óscar Mingueza García": {
+      "id": 207,
+      "displayName": "Mingueza",
+      "teamId": 8
+    },
+    "Iyenoma Destiny Udogie": {
+      "id": 506,
+      "displayName": "Udogie",
+      "teamId": 19
+    },
+    "Julián Vicente Araujo Zúñiga": {
+      "id": 65,
+      "displayName": "J.Araujo",
+      "teamId": 3
+    },
+    "Luke Matthew Woolfenden": {
+      "id": 180,
+      "displayName": "Woolfenden",
+      "teamId": 7
+    },
+    "Kosta Nedeljković": {
+      "id": 39,
+      "displayName": "Nedeljkovic",
+      "teamId": 2
+    },
+    "Tyler Grant Bindon": {
+      "id": 479,
+      "displayName": "Bindon",
+      "teamId": 18
+    },
+    "Fuka-Arthur Masuaku Kawela": {
+      "id": 540,
+      "displayName": "Masuaku",
+      "teamId": 20
+    },
+    "Cody Callum Pierre Drameh": {
+      "id": 281,
+      "displayName": "Drameh",
+      "teamId": 11
+    },
+    "Harry John Amass": {
+      "id": 424,
+      "displayName": "Amass",
+      "teamId": 16
+    },
+    "Luke Terry O'Nien": {
+      "id": 539,
+      "displayName": "O'Nien",
+      "teamId": 20
+    },
+    "Matthew James Jacob": {
+      "id": 283,
+      "displayName": "Jacob",
+      "teamId": 11
+    },
+    "Julio César Soler Barreto": {
+      "id": 66,
+      "displayName": "Soler",
+      "teamId": 3
+    },
+    "Jay Rhys Dasilva": {
+      "id": 176,
+      "displayName": "Dasilva",
+      "teamId": 7
+    },
+    "João Victor de Souza Menezes": {
+      "id": 511,
+      "displayName": "Souza",
+      "teamId": 19
+    },
+    "Patrick James Coleman McNair": {
+      "id": 285,
+      "displayName": "McNair",
+      "teamId": 11
+    },
+    "Milan Fabrizio van Ewijk": {
+      "id": 175,
+      "displayName": "van Ewijk",
+      "teamId": 7
+    },
+    "Kaine Kesler-Hayden": {
+      "id": 177,
+      "displayName": "Kesler-Hayden",
+      "teamId": 7
+    },
+    "Issa Laye Lucas Jean Diop": {
+      "id": 259,
+      "displayName": "Diop",
+      "teamId": 12
+    },
+    "Benjamin Thomas Davies": {
+      "id": 508,
+      "displayName": "Davies",
+      "teamId": 19
+    },
+    "Adam Aznou Ben Cheikh": {
+      "id": 235,
+      "displayName": "Aznou",
+      "teamId": 9
+    },
+    "Liam James Kitching": {
+      "id": 174,
+      "displayName": "Kitching",
+      "teamId": 7
+    },
+    "Aurèle Florian Amenda": {
+      "id": 182,
+      "displayName": "Amenda",
+      "teamId": 7
+    },
+    "Omar Tyrell Crawford Richards": {
+      "id": 476,
+      "displayName": "O.Richards",
+      "teamId": 18
+    },
+    "Joel Owen Latibeaudiere": {
+      "id": 179,
+      "displayName": "Latibeaudiere",
+      "teamId": 7
+    },
+    "Dara Joseph O'Shea": {
+      "id": 304,
+      "displayName": "O'Shea",
+      "teamId": 12
+    },
+    "Miguel Ángel Brau Blánquez": {
+      "id": 181,
+      "displayName": "Brau",
+      "teamId": 7
+    },
+    "Alex Murphy": {
+      "id": 451,
+      "displayName": "A.Murphy",
+      "teamId": 17
+    },
+    "Tyler Edwin Fredricson": {
+      "id": 425,
+      "displayName": "Fredricson",
+      "teamId": 16
+    },
+    "Leif Davis": {
+      "id": 305,
+      "displayName": "Davis",
+      "teamId": 12
+    },
+    "Jacob John Greaves": {
+      "id": 306,
+      "displayName": "Greaves",
+      "teamId": 12
+    },
+    "Calvin William Ramsay": {
+      "id": 365,
+      "displayName": "Ramsay",
+      "teamId": 14
+    },
+    "Giovanni Leoni": {
+      "id": 363,
+      "displayName": "Leoni",
+      "teamId": 14
+    },
+    "Zach MacFarlane Abbott": {
+      "id": 477,
+      "displayName": "Abbott",
+      "teamId": 18
+    },
+    "Lewie Jacob Coyle": {
+      "id": 280,
+      "displayName": "Coyle",
+      "teamId": 11
+    },
+    "Oluwasemilogo Adesewo Ibidapo Ajayi": {
+      "id": 279,
+      "displayName": "Ajayi",
+      "teamId": 11
+    },
+    "Benjamin Anthony Johnson": {
+      "id": 307,
+      "displayName": "Johnson",
+      "teamId": 12
+    },
+    "Cédric Kipré": {
+      "id": 303,
+      "displayName": "Kipré",
+      "teamId": 12
+    },
+    "Jake Brian Bidwell": {
+      "id": 178,
+      "displayName": "Bidwell",
+      "teamId": 7
+    },
+    "Matthew Robert Targett": {
+      "id": 556,
+      "displayName": "Targett",
+      "teamId": 11
+    },
+    "John Patrick Egan": {
+      "id": 277,
+      "displayName": "Egan",
+      "teamId": 11
+    },
+    "Leo Fuhr Hjelde": {
+      "id": 538,
+      "displayName": "Hjelde",
+      "teamId": 20
+    },
+    "Darnell Anthony Furlong": {
+      "id": 308,
+      "displayName": "Furlong",
+      "teamId": 12
+    },
+    "Bobby Craig Thomas": {
+      "id": 173,
+      "displayName": "Thomas",
+      "teamId": 7
+    },
+    "Charlie Roger Hughes": {
+      "id": 278,
+      "displayName": "Hughes",
+      "teamId": 11
+    },
+    "Ryan John Giles": {
+      "id": 282,
+      "displayName": "Giles",
+      "teamId": 11
+    },
+    "Bruno Miguel Borges Fernandes": {
+      "id": 426,
+      "displayName": "B.Fernandes",
+      "teamId": 16
+    },
+    "Bukayo Ayoyinka Temidayo Moses Saka": {
+      "id": 12,
+      "displayName": "Saka",
+      "teamId": 1
+    },
+    "Cole Jermaine Palmer": {
+      "id": 154,
+      "displayName": "Palmer",
+      "teamId": 6
+    },
+    "Antoine Serlom Semenyo": {
+      "id": 397,
+      "displayName": "Semenyo",
+      "teamId": 15
+    },
+    "Morgan Anthony Gibbs-White": {
+      "id": 480,
+      "displayName": "Gibbs-White",
+      "teamId": 18
+    },
+    "Matheus Santos Carneiro da Cunha": {
+      "id": 428,
+      "displayName": "Cunha",
+      "teamId": 16
+    },
+    "Bryan Tetsadong Marceau Mbeumo": {
+      "id": 427,
+      "displayName": "Mbeumo",
+      "teamId": 16
+    },
+    "Morgan Elliot Rogers": {
+      "id": 40,
+      "displayName": "Rogers",
+      "teamId": 6
+    },
+    "Jérémy Baffour Doku": {
+      "id": 400,
+      "displayName": "Doku",
+      "teamId": 15
+    },
+    "Declan Rice": {
+      "id": 13,
+      "displayName": "Rice",
+      "teamId": 1
+    },
+    "Florian Richard Wirtz": {
+      "id": 366,
+      "displayName": "Wirtz",
+      "teamId": 14
+    },
+    "Mathis Rayan Cherki": {
+      "id": 399,
+      "displayName": "Cherki",
+      "teamId": 15
+    },
+    "Marcus Rashford": {
+      "id": 429,
+      "displayName": "Rashford",
+      "teamId": 16
+    },
+    "Dominik Szoboszlai": {
+      "id": 368,
+      "displayName": "Szoboszlai",
+      "teamId": 14
+    },
+    "Cody Mathès Gakpo": {
+      "id": 367,
+      "displayName": "Gakpo",
+      "teamId": 14
+    },
+    "Enzo Jeremías Fernández": {
+      "id": 155,
+      "displayName": "Enzo",
+      "teamId": 6
+    },
+    "Bruno Guimarães Rodriguez Moura": {
+      "id": 452,
+      "displayName": "Bruno G.",
+      "teamId": 17
+    },
+    "Philip Walter Foden": {
+      "id": 398,
+      "displayName": "Foden",
+      "teamId": 15
+    },
+    "Harry Wilson": {
+      "id": 260,
+      "displayName": "Wilson",
+      "teamId": 13
+    },
+    "Eberechi Oluchi Eze": {
+      "id": 14,
+      "displayName": "Eze",
+      "teamId": 1
+    },
+    "Kiernan Frank Dewsbury-Hall": {
+      "id": 236,
+      "displayName": "Dewsbury-Hall",
+      "teamId": 9
+    },
+    "Dejan Kulusevski": {
+      "id": 521,
+      "displayName": "Kulusevski",
+      "teamId": 19
+    },
+    "Christos Tzolis": {
+      "id": 557,
+      "displayName": "Tzolis",
+      "teamId": 1
+    },
+    "James Daniel Maddison": {
+      "id": 515,
+      "displayName": "Maddison",
+      "teamId": 19
+    },
+    "Víctor Muñoz Villanueva": {
+      "id": 377,
+      "displayName": "Munoz",
+      "teamId": 14
+    },
+    "Martin Ødegaard": {
+      "id": 15,
+      "displayName": "Ødegaard",
+      "teamId": 1
+    },
+    "Gabriel Teodoro Martinelli Silva": {
+      "id": 18,
+      "displayName": "Martinelli",
+      "teamId": 1
+    },
+    "Dango Aboubacar Faissal Ouattara": {
+      "id": 95,
+      "displayName": "O.Dango",
+      "teamId": 4
+    },
+    "Rayan Vitor Simplício Rocha": {
+      "id": 67,
+      "displayName": "Rayan",
+      "teamId": 3
+    },
+    "Elliot Junior Anderson": {
+      "id": 481,
+      "displayName": "Anderson",
+      "teamId": 15
+    },
+    "Chukwunonso Azuka Tristan Madueke": {
+      "id": 16,
+      "displayName": "Madueke",
+      "teamId": 1
+    },
+    "Mohammed Kudus": {
+      "id": 512,
+      "displayName": "Kudus",
+      "teamId": 19
+    },
+    "Ismaïla Sarr": {
+      "id": 208,
+      "displayName": "Sarr",
+      "teamId": 8
+    },
+    "Pedro Lomba Neto": {
+      "id": 156,
+      "displayName": "Neto",
+      "teamId": 6
+    },
+    "Alejandro Garnacho Ferreyra": {
+      "id": 160,
+      "displayName": "Garnacho",
+      "teamId": 2
+    },
+    "Rio Bass Ray Ngumoha Adigun": {
+      "id": 369,
+      "displayName": "Ngumoha",
+      "teamId": 14
+    },
+    "Jacob Kai Murphy": {
+      "id": 457,
+      "displayName": "J.Murphy",
+      "teamId": 17
+    },
+    "Emiliano Buendía Stati": {
+      "id": 41,
+      "displayName": "Buendía",
+      "teamId": 2
+    },
+    "Iliman Cheikh Baroy Ndiaye": {
+      "id": 237,
+      "displayName": "Ndiaye",
+      "teamId": 9
+    },
+    "Harvey Lewis Barnes": {
+      "id": 453,
+      "displayName": "Barnes",
+      "teamId": 17
+    },
+    "Justin Dean Kluivert": {
+      "id": 70,
+      "displayName": "Kluivert",
+      "teamId": 3
+    },
+    "Marcus Joseph Tavernier": {
+      "id": 68,
+      "displayName": "Tavernier",
+      "teamId": 3
+    },
+    "Amad Diallo": {
+      "id": 431,
+      "displayName": "Amad",
+      "teamId": 16
+    },
+    "Kevin Schade": {
+      "id": 94,
+      "displayName": "Schade",
+      "teamId": 4
+    },
+    "Alex Jay Scott": {
+      "id": 69,
+      "displayName": "Scott",
+      "teamId": 3
+    },
+    "Mikel Merino Zazón": {
+      "id": 17,
+      "displayName": "Merino",
+      "teamId": 1
+    },
+    "Johan Kula Manzambi": {
+      "id": 53,
+      "displayName": "Manzambi",
+      "teamId": 2
+    },
+    "Mathys Henri Tel": {
+      "id": 514,
+      "displayName": "Tel",
+      "teamId": 19
+    },
+    "Noah Arinzechukwu Okafor": {
+      "id": 336,
+      "displayName": "Okafor",
+      "teamId": 13
+    },
+    "James David Garner": {
+      "id": 239,
+      "displayName": "Garner",
+      "teamId": 9
+    },
+    "Bazoumana Touré": {
+      "id": 461,
+      "displayName": "Touré",
+      "teamId": 17
+    },
+    "Yankuba Minteh": {
+      "id": 122,
+      "displayName": "Minteh",
+      "teamId": 5
+    },
+    "Anthony David Junior Elanga": {
+      "id": 454,
+      "displayName": "Elanga",
+      "teamId": 17
+    },
+    "Callum James Hudson-Odoi": {
+      "id": 482,
+      "displayName": "Hudson-Odoi",
+      "teamId": 18
+    },
+    "Enzo Jérémy Le Fée": {
+      "id": 542,
+      "displayName": "E.Le Fée",
+      "teamId": 20
+    },
+    "Jack Luca Hinshelwood": {
+      "id": 123,
+      "displayName": "Hinshelwood",
+      "teamId": 5
+    },
+    "Anton Levi Stach": {
+      "id": 335,
+      "displayName": "Stach",
+      "teamId": 13
+    },
+    "Brennan Price Johnson": {
+      "id": 209,
+      "displayName": "Johnson",
+      "teamId": 8
+    },
+    "Patrick Chinazaekpere Dorgu Larsson": {
+      "id": 415,
+      "displayName": "Dorgu",
+      "teamId": 16
+    },
+    "Tijjani Martinus Jan Reijnders Lekatompessy": {
+      "id": 404,
+      "displayName": "Reijnders",
+      "teamId": 15
+    },
+    "Youri Marion Tielemans": {
+      "id": 43,
+      "displayName": "Tielemans",
+      "teamId": 16
+    },
+    "Kaoru Mitoma": {
+      "id": 121,
+      "displayName": "Mitoma",
+      "teamId": 5
+    },
+    "Mateus Gonçalo Espanha Fernandes": {
+      "id": 525,
+      "displayName": "Fernandes",
+      "teamId": 19
+    },
+    "Jaidon Kya Denley Anthony": {
+      "id": 105,
+      "displayName": "Anthony",
+      "teamId": 4
+    },
+    "Ryan Jiro Gravenberch": {
+      "id": 371,
+      "displayName": "Gravenberch",
+      "teamId": 14
+    },
+    "Federico Chiesa": {
+      "id": 370,
+      "displayName": "Chiesa",
+      "teamId": 14
+    },
+    "John McGinn": {
+      "id": 45,
+      "displayName": "McGinn",
+      "teamId": 2
+    },
+    "Keane William Lewis-Potter": {
+      "id": 86,
+      "displayName": "Lewis-Potter",
+      "teamId": 4
+    },
+    "Mason Tony Mount": {
+      "id": 430,
+      "displayName": "Mount",
+      "teamId": 16
+    },
+    "Martín Zubimendi Ibáñez": {
+      "id": 19,
+      "displayName": "Zubimendi",
+      "teamId": 1
+    },
+    "Pascal Alexander Groß": {
+      "id": 124,
+      "displayName": "Groß",
+      "teamId": 5
+    },
+    "Myles Anthony Lewis-Skelly": {
+      "id": 7,
+      "displayName": "Lewis-Skelly",
+      "teamId": 1
+    },
+    "João Victor Gomes da Silva": {
+      "id": 54,
+      "displayName": "Gomes",
+      "teamId": 2
+    },
+    "Joelinton Cássio Apolinário de Lira": {
+      "id": 458,
+      "displayName": "Joelinton",
+      "teamId": 17
+    },
+    "Dan Assane Ndoye": {
+      "id": 483,
+      "displayName": "Ndoye",
+      "teamId": 18
+    },
+    "Chemsdine Talbi": {
+      "id": 549,
+      "displayName": "Talbi",
+      "teamId": 20
+    },
+    "Kobbie Boateng Mainoo": {
+      "id": 432,
+      "displayName": "Mainoo",
+      "teamId": 16
+    },
+    "Ephron Jardell Mason-Clark": {
+      "id": 186,
+      "displayName": "Mason-Clark",
+      "teamId": 7
+    },
+    "Dwight James Matthew McNeil": {
+      "id": 241,
+      "displayName": "McNeil",
+      "teamId": 9
+    },
+    "Tyrique Aaron Delali Yusuff George": {
+      "id": 242,
+      "displayName": "George",
+      "teamId": 9
+    },
+    "Adam James Wharton": {
+      "id": 210,
+      "displayName": "Wharton",
+      "teamId": 8
+    },
+    "Mamadou Sangaré": {
+      "id": 565,
+      "displayName": "Sangaré",
+      "teamId": 4
+    },
+    "Hayden Rhys Hackney": {
+      "id": 247,
+      "displayName": "Hackney",
+      "teamId": 9
+    },
+    "Omari Elijah Giraud-Hutchinson": {
+      "id": 484,
+      "displayName": "Hutchinson",
+      "teamId": 18
+    },
+    "James John McAtee": {
+      "id": 486,
+      "displayName": "McAtee",
+      "teamId": 18
+    },
+    "Moisés Isaac Caicedo Corozo": {
+      "id": 159,
+      "displayName": "Caicedo",
+      "teamId": 6
+    },
+    "Tyler-Jay Robert Dibling": {
+      "id": 245,
+      "displayName": "Dibling",
+      "teamId": 9
+    },
+    "Mouhamadou Habib Mbacke Diarra": {
+      "id": 543,
+      "displayName": "Diarra",
+      "teamId": 20
+    },
+    "Daizen Maeda": {
+      "id": 562,
+      "displayName": "Maeda",
+      "teamId": 12
+    },
+    "Oscar Bobb": {
+      "id": 264,
+      "displayName": "Bobb",
+      "teamId": 10
+    },
+    "Joshua David Steven King": {
+      "id": 268,
+      "displayName": "King",
+      "teamId": 10
+    },
+    "Yasin Abbas Ayari": {
+      "id": 129,
+      "displayName": "Ayari",
+      "teamId": 5
+    },
+    "Dilane Bakwa": {
+      "id": 485,
+      "displayName": "Bakwa",
+      "teamId": 18
+    },
+    "Lewis Miley": {
+      "id": 459,
+      "displayName": "L.Miley",
+      "teamId": 17
+    },
+    "Harvey Daniel James Elliott": {
+      "id": 383,
+      "displayName": "Elliott",
+      "teamId": 14
+    },
+    "Evann Ludovic Vidjannagni Guessand": {
+      "id": 42,
+      "displayName": "Guessand",
+      "teamId": 2
+    },
+    "Abdul Fatawu Issahaku": {
+      "id": 315,
+      "displayName": "Fatawu",
+      "teamId": 12
+    },
+    "Jack Raymond Clarke": {
+      "id": 313,
+      "displayName": "Clarke",
+      "teamId": 12
+    },
+    "Sandro Tonali": {
+      "id": 455,
+      "displayName": "Tonali",
+      "teamId": 19
+    },
+    "Rodrigo Bentancur Colmán": {
+      "id": 516,
+      "displayName": "Bentancur",
+      "teamId": 19
+    },
+    "Ethan Kwame Colm Raymond Ampadu": {
+      "id": 338,
+      "displayName": "Ampadu",
+      "teamId": 13
+    },
+    "Emile Smith Rowe": {
+      "id": 262,
+      "displayName": "Smith Rowe",
+      "teamId": 10
+    },
+    "Lucas Erik Holger Bergvall": {
+      "id": 520,
+      "displayName": "Bergvall",
+      "teamId": 19
+    },
+    "Kevin Santos Lopes de Macedo": {
+      "id": 263,
+      "displayName": "Kevin",
+      "teamId": 10
+    },
+    "Alexis Mac Allister": {
+      "id": 372,
+      "displayName": "Mac Allister",
+      "teamId": 14
+    },
+    "Matthew Sean O'Riley": {
+      "id": 126,
+      "displayName": "O'Riley",
+      "teamId": 5
+    },
+    "Conor John Gallagher": {
+      "id": 519,
+      "displayName": "Gallagher",
+      "teamId": 19
+    },
+    "Loum Tchaouna": {
+      "id": 190,
+      "displayName": "Tchaouna",
+      "teamId": 7
+    },
+    "Victor Torp Overgaard": {
+      "id": 188,
+      "displayName": "Torp",
+      "teamId": 7
+    },
+    "Alexander Chuka Iwobi": {
+      "id": 261,
+      "displayName": "Iwobi",
+      "teamId": 10
+    },
+    "Jaden Richard Philogene-Bidace": {
+      "id": 318,
+      "displayName": "Philogene",
+      "teamId": 12
+    },
+    "Granit Xhaka": {
+      "id": 544,
+      "displayName": "Xhaka",
+      "teamId": 20
+    },
+    "Mathias Jensen": {
+      "id": 97,
+      "displayName": "Jensen",
+      "teamId": 4
+    },
+    "Mikkel Krogh Damsgaard": {
+      "id": 96,
+      "displayName": "Damsgaard",
+      "teamId": 4
+    },
+    "Curtis Julian Jones": {
+      "id": 373,
+      "displayName": "C.Jones",
+      "teamId": 14
+    },
+    "Nicolás González Iglesias": {
+      "id": 405,
+      "displayName": "N.Gonzalez",
+      "teamId": 15
+    },
+    "Wilson Serge Eric Odobert": {
+      "id": 517,
+      "displayName": "Odobert",
+      "teamId": 19
+    },
+    "Yéremy Jesús Pino Santos": {
+      "id": 211,
+      "displayName": "Yeremy",
+      "teamId": 8
+    },
+    "Geovany Tcherno Quenda": {
+      "id": 164,
+      "displayName": "Quenda",
+      "teamId": 6
+    },
+    "Ethan Chidiebere Nwaneri": {
+      "id": 22,
+      "displayName": "Nwaneri",
+      "teamId": 1
+    },
+    "Leon Patrick Bailey Butler": {
+      "id": 44,
+      "displayName": "Bailey",
+      "teamId": 2
+    },
+    "Brenden Russell Aaronson": {
+      "id": 337,
+      "displayName": "Aaronson",
+      "teamId": 13
+    },
+    "Lewis John Cook": {
+      "id": 71,
+      "displayName": "Cook",
+      "teamId": 3
+    },
+    "Matheus França de Oliveira": {
+      "id": 217,
+      "displayName": "M.França",
+      "teamId": 8
+    },
+    "Ogochukwu Frank Onyeka": {
+      "id": 104,
+      "displayName": "Onyeka",
+      "teamId": 7
+    },
+    "Jack Edward Rudoni": {
+      "id": 183,
+      "displayName": "Rudoni",
+      "teamId": 7
+    },
+    "Tatsuhiro Sakamoto": {
+      "id": 185,
+      "displayName": "Sakamoto",
+      "teamId": 7
+    },
+    "Cheick Oumar Doucouré": {
+      "id": 218,
+      "displayName": "Doucouré",
+      "teamId": 8
+    },
+    "Boubacar Bernard Kamara": {
+      "id": 47,
+      "displayName": "Kamara",
+      "teamId": 2
+    },
+    "Sean David Longstaff": {
+      "id": 339,
+      "displayName": "Longstaff",
+      "teamId": 13
+    },
+    "Matthew Jacob Grimes": {
+      "id": 184,
+      "displayName": "Grimes",
+      "teamId": 7
+    },
+    "David Robert Brooks": {
+      "id": 74,
+      "displayName": "Brooks",
+      "teamId": 3
+    },
+    "Anis Mehmeti": {
+      "id": 324,
+      "displayName": "Mehmeti",
+      "teamId": 12
+    },
+    "Tyler Shaan Adams": {
+      "id": 73,
+      "displayName": "Adams",
+      "teamId": 3
+    },
+    "Ryan Christie": {
+      "id": 75,
+      "displayName": "Christie",
+      "teamId": 3
+    },
+    "Thomas Cairney": {
+      "id": 266,
+      "displayName": "Cairney",
+      "teamId": 10
+    },
+    "Sander Gard Bolin Berge": {
+      "id": 265,
+      "displayName": "Berge",
+      "teamId": 10
+    },
+    "Romaine Lee Mundle": {
+      "id": 547,
+      "displayName": "Mundle",
+      "teamId": 20
+    },
+    "Djiamgone Jocelin Ta Bi": {
+      "id": 550,
+      "displayName": "Jocelin.T",
+      "teamId": 20
+    },
+    "Carlos Jonás Alcaraz Durán": {
+      "id": 243,
+      "displayName": "Alcaraz",
+      "teamId": 9
+    },
+    "Azor Matusiwa": {
+      "id": 310,
+      "displayName": "Matusiwa",
+      "teamId": 12
+    },
+    "Joseph George Willock": {
+      "id": 460,
+      "displayName": "Willock",
+      "teamId": 17
+    },
+    "Ross Barkley": {
+      "id": 46,
+      "displayName": "Barkley",
+      "teamId": 2
+    },
+    "Jesurun Rak-Sakyi": {
+      "id": 219,
+      "displayName": "J.Rak-Sakyi",
+      "teamId": 8
+    },
+    "Simon Adingra": {
+      "id": 546,
+      "displayName": "Adingra",
+      "teamId": 20
+    },
+    "Nilson David Angulo Ramírez": {
+      "id": 551,
+      "displayName": "Angulo",
+      "teamId": 20
+    },
+    "Sean Steur": {
+      "id": 462,
+      "displayName": "Steur",
+      "teamId": 17
+    },
+    "Saša Lukić": {
+      "id": 267,
+      "displayName": "Lukić",
+      "teamId": 10
+    },
+    "Jeremy Ngola Monga": {
+      "id": 410,
+      "displayName": "Monga",
+      "teamId": 15
+    },
+    "Mohamed El Bachir Belloumi": {
+      "id": 286,
+      "displayName": "Belloumi",
+      "teamId": 11
+    },
+    "Alex László Tóth": {
+      "id": 76,
+      "displayName": "Tóth.A",
+      "teamId": 3
+    },
+    "Carlos Noom Quomah Baleba": {
+      "id": 131,
+      "displayName": "Baleba",
+      "teamId": 5
+    },
+    "Xaver Schlager": {
+      "id": 558,
+      "displayName": "Schlager",
+      "teamId": 18
+    },
+    "Jefferson Andrés Lerma Solís": {
+      "id": 213,
+      "displayName": "Lerma",
+      "teamId": 8
+    },
+    "Nicolás Martín Domínguez": {
+      "id": 487,
+      "displayName": "Dominguez",
+      "teamId": 18
+    },
+    "Abu Bakarr Kamara": {
+      "id": 293,
+      "displayName": "Kamara",
+      "teamId": 11
+    },
+    "Abdülkadir Ömür": {
+      "id": 292,
+      "displayName": "Ömür",
+      "teamId": 11
+    },
+    "Yehor Yarmoliuk": {
+      "id": 102,
+      "displayName": "Yarmoliuk",
+      "teamId": 4
+    },
+    "Diego Alexander Gómez Amarilla": {
+      "id": 127,
+      "displayName": "Gomez",
+      "teamId": 5
+    },
+    "Liam Alan Millar": {
+      "id": 287,
+      "displayName": "Millar",
+      "teamId": 11
+    },
+    "Hidemasa Morita": {
+      "id": 563,
+      "displayName": "Morita",
+      "teamId": 11
+    },
+    "Merlin Röhl": {
+      "id": 246,
+      "displayName": "Röhl",
+      "teamId": 9
+    },
+    "Archie James Francis Gray": {
+      "id": 522,
+      "displayName": "Gray",
+      "teamId": 19
+    },
+    "Jacob Matthew Ramsey": {
+      "id": 456,
+      "displayName": "J.Ramsey",
+      "teamId": 17
+    },
+    "Daichi Kamada": {
+      "id": 214,
+      "displayName": "Kamada",
+      "teamId": 8
+    },
+    "Harrison David Armstrong": {
+      "id": 244,
+      "displayName": "Armstrong",
+      "teamId": 9
+    },
+    "Daniel Owen James": {
+      "id": 343,
+      "displayName": "James",
+      "teamId": 13
+    },
+    "Babajide David Akintola": {
+      "id": 296,
+      "displayName": "Akintola",
+      "teamId": 11
+    },
+    "Amine Adli": {
+      "id": 77,
+      "displayName": "Adli",
+      "teamId": 3
+    },
+    "Lamare Trenton Chansey Bogarde": {
+      "id": 35,
+      "displayName": "Bogarde",
+      "teamId": 2
+    },
+    "Joseph Paul Gelhardt": {
+      "id": 340,
+      "displayName": "Gelhardt",
+      "teamId": 13
+    },
+    "Christian Thers Barsøe Nørgaard": {
+      "id": 21,
+      "displayName": "Nørgaard",
+      "teamId": 9
+    },
+    "Ilia Iliev Gruev": {
+      "id": 344,
+      "displayName": "Gruev",
+      "teamId": 13
+    },
+    "Marcelino Ignacio Núñez Espinoza": {
+      "id": 309,
+      "displayName": "Núñez",
+      "teamId": 12
+    },
+    "Roméo Lavia": {
+      "id": 161,
+      "displayName": "Lavia",
+      "teamId": 6
+    },
+    "Ao Tanaka": {
+      "id": 345,
+      "displayName": "Tanaka",
+      "teamId": 13
+    },
+    "Degnand Wilfried Gnonto": {
+      "id": 341,
+      "displayName": "Gnonto",
+      "teamId": 13
+    },
+    "Andrey Nascimento dos Santos": {
+      "id": 162,
+      "displayName": "Andrey Santos",
+      "teamId": 16
+    },
+    "Romain Joy Kouakou Esse": {
+      "id": 216,
+      "displayName": "Esse",
+      "teamId": 8
+    },
+    "Noah Junior Sadiki": {
+      "id": 545,
+      "displayName": "Sadiki",
+      "teamId": 20
+    },
+    "Justin Devenny": {
+      "id": 215,
+      "displayName": "Devenny",
+      "teamId": 8
+    },
+    "Ibrahim Sangaré": {
+      "id": 488,
+      "displayName": "Sangaré",
+      "teamId": 18
+    },
+    "Pape Matar Sarr": {
+      "id": 518,
+      "displayName": "P.M.Sarr",
+      "teamId": 19
+    },
+    "Christopher John Rigg": {
+      "id": 548,
+      "displayName": "Rigg",
+      "teamId": 20
+    },
+    "Wesley James Burns": {
+      "id": 311,
+      "displayName": "Burns",
+      "teamId": 12
+    },
+    "Vitaly Janelt": {
+      "id": 98,
+      "displayName": "Janelt",
+      "teamId": 4
+    },
+    "Timothy Emeka Iroegbunam": {
+      "id": 240,
+      "displayName": "Iroegbunam",
+      "teamId": 9
+    },
+    "George Lawrence Hemmings": {
+      "id": 51,
+      "displayName": "George Hemmings",
+      "teamId": 2
+    },
+    "James William McConnell": {
+      "id": 378,
+      "displayName": "McConnell",
+      "teamId": 14
+    },
+    "Harrison James Reed": {
+      "id": 270,
+      "displayName": "Reed",
+      "teamId": 10
+    },
+    "William James Hughes": {
+      "id": 212,
+      "displayName": "Hughes",
+      "teamId": 8
+    },
+    "Kieran O'Neill Dowell": {
+      "id": 288,
+      "displayName": "Dowell",
+      "teamId": 11
+    },
+    "Bradley-Paul Burrowes": {
+      "id": 50,
+      "displayName": "Burrowes",
+      "teamId": 2
+    },
+    "Dário Cassia Luís Essugo": {
+      "id": 163,
+      "displayName": "D.Essugo",
+      "teamId": 6
+    },
+    "Darko Boateng Gyabi": {
+      "id": 297,
+      "displayName": "Gyabi",
+      "teamId": 11
+    },
+    "Jack Henry Philip Taylor": {
+      "id": 312,
+      "displayName": "Taylor",
+      "teamId": 12
+    },
+    "Divine Tayon Mahogany Mukasa": {
+      "id": 409,
+      "displayName": "Mukasa",
+      "teamId": 15
+    },
+    "Tyler Robert Fletcher": {
+      "id": 438,
+      "displayName": "Fletcher",
+      "teamId": 16
+    },
+    "Kai Bernard James Andrews": {
+      "id": 192,
+      "displayName": "Andrews",
+      "teamId": 7
+    },
+    "Joél Drakes-Thomas": {
+      "id": 221,
+      "displayName": "Drakes-Thomas",
+      "teamId": 8
+    },
+    "Óscar Steven Zambrano Preciado": {
+      "id": 294,
+      "displayName": "Zambrano",
+      "teamId": 11
+    },
+    "Eliot Matazo": {
+      "id": 291,
+      "displayName": "Matazo",
+      "teamId": 11
+    },
+    "Kasey Ian McAteer": {
+      "id": 323,
+      "displayName": "McAteer",
+      "teamId": 12
+    },
+    "Matt Davidson Rider Crooks": {
+      "id": 289,
+      "displayName": "Crooks",
+      "teamId": 11
+    },
+    "Regan Newman Slater": {
+      "id": 290,
+      "displayName": "Slater",
+      "teamId": 11
+    },
+    "Raphael Borges Rodrigues": {
+      "id": 191,
+      "displayName": "Borges Rodrigues",
+      "teamId": 7
+    },
+    "Ryan James Yates": {
+      "id": 489,
+      "displayName": "Yates",
+      "teamId": 18
+    },
+    "Erling Braut Haaland": {
+      "id": 411,
+      "displayName": "Haaland",
+      "teamId": 15
+    },
+    "Alexander Isak": {
+      "id": 379,
+      "displayName": "Isak",
+      "teamId": 14
+    },
+    "Oliver George Arthur Watkins": {
+      "id": 55,
+      "displayName": "Watkins",
+      "teamId": 2
+    },
+    "Igor Thiago Nascimento Rodrigues": {
+      "id": 106,
+      "displayName": "Thiago",
+      "teamId": 4
+    },
+    "João Pedro Junqueira de Jesus": {
+      "id": 165,
+      "displayName": "João Pedro",
+      "teamId": 6
+    },
+    "Kai Lukas Havertz": {
+      "id": 26,
+      "displayName": "Havertz",
+      "teamId": 1
+    },
+    "Viktor Einar Gyökeres": {
+      "id": 25,
+      "displayName": "Gyökeres",
+      "teamId": 1
+    },
+    "Omar Khaled Mohamed Abdelsalam Marmoush": {
+      "id": 401,
+      "displayName": "Marmoush",
+      "teamId": 15
+    },
+    "Benjamin Šeško": {
+      "id": 439,
+      "displayName": "Šeško",
+      "teamId": 16
+    },
+    "Nicolas Jackson": {
+      "id": 166,
+      "displayName": "N.Jackson",
+      "teamId": 6
+    },
+    "Jean-Philippe Mateta": {
+      "id": 223,
+      "displayName": "Mateta",
+      "teamId": 8
+    },
+    "Dominic Ayodele Solanke-Mitchell": {
+      "id": 526,
+      "displayName": "Solanke",
+      "teamId": 19
+    },
+    "Francisco Evanilson de Lima Barbosa": {
+      "id": 79,
+      "displayName": "Evanilson",
+      "teamId": 3
+    },
+    "Álvaro Daniel Rodríguez Muñoz": {
+      "id": 81,
+      "displayName": "Rodríguez",
+      "teamId": 3
+    },
+    "Daniel Nii Tackie Mensah Welbeck": {
+      "id": 136,
+      "displayName": "Welbeck",
+      "teamId": 6
+    },
+    "Nick Woltemade": {
+      "id": 463,
+      "displayName": "Woltemade",
+      "teamId": 17
+    },
+    "Gabriel Fernando de Jesus": {
+      "id": 27,
+      "displayName": "G.Jesus",
+      "teamId": 1
+    },
+    "William Idamudia Daugaard Osula": {
+      "id": 465,
+      "displayName": "Osula",
+      "teamId": 17
+    },
+    "Dominic Nathaniel Calvert-Lewin": {
+      "id": 346,
+      "displayName": "Calvert-Lewin",
+      "teamId": 13
+    },
+    "Christopher Grant Wood": {
+      "id": 490,
+      "displayName": "Wood",
+      "teamId": 18
+    },
+    "Yoane Wissa Bileko": {
+      "id": 464,
+      "displayName": "Wissa",
+      "teamId": 17
+    },
+    "Igor Jesus Maciel da Cruz": {
+      "id": 491,
+      "displayName": "Igor Jesus",
+      "teamId": 18
+    },
+    "Brian Ebenezer Adjei Brobbey": {
+      "id": 552,
+      "displayName": "Brobbey",
+      "teamId": 20
+    },
+    "Richarlison de Andrade": {
+      "id": 527,
+      "displayName": "Richarlison",
+      "teamId": 19
+    },
+    "Jørgen Strand Larsen": {
+      "id": 222,
+      "displayName": "Strand Larsen",
+      "teamId": 8
+    },
+    "Wilson Isidor": {
+      "id": 553,
+      "displayName": "Isidor",
+      "teamId": 20
+    },
+    "Norberto Bercique Gomes Betuncal": {
+      "id": 248,
+      "displayName": "Beto",
+      "teamId": 9
+    },
+    "Edward Keddar Nketiah": {
+      "id": 224,
+      "displayName": "Nketiah",
+      "teamId": 8
+    },
+    "Thierno Mamadou Barry": {
+      "id": 249,
+      "displayName": "Barry",
+      "teamId": 9
+    },
+    "Rodrigo Muniz Carvalho": {
+      "id": 271,
+      "displayName": "Muniz",
+      "teamId": 10
+    },
+    "Taiwo Micheal Awoniyi": {
+      "id": 492,
+      "displayName": "Awoniyi",
+      "teamId": 18
+    },
+    "Charalampos Kostoulas": {
+      "id": 138,
+      "displayName": "Kostoulas",
+      "teamId": 5
+    },
+    "Oliver Robert McBurnie": {
+      "id": 295,
+      "displayName": "McBurnie",
+      "teamId": 11
+    },
+    "Haji Amir Wright": {
+      "id": 193,
+      "displayName": "Wright",
+      "teamId": 7
+    },
+    "Enes Ünal": {
+      "id": 80,
+      "displayName": "Enes Ünal",
+      "teamId": 3
+    },
+    "Arnaud Kalimuendo Muinga": {
+      "id": 493,
+      "displayName": "Kalimuendo",
+      "teamId": 18
+    },
+    "Lukas Okechukwu Nmecha": {
+      "id": 347,
+      "displayName": "Nmecha",
+      "teamId": 13
+    },
+    "Joshua Orobosa Zirkzee": {
+      "id": 440,
+      "displayName": "Zirkzee",
+      "teamId": 16
+    },
+    "Emersonn Correia da Silva": {
+      "id": 316,
+      "displayName": "Emersonn",
+      "teamId": 12
+    },
+    "Tammy Bakumo-Abraham": {
+      "id": 56,
+      "displayName": "Abraham",
+      "teamId": 2
+    },
+    "Liam Rory Delap": {
+      "id": 167,
+      "displayName": "Delap",
+      "teamId": 6
+    },
+    "Georginio Lucius Rutter": {
+      "id": 125,
+      "displayName": "Georginio",
+      "teamId": 5
+    },
+    "Joël Mohammed Ramzan Piroe": {
+      "id": 348,
+      "displayName": "Piroe",
+      "teamId": 13
+    },
+    "Marc Guiu Paz": {
+      "id": 168,
+      "displayName": "Marc Guiu",
+      "teamId": 6
+    },
+    "Ellis Reco Simms": {
+      "id": 195,
+      "displayName": "Simms",
+      "teamId": 7
+    },
+    "Solomon Brandon Michael Clarke Thomas-Asante": {
+      "id": 194,
+      "displayName": "Thomas-Asante",
+      "teamId": 7
+    },
+    "Emmanuel Esseh Emegha": {
+      "id": 170,
+      "displayName": "Emegha",
+      "teamId": 6
+    },
+    "Mason Paul James Burstow": {
+      "id": 299,
+      "displayName": "Burstow",
+      "teamId": 11
+    },
+    "Kaye Furo Tamuno Iyowuna": {
+      "id": 107,
+      "displayName": "Furo",
+      "teamId": 4
+    },
+    "Dane Pharrell Scarlett": {
+      "id": 528,
+      "displayName": "Scarlett",
+      "teamId": 19
+    },
+    "Jonah Daniel Kusi-Asare": {
+      "id": 272,
+      "displayName": "Kusi-Asare",
+      "teamId": 10
+    },
+    "Mateo Joseph Fernández-Regatillo": {
+      "id": 349,
+      "displayName": "Mateo Joseph",
+      "teamId": 13
+    },
+    "Enis Destan": {
+      "id": 298,
+      "displayName": "Destan",
+      "teamId": 11
+    },
+    "Sean Thomas Neave": {
+      "id": 466,
+      "displayName": "Neave",
+      "teamId": 17
+    },
+    "Sindre Walle Egeli": {
+      "id": 321,
+      "displayName": "Walle Egeli",
+      "teamId": 12
+    }
   }
 }
