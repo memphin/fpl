@@ -12,9 +12,10 @@ function displayNameFor(fullName, names) {
   return parts.length < 3 ? fullName : parts.slice(0, 2).join(' ');
 }
 
-function sanitizeFixtures(snapshot) {
+function sanitizeFixtures(snapshot, nextGameweek) {
   return {
     gameweeks: snapshot.gameweeks,
+    nextGameweek: Number(nextGameweek),
     teams: snapshot.teams.map(({ id, name, stats }) => ({
       id,
       name,
@@ -62,7 +63,7 @@ const [fixtures, players, names] = await Promise.all([
   readJson('data/fpl-player-display-names.json'),
 ]);
 await Promise.all([
-  writeFile(join(assets, 'fixtures.json'), `${JSON.stringify(sanitizeFixtures(fixtures))}\n`),
+  writeFile(join(assets, 'fixtures.json'), `${JSON.stringify(sanitizeFixtures(fixtures, names.nextGameweek))}\n`),
   writeFile(join(assets, 'players.json'), `${JSON.stringify(sanitizePlayers(players, names))}\n`),
 ]);
 console.log(`Created static release bundle: ${output}`);

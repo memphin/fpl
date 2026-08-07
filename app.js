@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'fixture-lens-preferences-v1';
-const state = { data: null, mode: 'overall', hiddenClubs: new Set(), hiddenGameweeks: new Set(), startGameweek: 1, endGameweek: 38, adjustments: {}, sort: { target: null, direction: 1 } };
+const state = { data: null, mode: 'overall', hiddenClubs: new Set(), hiddenGameweeks: new Set(), startGameweek: null, endGameweek: null, adjustments: {}, sort: { target: null, direction: 1 } };
 const metricLabel = { overall: 'Overall', attack: 'Attack', defence: 'Defence' };
 
 function loadPreferences() {
@@ -13,6 +13,11 @@ function ratingColor(value) { const position = Math.max(0, Math.min(1, (value - 
 function ratingTextColor(value) { return value >= 6 ? '#551010' : '#102d19'; }
 function visibleTeams() { return state.data.teams.filter((team) => !state.hiddenClubs.has(team.id)); }
 function visibleGameweeks() { return state.data.gameweeks.filter((gw) => gw >= state.startGameweek && gw <= state.endGameweek && !state.hiddenGameweeks.has(gw)); }
+function defaultGameweekRange() {
+  const gameweeks = state.data.gameweeks;
+  const start = gameweeks.includes(state.data.nextGameweek) ? state.data.nextGameweek : gameweeks[0];
+  return { start, end: Math.min(start + 5, gameweeks.at(-1)) };
+}
 function sortIcon(target) { return state.sort.target !== target ? '↕' : state.sort.direction === 1 ? '↑' : '↓'; }
 function sortAria(target, label) { return state.sort.target === target ? `Sorted ${state.sort.direction === 1 ? 'easiest to hardest' : 'hardest to easiest'} by ${label}. Activate to reverse.` : `Sort teams by ${label}, easiest to hardest.`; }
 function multiplier(teamId, kind) { return Number(state.adjustments[teamId]?.[kind] || 1); }
@@ -65,13 +70,20 @@ function renderGrid() {
   document.querySelector('#gameweek-range-value').textContent = `${state.startGameweek}–${state.endGameweek}`;
   document.querySelectorAll('.mode-button').forEach((button) => { const active = button.dataset.mode === state.mode; button.classList.toggle('is-active', active); button.setAttribute('aria-pressed', active); });
 }
-function resetFilters() { state.hiddenClubs.clear(); state.hiddenGameweeks.clear(); state.startGameweek = 1; state.endGameweek = 38; state.sort = { target: null, direction: 1 }; savePreferences(); renderGrid(); }
+function resetFilters() { const defaultRange = defaultGameweekRange(); state.hiddenClubs.clear(); state.hiddenGameweeks.clear(); state.startGameweek = defaultRange.start; state.endGameweek = defaultRange.end; state.sort = { target: null, direction: 1 }; savePreferences(); renderGrid(); }
 function setSort(target) { state.sort = state.sort.target === target ? { target, direction: state.sort.direction * -1 } : { target, direction: 1 }; renderGrid(); }
 async function init() {
   loadPreferences();
   const response = await fetch('assets/fixtures.json');
   if (!response.ok) throw new Error('Could not load the bundled fixture snapshot.');
   state.data = await response.json();
+  const defaultRange = defaultGameweekRange();
+  state.startGameweek = Math.max(state.data.gameweeks[0], Math.min(state.startGameweek ?? defaultRange.start, state.data.gameweeks.at(-1)));
+  state.endGameweek = Math.max(state.startGameweek, Math.min(state.endGameweek ?? defaultRange.end, state.data.gameweeks.at(-1)));
+  for (const input of document.querySelectorAll('#gameweek-start, #gameweek-end')) {
+    input.min = state.data.gameweeks[0];
+    input.max = state.data.gameweeks.at(-1);
+  }
   renderAdjustments();
   renderGrid();
   document.querySelectorAll('.mode-button').forEach((button) => button.addEventListener('click', () => { state.mode = button.dataset.mode; savePreferences(); renderGrid(); }));
