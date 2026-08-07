@@ -39,6 +39,7 @@ const response = await fetch('https://fantasy.premierleague.com/api/bootstrap-st
 if (!response.ok) throw new Error(`FPL player data request failed (${response.status}).`);
 const fpl = await response.json();
 const teamNames = new Map(fpl.teams.map((team) => [team.id, team.name]));
+const nextGameweek = fpl.events.find((event) => event.is_next)?.id ?? snapshot.gameweeks.min;
 const names = {};
 
 for (const player of snapshot.players) {
@@ -49,5 +50,5 @@ for (const player of snapshot.players) {
   names[player.fullName] = match.candidate.web_name;
 }
 
-await writeFile(outputPath, `${JSON.stringify({ source: 'https://fantasy.premierleague.com/api/bootstrap-static/', fetchedAt: new Date().toISOString(), names }, null, 2)}\n`);
+await writeFile(outputPath, `${JSON.stringify({ source: 'https://fantasy.premierleague.com/api/bootstrap-static/', fetchedAt: new Date().toISOString(), nextGameweek, names }, null, 2)}\n`);
 console.log(`Wrote ${Object.keys(names).length} official FPL display names to ${outputPath}.`);

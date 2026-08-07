@@ -1,9 +1,10 @@
-const PREFERENCES_KEY = 'fixture-lens-predictions-preferences-v1';
+const PREFERENCES_KEY = 'fixture-lens-predictions-preferences-v2';
 const POSITION_ORDER = ['GK', 'DEF', 'MID', 'FWD'];
 const STAR_QUOTAS = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
 const state = {
   data: null,
   displayNames: {},
+  nextGameweek: null,
   startGameweek: null,
   endGameweek: null,
   minPrice: null,
@@ -53,6 +54,12 @@ function availableGameweeks() {
 
 function visibleGameweeks() {
   return availableGameweeks().filter((gameweek) => gameweek >= state.startGameweek && gameweek <= state.endGameweek);
+}
+
+function defaultGameweekRange() {
+  const gameweeks = availableGameweeks();
+  const start = gameweeks.includes(state.nextGameweek) ? state.nextGameweek : gameweeks[0];
+  return { start, end: Math.min(start + 5, gameweeks.at(-1)) };
 }
 
 function priceBounds() {
@@ -194,9 +201,9 @@ function renderGrid() {
 }
 
 function resetFilters() {
-  const gameweeks = availableGameweeks();
-  state.startGameweek = gameweeks[0];
-  state.endGameweek = gameweeks.at(-1);
+  const defaultRange = defaultGameweekRange();
+  state.startGameweek = defaultRange.start;
+  state.endGameweek = defaultRange.end;
   const prices = priceBounds();
   state.minPrice = prices.min;
   state.maxPrice = prices.max;
@@ -222,11 +229,14 @@ async function init() {
   const [predictionResponse, namesResponse] = await Promise.all([fetch('data/ffh_players_compact.json'), fetch('data/fpl-player-display-names.json')]);
   if (!predictionResponse.ok || !namesResponse.ok) throw new Error('Could not load the bundled player predictions snapshot.');
   state.data = await predictionResponse.json();
-  state.displayNames = (await namesResponse.json()).names || {};
+  const displayNameSnapshot = await namesResponse.json();
+  state.displayNames = displayNameSnapshot.names || {};
+  state.nextGameweek = Number(displayNameSnapshot.nextGameweek);
   const gameweeks = availableGameweeks();
   loadPreferences();
-  state.startGameweek = Math.max(gameweeks[0], Math.min(state.startGameweek ?? gameweeks[0], gameweeks.at(-1)));
-  state.endGameweek = Math.max(state.startGameweek, Math.min(state.endGameweek ?? gameweeks.at(-1), gameweeks.at(-1)));
+  const defaultRange = defaultGameweekRange();
+  state.startGameweek = Math.max(gameweeks[0], Math.min(state.startGameweek ?? defaultRange.start, gameweeks.at(-1)));
+  state.endGameweek = Math.max(state.startGameweek, Math.min(state.endGameweek ?? defaultRange.end, gameweeks.at(-1)));
   const prices = priceBounds();
   state.minPrice = Math.max(prices.min, Math.min(state.minPrice ?? prices.min, prices.max));
   state.maxPrice = Math.max(state.minPrice, Math.min(state.maxPrice ?? prices.max, prices.max));
