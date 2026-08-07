@@ -1,6 +1,13 @@
 const PREFERENCES_KEY = 'fixture-lens-predictions-preferences-v2';
 const POSITION_ORDER = ['GK', 'DEF', 'MID', 'FWD'];
 const STAR_QUOTAS = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
+const METADATA_COLUMNS = [
+  { key: 'player', label: 'Player', className: 'prediction-player-heading', width: 210 },
+  { key: 'position', label: 'Position', className: 'prediction-position-heading', width: 72 },
+  { key: 'club', label: 'Club', className: 'prediction-club-heading', width: 124 },
+  { key: 'price', label: 'Price', className: 'prediction-price-heading', width: 68 },
+  { key: 'selected', label: 'Selected %', className: 'prediction-selected-heading', width: 80 },
+];
 const state = {
   data: null,
   displayNames: {},
@@ -12,6 +19,9 @@ const state = {
   search: '',
   position: '',
   club: '',
+  hiddenPlayers: new Set(),
+  hiddenGameweeks: new Set(),
+  hiddenColumns: new Set(),
   sort: { column: 'total', direction: -1 },
 };
 
@@ -30,6 +40,9 @@ function loadPreferences() {
     state.search = typeof saved.search === 'string' ? saved.search : '';
     state.position = typeof saved.position === 'string' ? saved.position : '';
     state.club = typeof saved.club === 'string' ? saved.club : '';
+    state.hiddenPlayers = new Set(saved.hiddenPlayers || []);
+    state.hiddenGameweeks = new Set(saved.hiddenGameweeks || []);
+    state.hiddenColumns = new Set((saved.hiddenColumns || []).filter((column) => column !== 'player'));
     if (saved.sort && typeof saved.sort.column === 'string' && [1, -1].includes(saved.sort.direction)) state.sort = saved.sort;
   } catch { /* Invalid saved preferences are safely ignored. */ }
 }
@@ -43,6 +56,9 @@ function savePreferences() {
     search: state.search,
     position: state.position,
     club: state.club,
+    hiddenPlayers: [...state.hiddenPlayers],
+    hiddenGameweeks: [...state.hiddenGameweeks],
+    hiddenColumns: [...state.hiddenColumns],
     sort: state.sort,
   }));
 }
@@ -53,7 +69,16 @@ function availableGameweeks() {
 }
 
 function visibleGameweeks() {
-  return availableGameweeks().filter((gameweek) => gameweek >= state.startGameweek && gameweek <= state.endGameweek);
+  return availableGameweeks().filter((gameweek) => gameweek >= state.startGameweek && gameweek <= state.endGameweek && !state.hiddenGameweeks.has(gameweek));
+}
+
+function columnVisible(column) {
+  return column === 'player' || !state.hiddenColumns.has(column);
+}
+
+function metadataLeft(column) {
+  const current = METADATA_COLUMNS.findIndex((item) => item.key === column);
+  return METADATA_COLUMNS.slice(0, current).filter((item) => columnVisible(item.key)).reduce((left, item) => left + item.width, 0);
 }
 
 function defaultGameweekRange() {
@@ -87,7 +112,7 @@ function valuePerMillionFor(player, gameweeks) {
 }
 
 function greenCellStyle(points, maximum) {
-  const intensity = Math.max(0, Math.min(1, points / maximum));
+  const intensity = maximum > 0 ? Math.max(0, Math.min(1, points / maximum)) : 0;
   const opacity = 0.08 + intensity * 0.72;
   return `background:rgba(11, 132, 78, ${opacity.toFixed(2)});color:${intensity > 0.58 ? '#fff' : '#123c52'}`;
 }
@@ -130,6 +155,7 @@ function sortedAndFilteredPlayers(gameweeks) {
     (!search || player.fullName.toLocaleLowerCase().includes(search)) &&
     (!state.position || player.position === state.position) &&
     (!state.club || player.team.fullName === state.club) &&
+    !state.hiddenPlayers.has(player.fullName) &&
     player.price >= state.minPrice && player.price <= state.maxPrice,
   );
   return players.sort((left, right) => {
@@ -161,8 +187,31 @@ function sortAria(column, label) {
   return `Sorted ${state.sort.direction === 1 ? 'ascending' : 'descending'} by ${label}. Activate to reverse.`;
 }
 
-function sortHeader(column, label, className = '') {
-  return `<th class="${className}" scope="col"><span>${escapeHtml(label)}</span><button class="sort-toggle" type="button" data-sort="${escapeHtml(column)}" aria-label="${escapeHtml(sortAria(column, label))}" title="${escapeHtml(sortAria(column, label))}">${sortIcon(column)}</button></th>`;
+function sortHeader(column, label, className = '', style = '', canHide = true) {
+  const hideButton = canHide ? `<button class="inline-toggle" type="button" data-hide-column="${escapeHtml(column)}" aria-label="Hide ${escapeHtml(label)} column" title="Hide ${escapeHtml(label)} column">−</button>` : '';
+  return `<th class="${className}" scope="col" ${style}><span>${escapeHtml(label)}</span><button class="sort-toggle" type="button" data-sort="${escapeHtml(column)}" aria-label="${escapeHtml(sortAria(column, label))}" title="${escapeHtml(sortAria(column, label))}">${sortIcon(column)}</button>${hideButton}</th>`;
+}
+
+function gameweekHeader(gameweek) {
+  const label = `gameweek ${gameweek}`;
+  const aria = sortAria(String(gameweek), label);
+  return `<th scope="col"><span>GW ${gameweek}</span><button class="sort-toggle" type="button" data-sort="${gameweek}" aria-label="${escapeHtml(aria)}" title="${escapeHtml(aria)}">${sortIcon(String(gameweek))}</button><button class="inline-toggle" type="button" data-hide-gameweek="${gameweek}" aria-label="Hide gameweek ${gameweek}" title="Hide gameweek ${gameweek}">−</button></th>`;
+}
+
+function renderRestoreStrip() {
+  const hiddenGameweeks = [...state.hiddenGameweeks].sort((left, right) => left - right);
+  const hiddenPlayers = state.data.players.filter((player) => state.hiddenPlayers.has(player.fullName));
+  const hiddenColumns = [...state.hiddenColumns].map((column) => {
+    const metadata = METADATA_COLUMNS.find((item) => item.key === column);
+    const label = metadata?.label || (column === 'total' ? 'Total' : 'Pts/£m');
+    return `<button class="restore-chip" type="button" data-show-column="${escapeHtml(column)}">+ ${escapeHtml(label)}</button>`;
+  });
+  const items = [
+    ...hiddenColumns,
+    ...hiddenGameweeks.map((gameweek) => `<button class="restore-chip" type="button" data-show-gameweek="${gameweek}">+ GW ${gameweek}</button>`),
+    ...hiddenPlayers.map((player) => `<button class="restore-chip" type="button" data-show-player="${escapeHtml(player.fullName)}">+ ${escapeHtml(displayNameFor(player))}</button>`),
+  ];
+  document.querySelector('#prediction-restore-strip').innerHTML = items.length ? `<span>Show:</span>${items.join('')}` : '';
 }
 
 function renderGrid() {
@@ -174,22 +223,26 @@ function renderGrid() {
   const valueAwards = awardedPlayers(awardCandidates, (player) => valuePerMillionFor(player, gameweeks));
   const priceAwards = awardedPlayersByPositionAndPrice(awardCandidates, (player) => totalFor(player, gameweeks));
   const headers = [
-    sortHeader('player', 'Player', 'prediction-player-heading'),
-    sortHeader('position', 'Position', 'prediction-position-heading'),
-    sortHeader('club', 'Club', 'prediction-club-heading'),
-    sortHeader('price', 'Price', 'prediction-price-heading'),
-    sortHeader('selected', 'Selected %', 'prediction-selected-heading'),
-    ...gameweeks.map((gameweek) => sortHeader(String(gameweek), `GW ${gameweek}`)),
-    sortHeader('total', 'Total'),
-    sortHeader('value', 'Pts/£m'),
-  ].join('');
+    ...METADATA_COLUMNS.filter((column) => columnVisible(column.key)).map((column) => sortHeader(column.key, column.label, column.className, `style="left:${metadataLeft(column.key)}px"`, column.key !== 'player')),
+    ...gameweeks.map((gameweek) => gameweekHeader(gameweek)),
+    columnVisible('total') && sortHeader('total', 'Total'),
+    columnVisible('value') && sortHeader('value', 'Pts/£m'),
+  ].filter(Boolean);
   const rows = players.map((player) => {
     const total = totalFor(player, gameweeks);
     const value = valuePerMillionFor(player, gameweeks);
     const values = gameweeks.map((gameweek) => { const points = predictionFor(player, gameweek); return `<td class="prediction-points" style="${greenCellStyle(points, 10)}">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</td>`; }).join('');
-    return `<tr><td class="prediction-player-cell" title="${escapeHtml(player.fullName)}" aria-label="${escapeHtml(player.fullName)}">${escapeHtml(displayNameFor(player))}</td><td class="prediction-position-cell">${escapeHtml(player.position)}</td><td class="prediction-club-cell">${escapeHtml(player.team.fullName)}</td><td class="prediction-price-cell">£${Number(player.price).toFixed(1)}m${awardStar(priceAwards.has(player), `Highest total predicted points among ${player.position} players at £${Number(player.price).toFixed(1)}m`)}</td><td class="prediction-selected-cell">${Number(player.ownership || 0).toFixed(1)}%</td>${values}<td class="prediction-total-cell" style="${greenCellStyle(total, gameweeks.length * 10)}">${total.toFixed(1)}${awardStar(totalAwards.has(player), `Top ${player.position} total predicted points`)}</td><td class="prediction-value-cell" style="${greenCellStyle(value, 10)}">${value.toFixed(1)}${awardStar(valueAwards.has(player), `Top ${player.position} predicted points per £m`)}</td></tr>`;
+    const metadataCells = [
+      columnVisible('player') && `<td class="prediction-player-cell" style="left:${metadataLeft('player')}px" title="${escapeHtml(player.fullName)}" aria-label="${escapeHtml(player.fullName)}"><span>${escapeHtml(displayNameFor(player))}</span><button class="inline-toggle" type="button" data-hide-player="${escapeHtml(player.fullName)}" aria-label="Hide ${escapeHtml(displayNameFor(player))}" title="Hide ${escapeHtml(displayNameFor(player))}">−</button></td>`,
+      columnVisible('position') && `<td class="prediction-position-cell" style="left:${metadataLeft('position')}px">${escapeHtml(player.position)}</td>`,
+      columnVisible('club') && `<td class="prediction-club-cell" style="left:${metadataLeft('club')}px">${escapeHtml(player.team.fullName)}</td>`,
+      columnVisible('price') && `<td class="prediction-price-cell" style="left:${metadataLeft('price')}px">£${Number(player.price).toFixed(1)}m${awardStar(priceAwards.has(player), `Highest total predicted points among ${player.position} players at £${Number(player.price).toFixed(1)}m`)}</td>`,
+      columnVisible('selected') && `<td class="prediction-selected-cell" style="left:${metadataLeft('selected')}px">${Number(player.ownership || 0).toFixed(1)}%</td>`,
+    ].filter(Boolean).join('');
+    const metricCells = `${columnVisible('total') ? `<td class="prediction-total-cell" style="${greenCellStyle(total, gameweeks.length * 10)}">${total.toFixed(1)}${awardStar(totalAwards.has(player), `Top ${player.position} total predicted points`)}</td>` : ''}${columnVisible('value') ? `<td class="prediction-value-cell" style="${greenCellStyle(value, 10)}">${value.toFixed(1)}${awardStar(valueAwards.has(player), `Top ${player.position} predicted points per £m`)}</td>` : ''}`;
+    return `<tr>${metadataCells}${values}${metricCells}</tr>`;
   }).join('');
-  const table = `<table class="fixture-grid predictions-grid"><thead><tr>${headers}</tr></thead><tbody>${rows || `<tr><td class="empty-cell" colspan="${gameweeks.length + 7}">No players match these filters.</td></tr>`}</tbody></table>`;
+  const table = headers.length ? `<table class="fixture-grid predictions-grid"><thead><tr>${headers.join('')}</tr></thead><tbody>${rows || `<tr><td class="empty-cell" colspan="${headers.length}">No players match these filters.</td></tr>`}</tbody></table>` : '<p class="empty-cell">All columns are hidden. Use the Show chips above to restore them.</p>';
   document.querySelector('#predictions-grid-wrap').innerHTML = table;
   document.querySelector('#prediction-summary').textContent = `${players.length} player${players.length === 1 ? '' : 's'} · GW ${state.startGameweek}–${state.endGameweek}`;
   document.querySelector('#prediction-gameweek-start').value = state.startGameweek;
@@ -198,6 +251,7 @@ function renderGrid() {
   document.querySelector('#price-start').value = state.minPrice;
   document.querySelector('#price-end').value = state.maxPrice;
   document.querySelector('#price-range-value').textContent = `£${state.minPrice.toFixed(1)}m–£${state.maxPrice.toFixed(1)}m`;
+  renderRestoreStrip();
 }
 
 function resetFilters() {
@@ -210,6 +264,9 @@ function resetFilters() {
   state.search = '';
   state.position = '';
   state.club = '';
+  state.hiddenPlayers.clear();
+  state.hiddenGameweeks.clear();
+  state.hiddenColumns.clear();
   state.sort = { column: 'total', direction: -1 };
   document.querySelector('#player-search').value = '';
   document.querySelector('#position-filter').value = '';
@@ -263,9 +320,32 @@ async function init() {
   document.querySelector('#reset-prediction-filters').addEventListener('click', resetFilters);
   document.querySelector('#predictions-grid-wrap').addEventListener('click', (event) => {
     const button = event.target.closest('[data-sort]');
+    if (button) {
+      const column = button.dataset.sort;
+      state.sort = state.sort.column === column ? { column, direction: state.sort.direction * -1 } : { column, direction: column === 'player' || column === 'position' || column === 'club' ? 1 : -1 };
+    } else {
+      const action = event.target.closest('button');
+      if (!action) return;
+      if (action.dataset.hideGameweek) {
+        const gameweek = Number(action.dataset.hideGameweek);
+        state.hiddenGameweeks.add(gameweek);
+        if (state.sort.column === String(gameweek)) state.sort = { column: 'total', direction: -1 };
+      }
+      if (action.dataset.hidePlayer) state.hiddenPlayers.add(action.dataset.hidePlayer);
+      if (action.dataset.hideColumn && action.dataset.hideColumn !== 'player') {
+        state.hiddenColumns.add(action.dataset.hideColumn);
+        if (state.sort.column === action.dataset.hideColumn) state.sort = { column: 'total', direction: -1 };
+      }
+    }
+    savePreferences();
+    renderGrid();
+  });
+  document.querySelector('#prediction-restore-strip').addEventListener('click', (event) => {
+    const button = event.target.closest('button');
     if (!button) return;
-    const column = button.dataset.sort;
-    state.sort = state.sort.column === column ? { column, direction: state.sort.direction * -1 } : { column, direction: column === 'player' || column === 'position' || column === 'club' ? 1 : -1 };
+    if (button.dataset.showGameweek) state.hiddenGameweeks.delete(Number(button.dataset.showGameweek));
+    if (button.dataset.showPlayer) state.hiddenPlayers.delete(button.dataset.showPlayer);
+    if (button.dataset.showColumn) state.hiddenColumns.delete(button.dataset.showColumn);
     savePreferences();
     renderGrid();
   });
