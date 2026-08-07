@@ -1,0 +1,12 @@
+# Python bytecode and local working files
+__pycache__/
+*.py[cod]
+
+# Generated reports, spreadsheet exports, and temporary build work
+outputs/
+work/
+
+# Local optimizer inputs and generated analysis snapshots (not used by the site)
+best_*.json
+ffh_*.json
+my_squad.json
