@@ -1,6 +1,12 @@
 # Fixture Lens
 
-Start the local server with `node scripts/serve.mjs`, then open [http://localhost:8080](http://localhost:8080). Fixture Ratings is available at `/`; Player Predictions is at `/predictions.html`. It does not make runtime network requests: the browser reads only bundled JSON snapshots.
+This workspace contains private source snapshots and refresh tooling. Do not deploy its root directory or make this repository public.
+
+Create the deployable static site with `node scripts/build-public.mjs`, then preview it with `node scripts/serve-public.mjs` and open [http://localhost:8080](http://localhost:8080). Deploy only the generated `public/` folder. Fixture Ratings is available at `/`; Player Predictions is at `/predictions.html`.
+
+Before releasing, run `node scripts/validate-public.mjs`. The public bundle deliberately contains only the values required to render the site and must not contain provider attribution, source URLs, credentials, or private inputs beyond the team-adjustment rates shown to the browser.
+
+Before deployment, verify that every upstream data provider permits this public use and that no attribution is required. Do not deploy a concealed-source release when the applicable terms require attribution or prohibit redistribution.
 
 ## Refresh the bundled snapshot
 

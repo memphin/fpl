@@ -10,7 +10,6 @@ const METADATA_COLUMNS = [
 ];
 const state = {
   data: null,
-  displayNames: {},
   nextGameweek: null,
   startGameweek: null,
   endGameweek: null,
@@ -94,7 +93,7 @@ function priceBounds() {
 
 function predictionFor(player, gameweek) {
   const fixture = player.fixtures.find((item) => item.gameweek === gameweek);
-  return Number(fixture?.predictions?.points || 0);
+  return Number(fixture?.points || 0);
 }
 
 function totalFor(player, gameweeks) {
@@ -102,7 +101,7 @@ function totalFor(player, gameweeks) {
 }
 
 function displayNameFor(player) {
-  if (state.displayNames[player.fullName]) return state.displayNames[player.fullName];
+  if (player.displayName) return player.displayName;
   const nameParts = player.fullName.trim().split(/\s+/);
   return nameParts.length < 3 ? player.fullName : nameParts.slice(0, 2).join(' ');
 }
@@ -283,12 +282,10 @@ function populateFilters() {
 }
 
 async function init() {
-  const [predictionResponse, namesResponse] = await Promise.all([fetch('data/ffh_players_compact.json'), fetch('data/fpl-player-display-names.json')]);
-  if (!predictionResponse.ok || !namesResponse.ok) throw new Error('Could not load the bundled player predictions snapshot.');
+  const predictionResponse = await fetch('assets/players.json');
+  if (!predictionResponse.ok) throw new Error('Could not load the player predictions.');
   state.data = await predictionResponse.json();
-  const displayNameSnapshot = await namesResponse.json();
-  state.displayNames = displayNameSnapshot.names || {};
-  state.nextGameweek = Number(displayNameSnapshot.nextGameweek);
+  state.nextGameweek = Number(state.data.nextGameweek);
   const gameweeks = availableGameweeks();
   loadPreferences();
   const defaultRange = defaultGameweekRange();

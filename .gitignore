@@ -5,6 +5,7 @@ __pycache__/
 # Generated reports, spreadsheet exports, and temporary build work
 outputs/
 work/
+public/
 
 # Local optimizer inputs and generated analysis snapshots (not used by the site)
 best_*.json

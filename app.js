@@ -69,7 +69,7 @@ function resetFilters() { state.hiddenClubs.clear(); state.hiddenGameweeks.clear
 function setSort(target) { state.sort = state.sort.target === target ? { target, direction: state.sort.direction * -1 } : { target, direction: 1 }; renderGrid(); }
 async function init() {
   loadPreferences();
-  const response = await fetch('data/fdr-data.json');
+  const response = await fetch('assets/fixtures.json');
   if (!response.ok) throw new Error('Could not load the bundled fixture snapshot.');
   state.data = await response.json();
   renderAdjustments();
