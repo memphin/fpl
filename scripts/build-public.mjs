@@ -47,6 +47,9 @@ function sanitizePlayers(snapshot, nameSnapshot) {
       fixtures: player.fixtures.map((fixture) => ({
         gameweek: fixture.gameweek,
         points: Number(fixture.predictions?.points || 0).toFixed(1),
+        opponentName: fixture.opponent?.fullName || fixture.opponent?.shortName || '',
+        opponentShort: fixture.opponent?.shortName || '',
+        venue: fixture.isHome ? 'H' : 'A',
       })),
     })),
   };

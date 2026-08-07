@@ -3,10 +3,10 @@ const POSITION_ORDER = ['GK', 'DEF', 'MID', 'FWD'];
 const STAR_QUOTAS = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
 const METADATA_COLUMNS = [
   { key: 'player', label: 'Player', className: 'prediction-player-heading', width: 210 },
-  { key: 'position', label: 'Position', className: 'prediction-position-heading', width: 72 },
+  { key: 'position', label: 'POS', className: 'prediction-position-heading', width: 72 },
   { key: 'club', label: 'Club', className: 'prediction-club-heading', width: 124 },
   { key: 'price', label: 'Price', className: 'prediction-price-heading', width: 68 },
-  { key: 'selected', label: 'Selected %', className: 'prediction-selected-heading', width: 80 },
+  { key: 'selected', label: 'SEL%', className: 'prediction-selected-heading', width: 80 },
 ];
 const state = {
   data: null,
@@ -18,6 +18,7 @@ const state = {
   search: '',
   position: '',
   club: '',
+  showFixtures: true,
   hiddenPlayers: new Set(),
   hiddenGameweeks: new Set(),
   hiddenColumns: new Set(),
@@ -39,6 +40,7 @@ function loadPreferences() {
     state.search = typeof saved.search === 'string' ? saved.search : '';
     state.position = typeof saved.position === 'string' ? saved.position : '';
     state.club = typeof saved.club === 'string' ? saved.club : '';
+    state.showFixtures = typeof saved.showFixtures === 'boolean' ? saved.showFixtures : true;
     state.hiddenPlayers = new Set(saved.hiddenPlayers || []);
     state.hiddenGameweeks = new Set(saved.hiddenGameweeks || []);
     state.hiddenColumns = new Set((saved.hiddenColumns || []).filter((column) => column !== 'player'));
@@ -55,6 +57,7 @@ function savePreferences() {
     search: state.search,
     position: state.position,
     club: state.club,
+    showFixtures: state.showFixtures,
     hiddenPlayers: [...state.hiddenPlayers],
     hiddenGameweeks: [...state.hiddenGameweeks],
     hiddenColumns: [...state.hiddenColumns],
@@ -94,6 +97,10 @@ function priceBounds() {
 function predictionFor(player, gameweek) {
   const fixture = player.fixtures.find((item) => item.gameweek === gameweek);
   return Number(fixture?.points || 0);
+}
+
+function fixtureFor(player, gameweek) {
+  return player.fixtures.find((item) => item.gameweek === gameweek);
 }
 
 function totalFor(player, gameweeks) {
@@ -230,7 +237,13 @@ function renderGrid() {
   const rows = players.map((player) => {
     const total = totalFor(player, gameweeks);
     const value = valuePerMillionFor(player, gameweeks);
-    const values = gameweeks.map((gameweek) => { const points = predictionFor(player, gameweek); return `<td class="prediction-points" style="${greenCellStyle(points, 10)}">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</td>`; }).join('');
+    const values = gameweeks.map((gameweek) => {
+      const fixture = fixtureFor(player, gameweek);
+      const points = Number(fixture?.points || 0);
+      const fixtureCode = fixture?.venue === 'H' ? fixture.opponentShort : fixture?.opponentShort?.toLowerCase();
+      const opponent = state.showFixtures && fixtureCode ? `<span class="prediction-fixture" aria-label="${escapeHtml(fixture.opponentName || fixtureCode)} ${fixture.venue === 'H' ? 'at home' : 'away'}">${escapeHtml(fixtureCode)}</span>` : '';
+      return `<td class="prediction-points" style="${greenCellStyle(points, 10)}">${opponent}<span class="prediction-points-value">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</span></td>`;
+    }).join('');
     const metadataCells = [
       columnVisible('player') && `<td class="prediction-player-cell" style="left:${metadataLeft('player')}px" title="${escapeHtml(player.fullName)}" aria-label="${escapeHtml(player.fullName)}"><span>${escapeHtml(displayNameFor(player))}</span><button class="inline-toggle" type="button" data-hide-player="${escapeHtml(player.fullName)}" aria-label="Hide ${escapeHtml(displayNameFor(player))}" title="Hide ${escapeHtml(displayNameFor(player))}">−</button></td>`,
       columnVisible('position') && `<td class="prediction-position-cell" style="left:${metadataLeft('position')}px">${escapeHtml(player.position)}</td>`,
@@ -250,6 +263,7 @@ function renderGrid() {
   document.querySelector('#price-start').value = state.minPrice;
   document.querySelector('#price-end').value = state.maxPrice;
   document.querySelector('#price-range-value').textContent = `£${state.minPrice.toFixed(1)}m–£${state.maxPrice.toFixed(1)}m`;
+  document.querySelector('#fixture-visibility').checked = state.showFixtures;
   renderRestoreStrip();
 }
 
@@ -263,6 +277,7 @@ function resetFilters() {
   state.search = '';
   state.position = '';
   state.club = '';
+  state.showFixtures = true;
   state.hiddenPlayers.clear();
   state.hiddenGameweeks.clear();
   state.hiddenColumns.clear();
@@ -270,6 +285,7 @@ function resetFilters() {
   document.querySelector('#player-search').value = '';
   document.querySelector('#position-filter').value = '';
   document.querySelector('#club-filter').value = '';
+  document.querySelector('#fixture-visibility').checked = true;
   savePreferences();
   renderGrid();
 }
@@ -310,6 +326,7 @@ async function init() {
   document.querySelector('#player-search').addEventListener('input', (event) => { state.search = event.target.value; savePreferences(); renderGrid(); });
   document.querySelector('#position-filter').addEventListener('change', (event) => { state.position = event.target.value; savePreferences(); renderGrid(); });
   document.querySelector('#club-filter').addEventListener('change', (event) => { state.club = event.target.value; savePreferences(); renderGrid(); });
+  document.querySelector('#fixture-visibility').addEventListener('change', (event) => { state.showFixtures = event.target.checked; savePreferences(); renderGrid(); });
   document.querySelector('#prediction-gameweek-start').addEventListener('input', (event) => { state.startGameweek = Math.min(Number(event.target.value), state.endGameweek); savePreferences(); renderGrid(); });
   document.querySelector('#prediction-gameweek-end').addEventListener('input', (event) => { state.endGameweek = Math.max(Number(event.target.value), state.startGameweek); savePreferences(); renderGrid(); });
   document.querySelector('#price-start').addEventListener('input', (event) => { state.minPrice = Math.min(Number(event.target.value), state.maxPrice); savePreferences(); renderGrid(); });

@@ -40,6 +40,13 @@ button { font:inherit; cursor:pointer; }
 .filter-field input,.filter-field select { min-height:37px; min-width:126px; border:1px solid var(--line); border-radius:7px; padding:7px 9px; color:var(--ink); background:var(--panel); font:inherit; font-size:.86rem; font-weight:500; }
 .filter-field input { min-width:min(210px,80vw); }
 .filter-field input:focus,.filter-field select:focus { border-color:#74a9bd; outline:2px solid #c4e0e9; }
+.fixture-toggle { display:grid; grid-template-columns:auto auto; align-items:center; gap:7px; min-height:37px; color:var(--muted); font-size:.72rem; font-weight:800; cursor:pointer; }
+.fixture-toggle input { position:absolute; opacity:0; pointer-events:none; }
+.fixture-toggle-track { position:relative; width:34px; height:20px; border-radius:99px; background:#aeb8bf; transition:background .15s ease; }
+.fixture-toggle-track::after { position:absolute; top:3px; left:3px; width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(20,42,56,.3); content:""; transition:transform .15s ease; }
+.fixture-toggle input:checked + .fixture-toggle-track { background:#123c52; }
+.fixture-toggle input:checked + .fixture-toggle-track::after { transform:translateX(14px); }
+.fixture-toggle input:focus-visible + .fixture-toggle-track { outline:2px solid #74a9bd; outline-offset:2px; }
 .filter-reset { min-height:37px; padding:7px 11px; }
 .prediction-range { flex:0 1 280px; }
 .price-range { flex:0 1 220px; }
@@ -54,6 +61,9 @@ button { font:inherit; cursor:pointer; }
 .predictions-grid .prediction-position-cell { position:sticky; left:210px; z-index:1; min-width:72px; background:#fff; white-space:nowrap; color:#52606c; font-weight:700; }
 .predictions-grid .prediction-club-cell { position:sticky; left:282px; z-index:1; min-width:124px; background:#fff; white-space:nowrap; color:#52606c; font-weight:700; }
 .prediction-points,.prediction-total-cell,.prediction-price-cell,.prediction-value-cell { min-width:58px; font-variant-numeric:tabular-nums; font-weight:800; }
+.prediction-points { position:relative; }
+.prediction-points-value { display:block; }
+.prediction-fixture { position:absolute; top:3px; left:4px; color:inherit; font-size:.54rem; font-weight:800; line-height:1; opacity:.78; white-space:nowrap; }
 .prediction-price-cell { position:sticky; left:406px; z-index:1; min-width:68px; background:#fff; border-right:1px solid var(--line) !important; color:#52606c; }
 .prediction-selected-cell { position:sticky; left:474px; z-index:1; min-width:80px; background:#fff; border-right:1px solid var(--line) !important; color:#52606c; font-variant-numeric:tabular-nums; font-weight:800; }
 .prediction-value-cell { min-width:68px; }
