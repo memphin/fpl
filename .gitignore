@@ -9,4 +9,5 @@ work/
 # Local optimizer inputs and generated analysis snapshots (not used by the site)
 best_*.json
 ffh_*.json
+!data/ffh_players_compact.json
 my_squad.json

@@ -3,6 +3,10 @@
 body { margin:0; color:var(--ink); background:var(--paper); font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
 button { font:inherit; cursor:pointer; }
 .app-shell { max-width:1600px; margin:auto; padding:16px clamp(18px,4vw,64px) 32px; }
+.page-nav { display:flex; width:max-content; max-width:100%; margin:0 0 16px; padding:4px; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
+.page-tab { border-radius:6px; padding:9px 14px; color:var(--muted); font-size:.86rem; font-weight:800; text-decoration:none; }
+.page-tab:hover,.page-tab:focus-visible { color:var(--accent); outline:2px solid #74a9bd; outline-offset:1px; }
+.page-tab.is-active { color:#fff; background:var(--accent); }
 .toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:12px 18px; margin-bottom:10px; }
 .controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
 .mode-control { display:flex; padding:4px; border:1px solid var(--line); border-radius:9px; background:var(--panel); }
@@ -30,4 +34,30 @@ button { font:inherit; cursor:pointer; }
 .fixture-cell { min-width:53px; color:#172029; font-weight:800; line-height:1.1; }
 .fixture-cell small { display:block; margin-top:2px; font-size:.63rem; font-weight:700; opacity:.75; }
 .blank-cell { background:repeating-linear-gradient(-45deg,#fafafa,#fafafa 4px,#f2f4f5 4px,#f2f4f5 5px); }
-@media (max-width:640px) { .app-shell { padding-top:12px; } .toolbar { align-items:stretch; gap:8px; } .gameweek-range { width:100%; } .fixture-grid th.team-heading { min-width:138px; } .team-cell { padding-left:10px !important; } .team-cell span { max-width:95px; } }
+.predictions-toolbar { display:flex; flex-wrap:wrap; align-items:end; gap:12px 18px; margin-bottom:10px; }
+.prediction-filters { display:flex; flex:1 1 540px; flex-wrap:wrap; align-items:end; gap:8px; }
+.filter-field { display:grid; gap:4px; color:var(--muted); font-size:.72rem; font-weight:800; }
+.filter-field input,.filter-field select { min-height:37px; min-width:126px; border:1px solid var(--line); border-radius:7px; padding:7px 9px; color:var(--ink); background:var(--panel); font:inherit; font-size:.86rem; font-weight:500; }
+.filter-field input { min-width:min(210px,80vw); }
+.filter-field input:focus,.filter-field select:focus { border-color:#74a9bd; outline:2px solid #c4e0e9; }
+.filter-reset { min-height:37px; padding:7px 11px; }
+.prediction-range { flex:0 1 280px; }
+.price-range { flex:0 1 220px; }
+.prediction-summary { min-height:19px; margin:0 0 8px; color:var(--muted); font-size:.78rem; font-weight:700; }
+.predictions-grid th { z-index:2; }
+.predictions-grid .prediction-player-heading { position:sticky; left:0; z-index:5; min-width:210px; padding-left:16px; text-align:left; }
+.predictions-grid .prediction-position-heading { position:sticky; left:210px; z-index:5; min-width:72px; }
+.predictions-grid .prediction-club-heading { position:sticky; left:282px; z-index:5; min-width:124px; }
+.predictions-grid .prediction-price-heading { position:sticky; left:406px; z-index:5; min-width:68px; }
+.predictions-grid .prediction-selected-heading { position:sticky; left:474px; z-index:5; min-width:80px; }
+.predictions-grid .prediction-player-cell { position:sticky; left:0; z-index:1; min-width:210px; padding:0 10px 0 16px !important; background:#fff; border-right:1px solid var(--line) !important; color:var(--ink); font-weight:800; text-align:left; white-space:nowrap; }
+.predictions-grid .prediction-position-cell { position:sticky; left:210px; z-index:1; min-width:72px; background:#fff; white-space:nowrap; color:#52606c; font-weight:700; }
+.predictions-grid .prediction-club-cell { position:sticky; left:282px; z-index:1; min-width:124px; background:#fff; white-space:nowrap; color:#52606c; font-weight:700; }
+.prediction-points,.prediction-total-cell,.prediction-price-cell,.prediction-value-cell { min-width:58px; font-variant-numeric:tabular-nums; font-weight:800; }
+.prediction-price-cell { position:sticky; left:406px; z-index:1; min-width:68px; background:#fff; border-right:1px solid var(--line) !important; color:#52606c; }
+.prediction-selected-cell { position:sticky; left:474px; z-index:1; min-width:80px; background:#fff; border-right:1px solid var(--line) !important; color:#52606c; font-variant-numeric:tabular-nums; font-weight:800; }
+.prediction-value-cell { min-width:68px; }
+.award-star { color:#a86d00; font-size:.86em; text-shadow:0 1px 0 rgba(255,255,255,.5); }
+.empty-cell { height:auto !important; padding:28px !important; color:var(--muted); font-weight:700; }
+.load-error { padding:24px; color:#9f1c1c; }
+@media (max-width:640px) { .app-shell { padding-top:12px; } .toolbar { align-items:stretch; gap:8px; } .gameweek-range { width:100%; } .prediction-range,.price-range { flex-basis:100%; } .fixture-grid th.team-heading { min-width:138px; } .team-cell { padding-left:10px !important; } .team-cell span { max-width:95px; } }
