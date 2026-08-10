@@ -1,7 +1,13 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
-import { join, relative } from 'node:path';
+import { join, relative, resolve } from 'node:path';
 
-const root = join(process.cwd(), 'public');
+const args = {};
+for (let index = 2; index < process.argv.length; index += 1) {
+  const key = process.argv[index];
+  if (!key.startsWith('--') || index + 1 >= process.argv.length) throw new Error(`Invalid argument: ${key}`);
+  args[key.slice(2)] = process.argv[++index];
+}
+const root = resolve(args['public-dir'] || join(process.cwd(), 'public'));
 const allowed = new Set(['app.js', 'index.html', 'predictions.html', 'predictions.js', 'my-team.html', 'my-team.js', 'my-team-model.js', 'styles.css', 'assets/fixtures.json', 'assets/players.json']);
 const forbidden = [
   'fantasyfootballhub', 'fantasy.premierleague', 'football-data.co.uk',
@@ -29,9 +35,9 @@ for (const file of files) {
 }
 
 const [privateFixtures, privatePlayers, playerMatches, publicFixtures, publicPlayers] = await Promise.all([
-  JSON.parse(await readFile('data/fdr-data.json', 'utf8')),
-  JSON.parse(await readFile('data/ffh_players_compact.json', 'utf8')),
-  JSON.parse(await readFile('data/fpl-player-display-names.json', 'utf8')),
+  JSON.parse(await readFile(resolve(args['fixture-input'] || 'data/fdr-data.json'), 'utf8')),
+  JSON.parse(await readFile(resolve(args['prediction-input'] || 'data/ffh_players_compact.json'), 'utf8')),
+  JSON.parse(await readFile(resolve(args['name-map-input'] || 'data/fpl-player-display-names.json'), 'utf8')),
   JSON.parse(await readFile(join(root, 'assets/fixtures.json'), 'utf8')),
   JSON.parse(await readFile(join(root, 'assets/players.json'), 'utf8')),
 ]);

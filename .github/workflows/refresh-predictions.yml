@@ -1,0 +1,104 @@
+name: Daily predicted-points refresh
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+      timezone: Europe/Zagreb
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-prediction-refresh
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      has_upcoming: ${{ steps.refresh.outputs.has_upcoming }}
+      min_gameweek: ${{ steps.refresh.outputs.min_gameweek }}
+      max_gameweek: ${{ steps.refresh.outputs.max_gameweek }}
+      player_count: ${{ steps.refresh.outputs.player_count }}
+      fetched_at: ${{ steps.refresh.outputs.fetched_at }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Run tests
+        run: npm test
+
+      - name: Validate fixture data
+        run: npm run validate:fixtures
+
+      - name: Refresh and validate predictions
+        id: refresh
+        env:
+          FFH_TOKEN: ${{ secrets.FFH_TOKEN }}
+        run: npm run refresh:predictions
+
+      - name: Verify tracked files are unchanged
+        if: steps.refresh.outcome == 'success'
+        run: git diff --exit-code
+
+      - name: Configure GitHub Pages
+        if: steps.refresh.outputs.has_upcoming == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload sanitized Pages artifact
+        if: steps.refresh.outputs.has_upcoming == 'true'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+      - name: Write refresh summary
+        if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+          HAS_UPCOMING: ${{ steps.refresh.outputs.has_upcoming }}
+          MIN_GAMEWEEK: ${{ steps.refresh.outputs.min_gameweek }}
+          MAX_GAMEWEEK: ${{ steps.refresh.outputs.max_gameweek }}
+          PLAYER_COUNT: ${{ steps.refresh.outputs.player_count }}
+          FETCHED_AT: ${{ steps.refresh.outputs.fetched_at }}
+        run: |
+          echo '## Predicted-points refresh' >> "$GITHUB_STEP_SUMMARY"
+          echo "- Refresh result: ${REFRESH_OUTCOME:-not run}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Upcoming gameweek available: ${HAS_UPCOMING:-unknown}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$HAS_UPCOMING" = 'true' ]; then
+            echo "- Requested range: GW${MIN_GAMEWEEK}-${MAX_GAMEWEEK}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Players: ${PLAYER_COUNT}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Fetched at: ${FETCHED_AT}" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  deploy:
+    if: needs.build.result == 'success' && needs.build.outputs.has_upcoming == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Write deployment summary
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          echo '## GitHub Pages deployment' >> "$GITHUB_STEP_SUMMARY"
+          echo "- URL: ${PAGE_URL}" >> "$GITHUB_STEP_SUMMARY"

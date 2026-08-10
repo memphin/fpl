@@ -46,6 +46,8 @@ ZERO_POINTS_PRICE_LIMIT = 4.5
 ORIGIN = "https://www.fantasyfootballhub.co.uk"
 USER_AGENT = "Mozilla/5.0 (compatible; FFH predictions exporter/1.0)"
 DEFAULT_USERNAME = "ivanjuric.work@gmail.com"
+MAX_REQUEST_ATTEMPTS = 4
+MAX_RETRY_DELAY = 30.0
 
 
 class LoginFormParser(HTMLParser):
@@ -74,25 +76,47 @@ class LoginFormParser(HTMLParser):
 
 
 def request_json(
-    url: str, headers: dict[str, str], timeout: int, opener: OpenerDirector | None = None
+    url: str,
+    headers: dict[str, str],
+    timeout: int,
+    opener: OpenerDirector | None = None,
+    max_attempts: int = MAX_REQUEST_ATTEMPTS,
+    sleep: Any = time.sleep,
 ) -> dict[str, Any]:
+    if max_attempts < 1:
+        raise ValueError("max_attempts must be positive")
     request = Request(url, headers=headers, method="GET")
-    try:
-        open_url = opener.open if opener else urlopen
-        with open_url(request, timeout=timeout) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except HTTPError as exc:
-        body = exc.read().decode("utf-8", errors="replace")[:1000]
-        if exc.code == 401 and url == TOKEN_URL:
-            raise RuntimeError(
-                "FFH session is missing or expired. Set FFH_SESSION_COOKIE from an "
-                "authenticated Fantasy Football Hub browser request, or set FFH_TOKEN."
-            ) from exc
-        raise RuntimeError(f"HTTP {exc.code}: {body}") from exc
-    except URLError as exc:
-        raise RuntimeError(f"Network error: {exc.reason}") from exc
-    except json.JSONDecodeError as exc:
-        raise RuntimeError("Server returned invalid JSON.") from exc
+    open_url = opener.open if opener else urlopen
+    payload: Any = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            with open_url(request, timeout=timeout) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            break
+        except HTTPError as exc:
+            body = exc.read().decode("utf-8", errors="replace")[:1000]
+            if exc.code in (401, 403):
+                if url == TOKEN_URL:
+                    raise RuntimeError(
+                        "FFH session is missing or expired. Set FFH_SESSION_COOKIE from an "
+                        "authenticated Fantasy Football Hub browser request, or set FFH_TOKEN."
+                    ) from exc
+                raise RuntimeError(f"FFH authentication failed (HTTP {exc.code}).") from exc
+            retryable = exc.code == 429 or 500 <= exc.code < 600
+            if not retryable or attempt == max_attempts:
+                raise RuntimeError(f"HTTP {exc.code}: {body}") from exc
+            retry_after = exc.headers.get("Retry-After") if exc.headers else None
+            try:
+                delay = min(float(retry_after), MAX_RETRY_DELAY) if retry_after is not None else min(2 ** (attempt - 1), 8)
+            except ValueError:
+                delay = min(2 ** (attempt - 1), 8)
+            sleep(delay)
+        except URLError as exc:
+            if attempt == max_attempts:
+                raise RuntimeError(f"Network error after {max_attempts} attempts: {exc.reason}") from exc
+            sleep(min(2 ** (attempt - 1), 8))
+        except json.JSONDecodeError as exc:
+            raise RuntimeError("Server returned invalid JSON.") from exc
 
     if not isinstance(payload, dict):
         raise RuntimeError("Unexpected API response: expected a JSON object.")

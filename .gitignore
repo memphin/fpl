@@ -6,6 +6,7 @@ __pycache__/
 outputs/
 work/
 public/
+.fixture-lens-public-*/
 
 # Local optimizer inputs and generated analysis snapshots (not used by the site)
 best_*.json

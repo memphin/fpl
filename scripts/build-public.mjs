@@ -1,10 +1,17 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 
 const root = process.cwd();
-const output = join(root, 'public');
+const args = {};
+for (let index = 2; index < process.argv.length; index += 1) {
+  const key = process.argv[index];
+  if (!key.startsWith('--') || index + 1 >= process.argv.length) throw new Error(`Invalid argument: ${key}`);
+  args[key.slice(2)] = process.argv[++index];
+}
+const output = resolve(args.output || join(root, 'public'));
+if (output === resolve(root)) throw new Error('Public output directory cannot be the repository root.');
 const assets = join(output, 'assets');
-const readJson = async (file) => JSON.parse(await readFile(join(root, file), 'utf8'));
+const readJson = async (file) => JSON.parse(await readFile(resolve(file), 'utf8'));
 
 function displayNameFor(fullName, names) {
   if (names[fullName]) return names[fullName];
@@ -68,9 +75,9 @@ for (const file of ['index.html', 'predictions.html', 'my-team.html', 'styles.cs
   await cp(join(root, file), join(output, file));
 }
 const [fixtures, players, names] = await Promise.all([
-  readJson('data/fdr-data.json'),
-  readJson('data/ffh_players_compact.json'),
-  readJson('data/fpl-player-display-names.json'),
+  readJson(args['fixture-input'] || 'data/fdr-data.json'),
+  readJson(args['prediction-input'] || 'data/ffh_players_compact.json'),
+  readJson(args['name-map-input'] || 'data/fpl-player-display-names.json'),
 ]);
 await Promise.all([
   writeFile(join(assets, 'fixtures.json'), `${JSON.stringify(sanitizeFixtures(fixtures, names.nextGameweek))}\n`),
