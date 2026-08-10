@@ -22,6 +22,8 @@ jobs:
       max_gameweek: ${{ steps.refresh.outputs.max_gameweek }}
       player_count: ${{ steps.refresh.outputs.player_count }}
       fetched_at: ${{ steps.refresh.outputs.fetched_at }}
+      reviewed_lineups: ${{ steps.refresh.outputs.reviewed_lineups }}
+      automatic_lineups: ${{ steps.refresh.outputs.automatic_lineups }}
     steps:
       - name: Check out source
         uses: actions/checkout@v6
@@ -71,6 +73,8 @@ jobs:
           MAX_GAMEWEEK: ${{ steps.refresh.outputs.max_gameweek }}
           PLAYER_COUNT: ${{ steps.refresh.outputs.player_count }}
           FETCHED_AT: ${{ steps.refresh.outputs.fetched_at }}
+          REVIEWED_LINEUPS: ${{ steps.refresh.outputs.reviewed_lineups }}
+          AUTOMATIC_LINEUPS: ${{ steps.refresh.outputs.automatic_lineups }}
         run: |
           echo '## Predicted-points refresh' >> "$GITHUB_STEP_SUMMARY"
           echo "- Refresh result: ${REFRESH_OUTCOME:-not run}" >> "$GITHUB_STEP_SUMMARY"
@@ -79,6 +83,7 @@ jobs:
             echo "- Requested range: GW${MIN_GAMEWEEK}-${MAX_GAMEWEEK}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Players: ${PLAYER_COUNT}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Fetched at: ${FETCHED_AT}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Predicted lineups: ${REVIEWED_LINEUPS:-0} reviewed, ${AUTOMATIC_LINEUPS:-0} automatic" >> "$GITHUB_STEP_SUMMARY"
           fi
 
   deploy:

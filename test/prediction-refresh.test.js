@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -12,6 +13,7 @@ import { deriveRollingGameweekRange, fetchJsonWithRetry, validatePredictionSnaps
 const execFileAsync = promisify(execFile);
 const root = fileURLToPath(new URL('../', import.meta.url));
 const positions = ['GK', 'DEF', 'MID', 'FWD'];
+const fixtureDataForTests = JSON.parse(readFileSync(new URL('../data/fdr-data.json', import.meta.url), 'utf8'));
 
 function makeSnapshot({ min = 5, max = 14, fetchedAt = new Date().toISOString() } = {}) {
   const players = positions.map((position, index) => ({
@@ -41,6 +43,45 @@ function makeBootstrap(nextGameweek = 5) {
     elements: [
       ['Alpha', 'Keeper'], ['Beta', 'Defender'], ['Gamma', 'Midfielder'], ['Delta', 'Forward'],
     ].map(([first_name, second_name], index) => ({ id: 100 + index, first_name, second_name, web_name: second_name, team: index + 1 })),
+  };
+}
+
+function makeFullSnapshot({ min = 5, max = 14, fetchedAt = new Date().toISOString() } = {}) {
+  const players = fixtureDataForTests.teams.flatMap((team) => [
+    ['GK', 1], ['DEF', 4], ['MID', 5], ['FWD', 2],
+  ].flatMap(([position, count], groupIndex) => Array.from({ length: count }, (_, index) => {
+    const serial = groupIndex * 10 + index + 1;
+    return {
+      fullName: `${team.name} ${position} ${index + 1}`,
+      price: 5 + groupIndex / 2,
+      position,
+      ownership: 1,
+      status: 'a',
+      team: { shortName: team.shortName, fullName: team.name },
+      fixtures: Array.from({ length: max - min + 1 }, (_, offset) => ({
+        gameweek: min + offset,
+        opponent: { shortName: `O${offset}` },
+        isHome: offset % 2 === 0,
+        predictions: { points: 2 + serial / 100, minutes: Math.max(10, 90 - serial) },
+      })),
+    };
+  })));
+  return {
+    source: 'test', fetchedAt, gameweeks: { min, max }, count: players.length,
+    countsByPosition: Object.fromEntries(positions.map((position) => [position, players.filter((player) => player.position === position).length])), players,
+  };
+}
+
+function makeFullBootstrap(nextGameweek = 5) {
+  const snapshot = makeFullSnapshot();
+  let id = 1000;
+  return {
+    events: Array.from({ length: 38 }, (_, index) => ({ id: index + 1, is_next: index + 1 === nextGameweek })),
+    teams: fixtureDataForTests.teams.map((team) => ({ id: team.id, name: team.name })),
+    elements: snapshot.players.map((player) => {
+      const parts = player.fullName.split(' ');
+      return { id: id++, first_name: parts.slice(0, -1).join(' '), second_name: parts.at(-1), web_name: `${player.position}${parts.at(-1)}`, team: fixtureDataForTests.teams.find((team) => team.name === player.team.fullName).id };
+    }),
   };
 }
 
@@ -147,8 +188,8 @@ test('runs an offline staged refresh without changing tracked snapshots', async 
   const trackedPredictionPath = join(root, 'data', 'ffh_players_compact.json');
   const before = await readFile(trackedPredictionPath, 'utf8');
   try {
-    await writeFile(bootstrapPath, JSON.stringify(makeBootstrap()));
-    await writeFile(predictionsPath, JSON.stringify(makeSnapshot({ fetchedAt: '2026-08-10T00:00:00Z' })));
+    await writeFile(bootstrapPath, JSON.stringify(makeFullBootstrap()));
+    await writeFile(predictionsPath, JSON.stringify(makeFullSnapshot({ fetchedAt: '2026-08-10T00:00:00Z' })));
     await execFileAsync(process.execPath, [
       'scripts/refresh-predictions.mjs',
       '--bootstrap-input', bootstrapPath,
@@ -159,7 +200,10 @@ test('runs an offline staged refresh without changing tracked snapshots', async 
     ], { cwd: root });
     const released = JSON.parse(await readFile(join(publicPath, 'assets', 'players.json'), 'utf8'));
     assert.deepEqual(released.gameweeks, { min: 5, max: 14 });
-    assert.equal(released.players.length, 4);
+    assert.equal(released.players.length, 240);
+    const lineups = JSON.parse(await readFile(join(publicPath, 'assets', 'lineups.json'), 'utf8'));
+    assert.equal(lineups.fixtures.flatMap((fixture) => fixture.teams).length, 20);
+    assert.equal(lineups.fixtures.flatMap((fixture) => fixture.teams).filter((team) => team.predictionStatus === 'automatic').length, 20);
     const publicText = await readFile(join(publicPath, 'assets', 'players.json'), 'utf8');
     assert.doesNotMatch(publicText, /"source"|"fetchedAt"|fantasyfootballhub/i);
     assert.equal(await readFile(trackedPredictionPath, 'utf8'), before);

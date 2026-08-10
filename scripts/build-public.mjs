@@ -1,5 +1,6 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
+import { buildLineupSnapshot } from '../lineup-model.js';
 
 const root = process.cwd();
 const args = {};
@@ -71,16 +72,19 @@ function sanitizePlayers(snapshot, nameSnapshot, fixtureSnapshot) {
 
 await rm(output, { recursive: true, force: true });
 await mkdir(assets, { recursive: true });
-for (const file of ['index.html', 'predictions.html', 'my-team.html', 'styles.css', 'app.js', 'predictions.js', 'my-team.js', 'my-team-model.js']) {
+for (const file of ['index.html', 'predictions.html', 'prediction-lineup.html', 'my-team.html', 'styles.css', 'app.js', 'predictions.js', 'prediction-lineup.js', 'lineup-model.js', 'my-team.js', 'my-team-model.js']) {
   await cp(join(root, file), join(output, file));
 }
-const [fixtures, players, names] = await Promise.all([
+const [fixtures, players, names, lineupReview] = await Promise.all([
   readJson(args['fixture-input'] || 'data/fdr-data.json'),
   readJson(args['prediction-input'] || 'data/ffh_players_compact.json'),
   readJson(args['name-map-input'] || 'data/fpl-player-display-names.json'),
+  readJson(args['lineup-input'] || 'data/predicted-lineups.json'),
 ]);
+const lineups = buildLineupSnapshot(fixtures, players, names, lineupReview);
 await Promise.all([
   writeFile(join(assets, 'fixtures.json'), `${JSON.stringify(sanitizeFixtures(fixtures, names.nextGameweek))}\n`),
   writeFile(join(assets, 'players.json'), `${JSON.stringify(sanitizePlayers(players, names, fixtures))}\n`),
+  writeFile(join(assets, 'lineups.json'), `${JSON.stringify(lineups)}\n`),
 ]);
 console.log(`Created static release bundle: ${output}`);

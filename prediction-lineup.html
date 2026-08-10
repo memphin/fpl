@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Predicted Premier League starting lineups and minutes-based nailed estimates for the next FPL gameweek." />
+    <title>FPL Jurke · Prediction Lineup</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell lineup-page-shell">
+      <nav class="page-nav" aria-label="Primary navigation">
+        <a class="page-tab" href="index.html">Fixture Ratings</a>
+        <a class="page-tab" href="predictions.html">Predictions</a>
+        <a class="page-tab is-active" href="prediction-lineup.html" aria-current="page">Prediction Lineup</a>
+        <a class="page-tab" href="my-team.html">My Team</a>
+      </nav>
+
+      <header class="prediction-lineup-header">
+        <div>
+          <p class="lineup-eyebrow">Next gameweek</p>
+          <h1 id="prediction-lineup-title">Predicted Lineups</h1>
+          <p>Expected starting XIs in tactical formation, with a minutes-based estimate of how nailed each player is.</p>
+        </div>
+        <div class="lineup-header-stats" id="lineup-header-stats" aria-label="Lineup data summary"></div>
+      </header>
+
+      <section class="prediction-lineup-toolbar" aria-label="Lineup navigation">
+        <label class="filter-field" for="lineup-team-jump">
+          <span>Jump to team</span>
+          <select id="lineup-team-jump"><option value="">Choose a team</option></select>
+        </label>
+        <p id="lineup-status" class="prediction-lineup-status" role="status" aria-live="polite">Loading predicted lineups…</p>
+      </section>
+
+      <details class="lineup-methodology">
+        <summary>How these predictions work</summary>
+        <div>
+          <p><strong>Reviewed</strong> lineups combine recent team selections with public previews and community consensus. Within the reviewed formation, compatible players with higher nailed estimates are prioritized in the starting XI. <strong>Automatic estimates</strong> use the same minutes-first selection as a deterministic fallback.</p>
+          <p>The nailed percentage is <code>projected minutes ÷ 90</code>, rounded to a whole number. It is a useful rotation-risk estimate, not a calibrated probability or an official team prediction.</p>
+        </div>
+      </details>
+
+      <section class="prediction-fixtures" id="prediction-fixtures" aria-label="Next gameweek predicted lineups"></section>
+    </main>
+    <script type="module" src="prediction-lineup.js"></script>
+  </body>
+</html>

@@ -120,6 +120,9 @@ try {
     ]);
 
     const predictions = JSON.parse(await readFile(predictionPath, 'utf8'));
+    const lineups = JSON.parse(await readFile(join(stagedPublic, 'assets', 'lineups.json'), 'utf8'));
+    const lineupTeams = lineups.fixtures.flatMap((fixture) => fixture.teams);
+    const reviewedLineups = lineupTeams.filter((team) => team.predictionStatus === 'reviewed').length;
     await replaceDirectory(stagedPublic, output);
     stagedPublicMoved = true;
     await setActionsOutput({
@@ -128,8 +131,10 @@ try {
       max_gameweek: range.max,
       player_count: predictions.count,
       fetched_at: predictions.fetchedAt,
+      reviewed_lineups: reviewedLineups,
+      automatic_lineups: lineupTeams.length - reviewedLineups,
     });
-    console.log(`Prepared validated public predictions for GW${range.min}-${range.max}: ${predictions.count} players.`);
+    console.log(`Prepared validated public predictions for GW${range.min}-${range.max}: ${predictions.count} players, ${reviewedLineups} reviewed lineups, ${lineupTeams.length - reviewedLineups} automatic lineups.`);
   }
 } finally {
   await rm(privateWork, { recursive: true, force: true });

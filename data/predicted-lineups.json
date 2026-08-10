@@ -1,0 +1,228 @@
+{
+  "season": "2026–27",
+  "gameweek": 1,
+  "teams": [
+    {
+      "teamId": 1,
+      "formation": "4-3-3",
+      "starters": [
+        { "playerId": 1, "slot": "GK" }, { "playerId": 10, "slot": "RB" }, { "playerId": 11, "slot": "RCB" }, { "playerId": 4, "slot": "LCB" }, { "playerId": 8, "slot": "LB" },
+        { "playerId": 15, "slot": "RCM" }, { "playerId": 7, "slot": "CM" }, { "playerId": 26, "slot": "LCM" }, { "playerId": 12, "slot": "RW" }, { "playerId": 25, "slot": "ST" }, { "playerId": 557, "slot": "LW" }
+      ],
+      "contenders": [{ "playerId": 5, "targetSlot": "RB" }, { "playerId": 22, "targetSlot": "RCM" }, { "playerId": 18, "targetSlot": "LW" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 2,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 28, "slot": "GK" }, { "playerId": 32, "slot": "RB" }, { "playerId": 31, "slot": "RCB" }, { "playerId": 34, "slot": "LCB" }, { "playerId": 36, "slot": "LB" },
+        { "playerId": 54, "slot": "RDM" }, { "playerId": 47, "slot": "LDM" }, { "playerId": 45, "slot": "RW" }, { "playerId": 46, "slot": "AM" }, { "playerId": 41, "slot": "LW" }, { "playerId": 55, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 37, "targetSlot": "RCB" }, { "playerId": 160, "targetSlot": "LW" }, { "playerId": 33, "targetSlot": "LCB" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 3,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 57, "slot": "GK" }, { "playerId": 64, "slot": "RB" }, { "playerId": 60, "slot": "RCB" }, { "playerId": 566, "slot": "LCB" }, { "playerId": 61, "slot": "LB" },
+        { "playerId": 73, "slot": "RDM" }, { "playerId": 69, "slot": "LDM" }, { "playerId": 68, "slot": "RW" }, { "playerId": 70, "slot": "AM" }, { "playerId": 67, "slot": "LW" }, { "playerId": 79, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 63, "targetSlot": "RCB" }, { "playerId": 74, "targetSlot": "RW" }, { "playerId": 81, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 4,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 82, "slot": "GK" }, { "playerId": 88, "slot": "RB" }, { "playerId": 87, "slot": "RCB" }, { "playerId": 84, "slot": "LCB" }, { "playerId": 86, "slot": "LB" },
+        { "playerId": 102, "slot": "RDM" }, { "playerId": 98, "slot": "LDM" }, { "playerId": 95, "slot": "RW" }, { "playerId": 97, "slot": "AM" }, { "playerId": 94, "slot": "LW" }, { "playerId": 106, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 565, "targetSlot": "RDM" }, { "playerId": 96, "targetSlot": "AM" }, { "playerId": 105, "targetSlot": "RW" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 5,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 109, "slot": "GK" }, { "playerId": 113, "slot": "RB" }, { "playerId": 504, "slot": "RCB" }, { "playerId": 116, "slot": "LCB" }, { "playerId": 115, "slot": "LB" },
+        { "playerId": 131, "slot": "RDM" }, { "playerId": 124, "slot": "LDM" }, { "playerId": 127, "slot": "RW" }, { "playerId": 123, "slot": "AM" }, { "playerId": 122, "slot": "LW" }, { "playerId": 125, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 130, "targetSlot": "RCB" }, { "playerId": 138, "targetSlot": "ST" }, { "playerId": 129, "targetSlot": "AM" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 6,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 140, "slot": "GK" }, { "playerId": 152, "slot": "RB" }, { "playerId": 200, "slot": "RCB" }, { "playerId": 149, "slot": "LCB" }, { "playerId": 148, "slot": "LB" },
+        { "playerId": 161, "slot": "RDM" }, { "playerId": 159, "slot": "LDM" }, { "playerId": 156, "slot": "RW" }, { "playerId": 154, "slot": "AM" }, { "playerId": 40, "slot": "LW" }, { "playerId": 165, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 151, "targetSlot": "RB" }, { "playerId": 155, "targetSlot": "AM" }, { "playerId": 136, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 7,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 110, "slot": "GK" }, { "playerId": 175, "slot": "RB" }, { "playerId": 173, "slot": "RCB" }, { "playerId": 182, "slot": "LCB" }, { "playerId": 176, "slot": "LB" },
+        { "playerId": 184, "slot": "RDM" }, { "playerId": 104, "slot": "LDM" }, { "playerId": 185, "slot": "RW" }, { "playerId": 188, "slot": "AM" }, { "playerId": 186, "slot": "LW" }, { "playerId": 193, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 174, "targetSlot": "LCB" }, { "playerId": 183, "targetSlot": "AM" }, { "playerId": 195, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 8,
+      "formation": "3-4-2-1",
+      "starters": [
+        { "playerId": 198, "slot": "GK" }, { "playerId": 203, "slot": "RCB" }, { "playerId": 202, "slot": "CB" }, { "playerId": 206, "slot": "LCB" },
+        { "playerId": 201, "slot": "RWB" }, { "playerId": 214, "slot": "RCM" }, { "playerId": 210, "slot": "LCM" }, { "playerId": 204, "slot": "LWB" },
+        { "playerId": 208, "slot": "RAM" }, { "playerId": 209, "slot": "LAM" }, { "playerId": 222, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 211, "targetSlot": "RAM" }, { "playerId": 213, "targetSlot": "RCM" }, { "playerId": 223, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 9,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 226, "slot": "GK" }, { "playerId": 232, "slot": "RB" }, { "playerId": 229, "slot": "RCB" }, { "playerId": 230, "slot": "LCB" }, { "playerId": 233, "slot": "LB" },
+        { "playerId": 247, "slot": "RDM" }, { "playerId": 240, "slot": "LDM" }, { "playerId": 246, "slot": "RW" }, { "playerId": 236, "slot": "AM" }, { "playerId": 237, "slot": "LW" }, { "playerId": 249, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 241, "targetSlot": "RW" }, { "playerId": 248, "targetSlot": "ST" }, { "playerId": 21, "targetSlot": "RDM" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 10,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 250, "slot": "GK" }, { "playerId": 256, "slot": "RB" }, { "playerId": 255, "slot": "RCB" }, { "playerId": 257, "slot": "LCB" }, { "playerId": 254, "slot": "LB" },
+        { "playerId": 267, "slot": "RDM" }, { "playerId": 261, "slot": "LDM" }, { "playerId": 264, "slot": "RW" }, { "playerId": 262, "slot": "AM" }, { "playerId": 263, "slot": "LW" }, { "playerId": 271, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 258, "targetSlot": "RB" }, { "playerId": 265, "targetSlot": "RDM" }, { "playerId": 268, "targetSlot": "AM" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 11,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 274, "slot": "GK" }, { "playerId": 280, "slot": "RB" }, { "playerId": 277, "slot": "RCB" }, { "playerId": 279, "slot": "LCB" }, { "playerId": 282, "slot": "LB" },
+        { "playerId": 290, "slot": "RDM" }, { "playerId": 289, "slot": "LDM" }, { "playerId": 286, "slot": "RW" }, { "playerId": 292, "slot": "AM" }, { "playerId": 287, "slot": "LW" }, { "playerId": 295, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 278, "targetSlot": "RCB" }, { "playerId": 563, "targetSlot": "RDM" }, { "playerId": 294, "targetSlot": "LDM" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 12,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 564, "slot": "GK" }, { "playerId": 308, "slot": "RB" }, { "playerId": 304, "slot": "RCB" }, { "playerId": 306, "slot": "LCB" }, { "playerId": 305, "slot": "LB" },
+        { "playerId": 309, "slot": "RDM" }, { "playerId": 310, "slot": "LDM" }, { "playerId": 315, "slot": "RW" }, { "playerId": 324, "slot": "AM" }, { "playerId": 562, "slot": "LW" }, { "playerId": 316, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 259, "targetSlot": "RCB" }, { "playerId": 313, "targetSlot": "RW" }, { "playerId": 318, "targetSlot": "LW" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 13,
+      "formation": "3-4-2-1",
+      "starters": [
+        { "playerId": 326, "slot": "GK" }, { "playerId": 329, "slot": "RCB" }, { "playerId": 327, "slot": "CB" }, { "playerId": 334, "slot": "LCB" },
+        { "playerId": 330, "slot": "RWB" }, { "playerId": 338, "slot": "RCM" }, { "playerId": 345, "slot": "LCM" }, { "playerId": 332, "slot": "LWB" },
+        { "playerId": 260, "slot": "RAM" }, { "playerId": 335, "slot": "LAM" }, { "playerId": 346, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 331, "targetSlot": "LWB" }, { "playerId": 336, "targetSlot": "LAM" }, { "playerId": 337, "targetSlot": "RAM" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 14,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 350, "slot": "GK" }, { "playerId": 357, "slot": "RB" }, { "playerId": 362, "slot": "RCB" }, { "playerId": 356, "slot": "LCB" }, { "playerId": 358, "slot": "LB" },
+        { "playerId": 371, "slot": "RDM" }, { "playerId": 368, "slot": "LDM" }, { "playerId": 369, "slot": "RW" }, { "playerId": 366, "slot": "AM" }, { "playerId": 367, "slot": "LW" }, { "playerId": 379, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 370, "targetSlot": "RW" }, { "playerId": 373, "targetSlot": "LDM" }, { "playerId": 359, "targetSlot": "RB" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 15,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 384, "slot": "GK" }, { "playerId": 389, "slot": "RB" }, { "playerId": 393, "slot": "RCB" }, { "playerId": 391, "slot": "LCB" }, { "playerId": 392, "slot": "LB" },
+        { "playerId": 481, "slot": "RDM" }, { "playerId": 404, "slot": "LDM" }, { "playerId": 397, "slot": "RW" }, { "playerId": 398, "slot": "AM" }, { "playerId": 400, "slot": "LW" }, { "playerId": 411, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 390, "targetSlot": "RCB" }, { "playerId": 405, "targetSlot": "RDM" }, { "playerId": 388, "targetSlot": "LCB" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 16,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 412, "slot": "GK" }, { "playerId": 417, "slot": "RB" }, { "playerId": 420, "slot": "RCB" }, { "playerId": 418, "slot": "LCB" }, { "playerId": 423, "slot": "LB" },
+        { "playerId": 430, "slot": "RDM" }, { "playerId": 162, "slot": "LDM" }, { "playerId": 431, "slot": "RW" }, { "playerId": 426, "slot": "AM" }, { "playerId": 428, "slot": "LW" }, { "playerId": 427, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 43, "targetSlot": "RDM" }, { "playerId": 432, "targetSlot": "LDM" }, { "playerId": 439, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 17,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 442, "slot": "GK" }, { "playerId": 459, "slot": "RB" }, { "playerId": 445, "slot": "RCB" }, { "playerId": 447, "slot": "LCB" }, { "playerId": 449, "slot": "LB" },
+        { "playerId": 452, "slot": "RDM" }, { "playerId": 458, "slot": "LDM" }, { "playerId": 454, "slot": "RW" }, { "playerId": 456, "slot": "AM" }, { "playerId": 453, "slot": "LW" }, { "playerId": 465, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 463, "targetSlot": "ST" }, { "playerId": 461, "targetSlot": "LW" }, { "playerId": 460, "targetSlot": "AM" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 18,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 467, "slot": "GK" }, { "playerId": 474, "slot": "RB" }, { "playerId": 471, "slot": "RCB" }, { "playerId": 472, "slot": "LCB" }, { "playerId": 473, "slot": "LB" },
+        { "playerId": 487, "slot": "RDM" }, { "playerId": 488, "slot": "LDM" }, { "playerId": 469, "slot": "RW" }, { "playerId": 480, "slot": "AM" }, { "playerId": 491, "slot": "LW" }, { "playerId": 490, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 470, "targetSlot": "RCB" }, { "playerId": 484, "targetSlot": "RW" }, { "playerId": 483, "targetSlot": "LW" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 19,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 496, "slot": "GK" }, { "playerId": 499, "slot": "RB" }, { "playerId": 112, "slot": "RCB" }, { "playerId": 503, "slot": "LCB" }, { "playerId": 502, "slot": "LB" },
+        { "playerId": 455, "slot": "RDM" }, { "playerId": 525, "slot": "LDM" }, { "playerId": 512, "slot": "RW" }, { "playerId": 519, "slot": "AM" }, { "playerId": 514, "slot": "LW" }, { "playerId": 526, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 506, "targetSlot": "LB" }, { "playerId": 515, "targetSlot": "AM" }, { "playerId": 527, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    },
+    {
+      "teamId": 20,
+      "formation": "4-2-3-1",
+      "starters": [
+        { "playerId": 529, "slot": "GK" }, { "playerId": 533, "slot": "RB" }, { "playerId": 532, "slot": "RCB" }, { "playerId": 535, "slot": "LCB" }, { "playerId": 536, "slot": "LB" },
+        { "playerId": 544, "slot": "RDM" }, { "playerId": 545, "slot": "LDM" }, { "playerId": 534, "slot": "RW" }, { "playerId": 542, "slot": "AM" }, { "playerId": 551, "slot": "LW" }, { "playerId": 552, "slot": "ST" }
+      ],
+      "contenders": [{ "playerId": 547, "targetSlot": "LW" }, { "playerId": 543, "targetSlot": "AM" }, { "playerId": 553, "targetSlot": "ST" }],
+      "reviewedAt": "2026-08-10T12:00:00Z",
+      "sources": [{ "type": "predicted-lineup", "url": "https://www.fantasyfootballscout.co.uk/team-news", "checkedAt": "2026-08-10T12:00:00Z" }, { "type": "predicted-lineup", "url": "https://fpl.team/predicted-lineups/", "checkedAt": "2026-08-10T12:00:00Z" }]
+    }
+  ]
+}
