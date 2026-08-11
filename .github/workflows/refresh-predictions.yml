@@ -1,6 +1,9 @@
 name: Daily predicted-points refresh
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '17 5 * * *'
       timezone: Europe/Zagreb

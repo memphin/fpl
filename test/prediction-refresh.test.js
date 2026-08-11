@@ -240,6 +240,7 @@ test('leaves the existing release untouched when the season has no next gameweek
 
 test('workflow gates artifact upload and deployment on a successful refresh', async () => {
   const workflow = await readFile(join(root, '.github', 'workflows', 'refresh-predictions.yml'), 'utf8');
+  assert.match(workflow, /on:\s+push:\s+branches:\s+- main\s+schedule:/);
   assert.match(workflow, /Upload sanitized Pages artifact[\s\S]*if: steps\.refresh\.outputs\.has_upcoming == 'true'/);
   assert.match(workflow, /Deploy sanitized bundle to Cloudflare Pages[\s\S]*if: steps\.refresh\.outputs\.has_upcoming == 'true'[\s\S]*uses: cloudflare\/wrangler-action@v4/);
   assert.match(workflow, /apiToken: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}[\s\S]*accountId: \$\{\{ vars\.CLOUDFLARE_ACCOUNT_ID \}\}[\s\S]*pages deploy public[\s\S]*--project-name=\$\{\{ vars\.CLOUDFLARE_PAGES_PROJECT \}\}/);
