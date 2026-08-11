@@ -1,4 +1,4 @@
-name: Daily predicted-points refresh
+name: Prediction release
 
 on:
   push:
@@ -20,16 +20,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      has_upcoming: ${{ steps.refresh.outputs.has_upcoming }}
-      min_gameweek: ${{ steps.refresh.outputs.min_gameweek }}
-      max_gameweek: ${{ steps.refresh.outputs.max_gameweek }}
-      player_count: ${{ steps.refresh.outputs.player_count }}
-      fetched_at: ${{ steps.refresh.outputs.fetched_at }}
-      fplreview_players: ${{ steps.refresh.outputs.fplreview_players }}
-      blended_fixtures: ${{ steps.refresh.outputs.blended_fixtures }}
-      fallback_fixtures: ${{ steps.refresh.outputs.fallback_fixtures }}
-      reviewed_lineups: ${{ steps.refresh.outputs.reviewed_lineups }}
-      automatic_lineups: ${{ steps.refresh.outputs.automatic_lineups }}
+      has_upcoming: ${{ steps.release.outputs.has_upcoming }}
+      min_gameweek: ${{ steps.release.outputs.min_gameweek }}
+      max_gameweek: ${{ steps.release.outputs.max_gameweek }}
+      player_count: ${{ steps.release.outputs.player_count }}
+      fetched_at: ${{ steps.release.outputs.fetched_at }}
+      fplreview_players: ${{ steps.release.outputs.fplreview_players }}
+      blended_fixtures: ${{ steps.release.outputs.blended_fixtures }}
+      fallback_fixtures: ${{ steps.release.outputs.fallback_fixtures }}
+      reviewed_lineups: ${{ steps.release.outputs.reviewed_lineups }}
+      automatic_lineups: ${{ steps.release.outputs.automatic_lineups }}
     steps:
       - name: Check out source
         uses: actions/checkout@v6
@@ -50,29 +50,38 @@ jobs:
       - name: Validate fixture data
         run: npm run validate:fixtures
 
-      - name: Refresh and validate predictions
-        id: refresh
+      - name: Build or refresh and validate predictions
+        id: release
         env:
           FFH_TOKEN: ${{ secrets.FFH_TOKEN }}
-        run: npm run refresh:predictions
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = 'push' ]; then
+            npm run build
+            npm run validate:public
+            echo 'has_upcoming=true' >> "$GITHUB_OUTPUT"
+            echo 'release_mode=committed snapshot' >> "$GITHUB_OUTPUT"
+          else
+            npm run refresh:predictions
+            echo 'release_mode=live refresh' >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Verify tracked files are unchanged
-        if: steps.refresh.outcome == 'success'
+        if: steps.release.outcome == 'success'
         run: git diff --exit-code
 
       - name: Configure GitHub Pages
-        if: steps.refresh.outputs.has_upcoming == 'true'
+        if: steps.release.outputs.has_upcoming == 'true'
         uses: actions/configure-pages@v6
 
       - name: Upload sanitized Pages artifact
-        if: steps.refresh.outputs.has_upcoming == 'true'
+        if: steps.release.outputs.has_upcoming == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
           path: public
 
       - name: Deploy sanitized bundle to Cloudflare Pages
         id: cloudflare
-        if: steps.refresh.outputs.has_upcoming == 'true'
+        if: steps.release.outputs.has_upcoming == 'true'
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -84,24 +93,26 @@ jobs:
             --branch=main
             --commit-hash=${{ github.sha }}
 
-      - name: Write refresh summary
+      - name: Write release summary
         if: always()
         env:
-          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
-          HAS_UPCOMING: ${{ steps.refresh.outputs.has_upcoming }}
-          MIN_GAMEWEEK: ${{ steps.refresh.outputs.min_gameweek }}
-          MAX_GAMEWEEK: ${{ steps.refresh.outputs.max_gameweek }}
-          PLAYER_COUNT: ${{ steps.refresh.outputs.player_count }}
-          FETCHED_AT: ${{ steps.refresh.outputs.fetched_at }}
-          FPLREVIEW_PLAYERS: ${{ steps.refresh.outputs.fplreview_players }}
-          BLENDED_FIXTURES: ${{ steps.refresh.outputs.blended_fixtures }}
-          FALLBACK_FIXTURES: ${{ steps.refresh.outputs.fallback_fixtures }}
-          REVIEWED_LINEUPS: ${{ steps.refresh.outputs.reviewed_lineups }}
-          AUTOMATIC_LINEUPS: ${{ steps.refresh.outputs.automatic_lineups }}
+          RELEASE_OUTCOME: ${{ steps.release.outcome }}
+          RELEASE_MODE: ${{ steps.release.outputs.release_mode }}
+          HAS_UPCOMING: ${{ steps.release.outputs.has_upcoming }}
+          MIN_GAMEWEEK: ${{ steps.release.outputs.min_gameweek }}
+          MAX_GAMEWEEK: ${{ steps.release.outputs.max_gameweek }}
+          PLAYER_COUNT: ${{ steps.release.outputs.player_count }}
+          FETCHED_AT: ${{ steps.release.outputs.fetched_at }}
+          FPLREVIEW_PLAYERS: ${{ steps.release.outputs.fplreview_players }}
+          BLENDED_FIXTURES: ${{ steps.release.outputs.blended_fixtures }}
+          FALLBACK_FIXTURES: ${{ steps.release.outputs.fallback_fixtures }}
+          REVIEWED_LINEUPS: ${{ steps.release.outputs.reviewed_lineups }}
+          AUTOMATIC_LINEUPS: ${{ steps.release.outputs.automatic_lineups }}
           CLOUDFLARE_URL: ${{ steps.cloudflare.outputs.deployment-url }}
         run: |
-          echo '## Predicted-points refresh' >> "$GITHUB_STEP_SUMMARY"
-          echo "- Refresh result: ${REFRESH_OUTCOME:-not run}" >> "$GITHUB_STEP_SUMMARY"
+          echo '## Prediction release' >> "$GITHUB_STEP_SUMMARY"
+          echo "- Release result: ${RELEASE_OUTCOME:-not run}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Data mode: ${RELEASE_MODE:-not run}" >> "$GITHUB_STEP_SUMMARY"
           echo "- Upcoming gameweek available: ${HAS_UPCOMING:-unknown}" >> "$GITHUB_STEP_SUMMARY"
           if [ "$HAS_UPCOMING" = 'true' ]; then
             echo "- Requested range: GW${MIN_GAMEWEEK}-${MAX_GAMEWEEK}" >> "$GITHUB_STEP_SUMMARY"
