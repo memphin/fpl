@@ -76,7 +76,7 @@ test('real editorial snapshot builds 20 reviewed teams and sanitized public valu
   assert.doesNotMatch(JSON.stringify(output), /fantasyfootballscout|fpl\.team|projectedMinutes|"minutes"/i);
 });
 
-test('stale reviews become automatic while malformed current reviews fail', async () => {
+test('stale reviews and roster drift become automatic while malformed current reviews fail', async () => {
   const [fixtures, players, names, review] = await Promise.all([
     readJson('../data/fdr-data.json'), readJson('../data/ffh_players_compact.json'),
     readJson('../data/fpl-player-display-names.json'), readJson('../data/predicted-lineups.json'),
@@ -85,6 +85,13 @@ test('stale reviews become automatic while malformed current reviews fail', asyn
   stale.gameweek = 2;
   const automatic = buildLineupSnapshot(fixtures, players, names, stale, '2026-08-10T14:30:00Z').fixtures.flatMap((fixture) => fixture.teams);
   assert.equal(automatic.filter((team) => team.predictionStatus === 'automatic').length, 20);
+
+  const transferred = structuredClone(names);
+  transferred.matches['Saša Lukić'].teamId = 12;
+  const rosterChanged = buildLineupSnapshot(fixtures, players, transferred, review, '2026-08-11T05:00:00Z').fixtures.flatMap((fixture) => fixture.teams);
+  assert.equal(rosterChanged.find((team) => team.teamName === 'Fulham').predictionStatus, 'automatic');
+  assert.equal(rosterChanged.filter((team) => team.predictionStatus === 'reviewed').length, 19);
+  assert.ok(rosterChanged.every((team) => team.starters.length === 11 && team.contenders.length === 3));
 
   const malformed = structuredClone(review);
   malformed.teams[0].starters.pop();

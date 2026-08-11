@@ -65,6 +65,13 @@ export const FORMATION_ORDER = Object.freeze(Object.keys(FORMATIONS));
 const availabilityMap = Object.freeze({ a: 'available', d: 'doubt', i: 'injured', s: 'suspended' });
 export const availabilityFor = (status) => availabilityMap[status] || 'available';
 
+class StaleReviewedLineupError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'StaleReviewedLineupError';
+  }
+}
+
 export function nailedPercent(minutes) {
   if (
     minutes === null ||
@@ -172,7 +179,7 @@ function validateReviewed(entry, team, players, gameweek) {
   const usedSlots = new Set();
   const starters = entry.starters.map((assignment) => {
     const player = playerById.get(Number(assignment.playerId));
-    if (!player) throw new Error(`${team.name} reviewed lineup contains an unknown or wrong-team player ${assignment.playerId}.`);
+    if (!player) throw new StaleReviewedLineupError(`${team.name} reviewed lineup contains an unknown or wrong-team player ${assignment.playerId}.`);
     if (playerIds.has(player.id)) throw new Error(`${team.name} reviewed lineup repeats player ${player.displayName}.`);
     if (!requiredSlots.has(assignment.slot) || usedSlots.has(assignment.slot)) throw new Error(`${team.name} reviewed lineup has an invalid or duplicate slot ${assignment.slot}.`);
     if (!canFillReviewedSlot(player, assignment.slot)) throw new Error(`${player.displayName} cannot fill ${assignment.slot} for ${team.name}.`);
@@ -193,7 +200,8 @@ function selectContenders(entry, teamPlayers, starters, gameweek, formation) {
 
   for (const requested of entry?.contenders || []) {
     const player = playerById.get(Number(requested.playerId));
-    if (!player || selectedIds.has(player.id)) throw new Error(`Invalid contender ${requested.playerId}.`);
+    if (!player) throw new StaleReviewedLineupError(`Reviewed lineup contains an unknown or wrong-team contender ${requested.playerId}.`);
+    if (selectedIds.has(player.id)) throw new Error(`Invalid contender ${requested.playerId}.`);
     if (starterIds.has(player.id)) continue;
     if (!FORMATIONS[formation].some((item) => item.key === requested.targetSlot) || !canFillReviewedSlot(player, requested.targetSlot)) throw new Error(`${player.displayName} cannot contend for ${requested.targetSlot}.`);
     selected.push({ ...publicPlayer(player, requested.targetSlot, gameweek), targetSlot: requested.targetSlot });
@@ -278,9 +286,17 @@ export function buildLineupSnapshot(fixtureSnapshot, playerSnapshot, nameSnapsho
       seenTeams.add(home.id); seenTeams.add(away.id);
       const makeTeam = (team, venue) => {
         const entry = reviewByTeam.get(Number(team.id));
-        const lineup = reviewIsCurrent && entry
-          ? reviewedTeam(team, playersByTeam.get(Number(team.id)), entry, gameweek)
-          : automaticTeam(team, playersByTeam.get(Number(team.id)), entry, gameweek, generatedAt);
+        let lineup;
+        if (reviewIsCurrent && entry) {
+          try {
+            lineup = reviewedTeam(team, playersByTeam.get(Number(team.id)), entry, gameweek);
+          } catch (error) {
+            if (!(error instanceof StaleReviewedLineupError)) throw error;
+            lineup = automaticTeam(team, playersByTeam.get(Number(team.id)), entry, gameweek, generatedAt);
+          }
+        } else {
+          lineup = automaticTeam(team, playersByTeam.get(Number(team.id)), entry, gameweek, generatedAt);
+        }
         return { ...lineup, venue };
       };
       return { homeTeamId: home.id, awayTeamId: away.id, teams: [makeTeam(home, 'H'), makeTeam(away, 'A')] };
