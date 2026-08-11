@@ -64,6 +64,19 @@ jobs:
         with:
           path: public
 
+      - name: Deploy sanitized bundle to Cloudflare Pages
+        id: cloudflare
+        if: steps.refresh.outputs.has_upcoming == 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy public
+            --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}
+            --branch=main
+            --commit-hash=${{ github.sha }}
+
       - name: Write refresh summary
         if: always()
         env:
@@ -75,6 +88,7 @@ jobs:
           FETCHED_AT: ${{ steps.refresh.outputs.fetched_at }}
           REVIEWED_LINEUPS: ${{ steps.refresh.outputs.reviewed_lineups }}
           AUTOMATIC_LINEUPS: ${{ steps.refresh.outputs.automatic_lineups }}
+          CLOUDFLARE_URL: ${{ steps.cloudflare.outputs.deployment-url }}
         run: |
           echo '## Predicted-points refresh' >> "$GITHUB_STEP_SUMMARY"
           echo "- Refresh result: ${REFRESH_OUTCOME:-not run}" >> "$GITHUB_STEP_SUMMARY"
@@ -84,6 +98,7 @@ jobs:
             echo "- Players: ${PLAYER_COUNT}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Fetched at: ${FETCHED_AT}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Predicted lineups: ${REVIEWED_LINEUPS:-0} reviewed, ${AUTOMATIC_LINEUPS:-0} automatic" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Cloudflare Pages: ${CLOUDFLARE_URL:-deployment unavailable}" >> "$GITHUB_STEP_SUMMARY"
           fi
 
   deploy:

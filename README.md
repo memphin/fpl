@@ -30,7 +30,7 @@ npm run validate
 
 ## Daily prediction deployment
 
-`.github/workflows/refresh-predictions.yml` runs every day at 05:17 in the `Europe/Zagreb` timezone and can also be started manually from the Actions page. Each run determines the official next FPL gameweek, fetches predictions from that gameweek through the following nine gameweeks (capped at GW38), builds a source-opaque `public/` bundle, and deploys that artifact to GitHub Pages. It never commits the refreshed provider snapshot.
+`.github/workflows/refresh-predictions.yml` runs every day at 05:17 in the `Europe/Zagreb` timezone and can also be started manually from the Actions page. Each run determines the official next FPL gameweek, fetches predictions from that gameweek through the following nine gameweeks (capped at GW38), builds a source-opaque `public/` bundle, and deploys the same validated bundle to GitHub Pages and Cloudflare Pages. It never commits the refreshed provider snapshot.
 
 One-time GitHub setup:
 
@@ -38,13 +38,16 @@ One-time GitHub setup:
 2. In **Settings → Pages**, select **GitHub Actions** as the publishing source.
 3. Add a repository Actions secret named `FFH_TOKEN` containing a provider-issued bearer token that is valid for unattended recurring access.
 4. Restrict the `github-pages` environment to deployments from the default branch.
-5. Run **Daily predicted-points refresh** manually and verify its summary and deployed URL before relying on the schedule.
+5. Add the Cloudflare repository secret `CLOUDFLARE_API_TOKEN` with account-level **Cloudflare Pages: Edit** permission.
+6. Add repository variables `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_PAGES_PROJECT`.
+7. In the Cloudflare Pages project, disable automatic production and preview branch deployments so a Git build cannot overwrite the directly uploaded refreshed bundle with tracked development fixtures.
+8. Run **Daily predicted-points refresh** manually and verify both deployed URLs before relying on the schedule.
 
-Rotate the provider credential by replacing the `FFH_TOKEN` repository secret; no source change is required. The token is passed only through the refresh process environment. Temporary private snapshots are deleted at the end of the job and are never uploaded as artifacts.
+Rotate the provider credential by replacing the `FFH_TOKEN` repository secret; no source change is required. Rotate Cloudflare deployment access by replacing `CLOUDFLARE_API_TOKEN` with another Pages-only token. Tokens are passed only through process inputs or environments. Temporary private snapshots are deleted at the end of the job and are never uploaded as artifacts.
 
 Run the same staged pipeline locally with `npm run refresh:predictions`. It writes only the ignored `public/` directory and leaves tracked `data/` files unchanged. Missing or rejected credentials, incomplete data, player-identity mismatches, test failures, or public-bundle validation failures stop the workflow before artifact upload, leaving the previous Pages deployment live. When the season has no next gameweek, the workflow succeeds without deploying.
 
-The workflow summary records only the requested gameweek range, fetch time, player count, validation result, and Pages URL. GitHub's normal failed-workflow notification is the operational alert; inspect the Actions log, correct or rotate the secret when necessary, and rerun the workflow manually.
+The workflow summary records only the requested gameweek range, fetch time, player count, validation result, and deployment URLs. GitHub's normal failed-workflow notification is the operational alert; inspect the Actions log, correct or rotate the relevant secret when necessary, and rerun the workflow manually.
 
 ## Predicted lineup review
 
