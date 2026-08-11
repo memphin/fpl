@@ -82,7 +82,7 @@ function sanitizePlayers(snapshot, nameSnapshot, fixtureSnapshot) {
 
 await rm(output, { recursive: true, force: true });
 await mkdir(assets, { recursive: true });
-for (const file of ['index.html', 'predictions.html', 'prediction-lineup.html', 'fixture-ratings.html', 'my-team.html', 'styles.css', 'app.js', 'predictions.js', 'prediction-lineup.js', 'lineup-model.js', 'my-team.js', 'my-team-model.js']) {
+for (const file of ['index.html', 'predictions.html', 'prediction-lineup.html', 'fixture-ratings.html', 'my-team.html', 'styles.css', 'app.js', 'predictions.js', 'comparison-model.js', 'prediction-lineup.js', 'lineup-model.js', 'my-team.js', 'my-team-model.js']) {
   await cp(join(root, file), join(output, file));
 }
 const [fixtures, ffhPlayers, names, lineupReview, fplReview] = await Promise.all([

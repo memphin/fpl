@@ -40,12 +40,14 @@
           <button class="reset-button" type="button" id="reset-adjustments">Reset team adjustments</button>
         </div>
       </details>
+      <section class="comparison-panel" id="team-comparison" aria-label="Team comparison" hidden></section>
+      <p class="sr-only" id="team-comparison-status" aria-live="polite"></p>
       <div class="restore-strip" id="restore-strip" aria-live="polite"></div>
 
       <section class="fixture-panel" aria-label="Fixture difficulty grid">
         <div class="fixture-grid-wrap" id="fixture-grid-wrap"></div>
       </section>
     </main>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

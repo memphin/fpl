@@ -10,7 +10,7 @@ for (let index = 2; index < process.argv.length; index += 1) {
   args[key.slice(2)] = process.argv[++index];
 }
 const root = resolve(args['public-dir'] || join(process.cwd(), 'public'));
-const allowed = new Set(['app.js', 'index.html', 'predictions.html', 'predictions.js', 'prediction-lineup.html', 'prediction-lineup.js', 'fixture-ratings.html', 'lineup-model.js', 'my-team.html', 'my-team.js', 'my-team-model.js', 'styles.css', 'assets/fixtures.json', 'assets/players.json', 'assets/lineups.json']);
+const allowed = new Set(['app.js', 'index.html', 'predictions.html', 'predictions.js', 'comparison-model.js', 'prediction-lineup.html', 'prediction-lineup.js', 'fixture-ratings.html', 'lineup-model.js', 'my-team.html', 'my-team.js', 'my-team-model.js', 'styles.css', 'assets/fixtures.json', 'assets/players.json', 'assets/lineups.json']);
 const forbidden = [
   'fantasyfootballhub', 'fplreview', 'fantasy.premierleague', 'football-data.co.uk',
   'bootstrap-static', 'api/fixtures', 'stats.source', '"source"', '"fetchedAt"',
