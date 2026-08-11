@@ -44,10 +44,12 @@ export function mergePredictionSources(ffhSnapshot, nameSnapshot, reviewSnapshot
     reviewById.set(id, player);
   }
 
-  const coverage = { matchedPlayers: 0, fallbackPlayers: 0, blendedFixtures: 0, fallbackFixtures: 0 };
+  const coverage = { matchedPlayers: 0, reviewOnlyPlayers: 0, fallbackPlayers: 0, blendedFixtures: 0, reviewOnlyFixtures: 0, fallbackFixtures: 0 };
+  const matchedOfficialIds = new Set();
   const players = ffhSnapshot.players.map((player) => {
     const official = nameSnapshot?.matches?.[player.fullName];
     if (!official || !Number.isInteger(Number(official.id))) throw new Error(`Missing official FPL identity for ${player.fullName}.`);
+    matchedOfficialIds.add(Number(official.id));
     const review = reviewById.get(Number(official.id));
     if (review) coverage.matchedPlayers += 1;
     else coverage.fallbackPlayers += 1;
@@ -72,6 +74,37 @@ export function mergePredictionSources(ffhSnapshot, nameSnapshot, reviewSnapshot
     });
     return { ...player, eliteOwnership: optionalNumber(review?.eliteOwnership), fixtures };
   });
+
+  const officialPlayers = new Map((nameSnapshot?.officialPlayers || []).map((player) => [Number(player.id), player]));
+  for (const review of reviewSnapshot.players) {
+    const id = Number(review.id);
+    if (matchedOfficialIds.has(id)) continue;
+    const official = officialPlayers.get(id);
+    if (!official) continue;
+    const teammate = ffhSnapshot.players.find((player) => player.team.fullName === official.teamFullName);
+    if (!teammate) continue;
+    const reviewFixtures = new Map(review.fixtures.map((fixture) => [Number(fixture.gameweek), fixture]));
+    const fixtures = teammate.fixtures.map((fixture) => {
+      const prediction = reviewFixtures.get(Number(fixture.gameweek));
+      const points = optionalNumber(prediction?.points) ?? 0;
+      const minutes = optionalNumber(prediction?.minutes);
+      if (prediction) coverage.reviewOnlyFixtures += 1;
+      else coverage.fallbackFixtures += 1;
+      return { ...fixture, predictions: { points, minutes } };
+    });
+    players.push({
+      fullName: official.fullName,
+      price: official.price,
+      position: official.position,
+      ownership: official.ownership,
+      status: official.status,
+      team: { shortName: teammate.team.shortName, fullName: official.teamFullName },
+      eliteOwnership: optionalNumber(review.eliteOwnership),
+      fixtures,
+    });
+    matchedOfficialIds.add(id);
+    coverage.reviewOnlyPlayers += 1;
+  }
 
   return { snapshot: { ...ffhSnapshot, players }, coverage };
 }

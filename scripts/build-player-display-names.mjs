@@ -42,6 +42,25 @@ export function buildPlayerDisplayNames(snapshot, fpl, fetchedAt = new Date().to
   const names = {};
   const matches = {};
   const matchedIds = new Set();
+  const positions = { 1: 'GK', 2: 'DEF', 3: 'MID', 4: 'FWD' };
+  const officialPlayers = fpl.elements.map((candidate) => {
+    const fullName = `${candidate.first_name} ${candidate.second_name}`.trim();
+    const position = positions[candidate.element_type];
+    if (!fullName || !position || !teamNames.has(candidate.team)) throw new Error(`Invalid official FPL player metadata for ${candidate.web_name || candidate.id}.`);
+    names[fullName] = candidate.web_name;
+    matches[fullName] = { id: candidate.id, displayName: candidate.web_name, teamId: candidate.team };
+    return {
+      id: candidate.id,
+      fullName,
+      displayName: candidate.web_name,
+      position,
+      teamId: candidate.team,
+      teamFullName: teamNames.get(candidate.team),
+      price: Number(candidate.now_cost) / 10,
+      ownership: Number(candidate.selected_by_percent || 0),
+      status: candidate.status,
+    };
+  });
 
   for (const player of snapshot.players) {
     const teamCandidates = fpl.elements.filter((candidate) => teamNames.get(candidate.team) === player.team.fullName);
@@ -54,7 +73,7 @@ export function buildPlayerDisplayNames(snapshot, fpl, fetchedAt = new Date().to
     matches[player.fullName] = { id: match.candidate.id, displayName: match.candidate.web_name, teamId: match.candidate.team };
   }
 
-  return { source: FPL_URL, fetchedAt, nextGameweek, names, matches };
+  return { source: FPL_URL, fetchedAt, nextGameweek, names, matches, officialPlayers };
 }
 
 function parseArgs(argv) {

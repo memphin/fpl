@@ -42,7 +42,10 @@ function makeBootstrap(nextGameweek = 5) {
     teams: ['Arsenal', 'Aston Villa', 'Bournemouth', 'Brentford'].map((name, index) => ({ id: index + 1, name })),
     elements: [
       ['Alpha', 'Keeper'], ['Beta', 'Defender'], ['Gamma', 'Midfielder'], ['Delta', 'Forward'],
-    ].map(([first_name, second_name], index) => ({ id: 100 + index, first_name, second_name, web_name: second_name, team: index + 1 })),
+    ].map(([first_name, second_name], index) => ({
+      id: 100 + index, first_name, second_name, web_name: second_name, team: index + 1,
+      element_type: index + 1, now_cost: (5 + index) * 10, selected_by_percent: '1', status: 'a',
+    })),
   };
 }
 
@@ -80,7 +83,11 @@ function makeFullBootstrap(nextGameweek = 5) {
     teams: fixtureDataForTests.teams.map((team) => ({ id: team.id, name: team.name })),
     elements: snapshot.players.map((player) => {
       const parts = player.fullName.split(' ');
-      return { id: id++, first_name: parts.slice(0, -1).join(' '), second_name: parts.at(-1), web_name: `${player.position}${parts.at(-1)}`, team: fixtureDataForTests.teams.find((team) => team.name === player.team.fullName).id };
+      return {
+        id: id++, first_name: parts.slice(0, -1).join(' '), second_name: parts.at(-1), web_name: `${player.position}${parts.at(-1)}`,
+        team: fixtureDataForTests.teams.find((team) => team.name === player.team.fullName).id,
+        element_type: positions.indexOf(player.position) + 1, now_cost: player.price * 10, selected_by_percent: '1', status: 'a',
+      };
     }),
   };
 }

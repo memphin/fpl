@@ -494,7 +494,8 @@
     "Mateo Joseph Fernández-Regatillo": "Mateo Joseph",
     "Enis Destan": "Destan",
     "Sean Thomas Neave": "Neave",
-    "Sindre Walle Egeli": "Walle Egeli"
+    "Sindre Walle Egeli": "Walle Egeli",
+    "Gonzalo García": "García"
   },
   "matches": {
     "David Raya Martín": {
@@ -2956,6 +2957,24 @@
       "id": 321,
       "displayName": "Walle Egeli",
       "teamId": 12
+    },
+    "Gonzalo García": {
+      "id": 569,
+      "displayName": "García",
+      "teamId": 10
     }
-  }
+  },
+  "officialPlayers": [
+    {
+      "id": 569,
+      "fullName": "Gonzalo García",
+      "displayName": "García",
+      "position": "FWD",
+      "teamId": 10,
+      "teamFullName": "Fulham",
+      "price": 6,
+      "ownership": 1.6,
+      "status": "a"
+    }
+  ]
 }

@@ -25,7 +25,7 @@ test('averages points at full precision, treats zero as valid and prefers Review
   assert.equal(result.snapshot.players[0].fixtures[1].predictions.points, 4);
   assert.equal(result.snapshot.players[0].fixtures[1].predictions.minutes, 70);
   assert.equal(result.snapshot.players[0].eliteOwnership, 20);
-  assert.deepEqual(result.coverage, { matchedPlayers: 1, fallbackPlayers: 0, blendedFixtures: 1, fallbackFixtures: 1 });
+  assert.deepEqual(result.coverage, { matchedPlayers: 1, reviewOnlyPlayers: 0, fallbackPlayers: 0, blendedFixtures: 1, reviewOnlyFixtures: 0, fallbackFixtures: 1 });
 });
 
 test('falls back to FFH and publishes null elite ownership for an unmatched player', () => {
@@ -34,7 +34,31 @@ test('falls back to FFH and publishes null elite ownership for an unmatched play
   assert.equal(result.snapshot.players[0].fixtures[0].predictions.points, 3);
   assert.equal(result.snapshot.players[0].fixtures[0].predictions.minutes, 55);
   assert.equal(result.snapshot.players[0].eliteOwnership, null);
-  assert.deepEqual(result.coverage, { matchedPlayers: 0, fallbackPlayers: 1, blendedFixtures: 0, fallbackFixtures: 1 });
+  assert.deepEqual(result.coverage, { matchedPlayers: 0, reviewOnlyPlayers: 0, fallbackPlayers: 1, blendedFixtures: 0, reviewOnlyFixtures: 0, fallbackFixtures: 1 });
+});
+
+test('keeps official Review players that are temporarily absent from FFH', () => {
+  const teammate = sourcePlayer('Fulham Forward', 12, [{ gameweek: 1, ffhPoints: 2, ffhMinutes: 60 }]);
+  teammate.ffh.team = { shortName: 'FUL', fullName: 'Fulham' };
+  const names = {
+    matches: { 'Fulham Forward': { id: 12 }, 'Gonzalo García': { id: 569 } },
+    officialPlayers: [{
+      id: 569, fullName: 'Gonzalo García', displayName: 'García', position: 'FWD',
+      teamId: 7, teamFullName: 'Fulham', price: 6, ownership: 2.5, status: 'a',
+    }],
+  };
+  const review = { players: [{ id: 569, eliteOwnership: 1.5, fixtures: [{ gameweek: 1, points: 4.2, minutes: 75 }] }] };
+
+  const { snapshot, coverage } = mergePredictionSources({ players: [teammate.ffh] }, names, review);
+
+  assert.equal(snapshot.players.length, 2);
+  assert.deepEqual(snapshot.players[1], {
+    fullName: 'Gonzalo García', price: 6, position: 'FWD', ownership: 2.5, status: 'a',
+    team: { shortName: 'FUL', fullName: 'Fulham' }, eliteOwnership: 1.5,
+    fixtures: [{ gameweek: 1, predictions: { points: 4.2, minutes: 75 } }],
+  });
+  assert.equal(coverage.reviewOnlyPlayers, 1);
+  assert.equal(coverage.reviewOnlyFixtures, 1);
 });
 
 test('Review minutes change the minutes-first lineup selection', () => {

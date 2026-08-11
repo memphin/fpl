@@ -186,7 +186,7 @@ function sortedAndFilteredPlayers(gameweeks) {
   return players.sort((left, right) => {
     const sortValueFor = (player) => {
       if (state.sort.column === 'player') return player.fullName;
-      if (state.sort.column === 'position') return player.position;
+      if (state.sort.column === 'position') return POSITION_ORDER.indexOf(player.position);
       if (state.sort.column === 'club') return player.team.fullName;
       if (state.sort.column === 'total') return totalFor(player, gameweeks);
       if (state.sort.column === 'price') return player.price;
