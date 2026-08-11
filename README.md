@@ -14,9 +14,13 @@ Run `node scripts/build-data.mjs`. The script downloads the current FPL fixture 
 
 Run `node scripts/validate-data.mjs` to verify the generated data contract and rating bounds.
 
-## Player prediction snapshot
+## Player prediction snapshots
 
-The Predictions page is built from `data/ffh_players_compact.json`, a tracked offline Fantasy Football Hub snapshot, plus official FPL identities from `data/fpl-player-display-names.json`. Credentials are supplied at runtime and are never stored in either snapshot or in the public bundle.
+The Predictions page blends `data/ffh_players_compact.json` with the `pred` worksheet in the private `pred.xlsx` FPL Review export. Players are matched by official FPL ID through `data/fpl-player-display-names.json`. Each covered player-gameweek publishes the equal-weight average of both point projections, while expected minutes and elite ownership come from `pred.xlsx`. If the workbook does not contain a player or exact gameweek, the build falls back to Fantasy Football Hub points and minutes; elite ownership is unavailable for an unmatched player.
+
+Replace `pred.xlsx` manually whenever a newer FPL Review export is available. Its `pred` sheet must contain unique `ID` values, `Pos`, `Name`, `Team`, `Elite%`, and paired `<GW>_xMins` / `<GW>_Pts` columns. The separate root `pred.csv` is ignored and not used. The workbook parser rejects malformed IDs, column pairs, points, minutes outside 0–95, and elite percentages outside 0–100.
+
+The public bundle contains only blended points, the expected minutes required by the Predictions page, elite ownership metrics, and the existing derived lineup confidence. It never includes either private snapshot, provider names, source URLs, or raw lineup research.
 
 For a one-off refresh of the tracked development snapshot, run:
 
@@ -30,7 +34,7 @@ npm run validate
 
 ## Daily prediction deployment
 
-`.github/workflows/refresh-predictions.yml` runs every day at 05:17 in the `Europe/Zagreb` timezone and can also be started manually from the Actions page. Each run determines the official next FPL gameweek, fetches predictions from that gameweek through the following nine gameweeks (capped at GW38), builds a source-opaque `public/` bundle, and deploys the same validated bundle to GitHub Pages and Cloudflare Pages. It never commits the refreshed provider snapshot.
+`.github/workflows/refresh-predictions.yml` runs every day at 05:17 in the `Europe/Zagreb` timezone and can also be started manually from the Actions page. Each run determines the official next FPL gameweek, fetches Hub predictions from that gameweek through the following nine gameweeks (capped at GW38), blends the matching gameweeks from the committed `pred.xlsx`, builds a source-opaque `public/` bundle, and deploys the same validated bundle to GitHub Pages and Cloudflare Pages. It never commits the refreshed Hub snapshot. The workflow summary reports matched Review players, blended player-gameweeks, and FFH fallbacks so stale workbook coverage is visible.
 
 One-time GitHub setup:
 

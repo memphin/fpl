@@ -4,6 +4,7 @@ import { dirname, join, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { deriveRollingGameweekRange, fetchJsonWithRetry } from './prediction-refresh-lib.mjs';
+import { loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
 
 const FPL_URL = 'https://fantasy.premierleague.com/api/bootstrap-static/';
 
@@ -57,6 +58,7 @@ const windowSize = Number(args.window || 10);
 const maximumAge = Number(args['max-age-minutes'] ?? 60);
 const minimumPlayers = Number(args['minimum-player-count'] ?? 300);
 const suppliedPredictions = args['prediction-input'] ? resolve(args['prediction-input']) : null;
+const fplReviewPath = resolve(args['fplreview-input'] || 'pred.xlsx');
 if (!suppliedPredictions && !(process.env.FFH_TOKEN || '').trim()) {
   throw new Error('FFH_TOKEN is required for a live prediction refresh.');
 }
@@ -101,6 +103,7 @@ try {
       'scripts/validate-predictions.mjs',
       '--input', predictionPath,
       '--name-map-input', nameMapPath,
+      '--fplreview-input', fplReviewPath,
       '--min-gameweek', String(range.min),
       '--max-gameweek', String(range.max),
       '--max-age-minutes', String(maximumAge),
@@ -110,16 +113,21 @@ try {
       'scripts/build-public.mjs',
       '--prediction-input', predictionPath,
       '--name-map-input', nameMapPath,
+      '--fplreview-input', fplReviewPath,
       '--output', stagedPublic,
     ]);
     await run(process.execPath, [
       'scripts/validate-public.mjs',
       '--prediction-input', predictionPath,
       '--name-map-input', nameMapPath,
+      '--fplreview-input', fplReviewPath,
       '--public-dir', stagedPublic,
     ]);
 
     const predictions = JSON.parse(await readFile(predictionPath, 'utf8'));
+    const names = JSON.parse(await readFile(nameMapPath, 'utf8'));
+    const fplReview = await loadFplReviewWorkbook(fplReviewPath);
+    const { coverage } = mergePredictionSources(predictions, names, fplReview);
     const lineups = JSON.parse(await readFile(join(stagedPublic, 'assets', 'lineups.json'), 'utf8'));
     const lineupTeams = lineups.fixtures.flatMap((fixture) => fixture.teams);
     const reviewedLineups = lineupTeams.filter((team) => team.predictionStatus === 'reviewed').length;
@@ -131,10 +139,13 @@ try {
       max_gameweek: range.max,
       player_count: predictions.count,
       fetched_at: predictions.fetchedAt,
+      fplreview_players: coverage.matchedPlayers,
+      blended_fixtures: coverage.blendedFixtures,
+      fallback_fixtures: coverage.fallbackFixtures,
       reviewed_lineups: reviewedLineups,
       automatic_lineups: lineupTeams.length - reviewedLineups,
     });
-    console.log(`Prepared validated public predictions for GW${range.min}-${range.max}: ${predictions.count} players, ${reviewedLineups} reviewed lineups, ${lineupTeams.length - reviewedLineups} automatic lineups.`);
+    console.log(`Prepared validated public predictions for GW${range.min}-${range.max}: ${predictions.count} players, ${coverage.blendedFixtures} blended fixtures, ${coverage.fallbackFixtures} FFH fallbacks, ${reviewedLineups} reviewed lineups, ${lineupTeams.length - reviewedLineups} automatic lineups.`);
   }
 } finally {
   await rm(privateWork, { recursive: true, force: true });

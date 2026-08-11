@@ -7,6 +7,8 @@ outputs/
 work/
 public/
 .fixture-lens-public-*/
+~$*.xlsx
+pred.csv
 
 # Local optimizer inputs and generated analysis snapshots (not used by the site)
 best_*.json

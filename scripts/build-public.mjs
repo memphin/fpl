@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { buildLineupSnapshot } from '../lineup-model.js';
+import { loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
 
 const root = process.cwd();
 const args = {};
@@ -18,6 +19,10 @@ function displayNameFor(fullName, names) {
   if (names[fullName]) return names[fullName];
   const parts = fullName.trim().split(/\s+/);
   return parts.length < 3 ? fullName : parts.slice(0, 2).join(' ');
+}
+
+function optionalNumber(value) {
+  return value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) ? Number(value) : null;
 }
 
 function sanitizeFixtures(snapshot, nextGameweek) {
@@ -50,6 +55,8 @@ function sanitizePlayers(snapshot, nameSnapshot, fixtureSnapshot) {
     players: snapshot.players.map((player) => {
       const match = matches[player.fullName];
       if (!match) throw new Error(`Missing official FPL match for ${player.fullName}. Run build-player-display-names.mjs.`);
+      const ownership = Number(player.ownership || 0);
+      const eliteOwnership = player.eliteOwnership === null || player.eliteOwnership === undefined ? null : Number(Number(player.eliteOwnership).toFixed(1));
       return {
         id: Number(match.id),
         fullName: player.fullName,
@@ -57,10 +64,13 @@ function sanitizePlayers(snapshot, nameSnapshot, fixtureSnapshot) {
         position: player.position,
         team: { id: Number(match.teamId), fullName: player.team.fullName },
         price: Number(player.price),
-        ownership: Number(player.ownership || 0),
+        ownership,
+        eliteOwnership,
+        eliteSelectionDifference: eliteOwnership === null ? null : Number((eliteOwnership - ownership).toFixed(1)),
         fixtures: player.fixtures.map((fixture) => ({
           gameweek: fixture.gameweek,
           points: Number(Number(fixture.predictions?.points || 0).toFixed(1)),
+          minutes: optionalNumber(fixture.predictions?.minutes) === null ? null : Number(optionalNumber(fixture.predictions.minutes).toFixed(1)),
           opponentName: fixture.opponent?.fullName || fixture.opponent?.shortName || '',
           opponentShort: fixture.opponent?.shortName || '',
           venue: fixture.isHome ? 'H' : 'A',
@@ -75,16 +85,18 @@ await mkdir(assets, { recursive: true });
 for (const file of ['index.html', 'predictions.html', 'prediction-lineup.html', 'my-team.html', 'styles.css', 'app.js', 'predictions.js', 'prediction-lineup.js', 'lineup-model.js', 'my-team.js', 'my-team-model.js']) {
   await cp(join(root, file), join(output, file));
 }
-const [fixtures, players, names, lineupReview] = await Promise.all([
+const [fixtures, ffhPlayers, names, lineupReview, fplReview] = await Promise.all([
   readJson(args['fixture-input'] || 'data/fdr-data.json'),
   readJson(args['prediction-input'] || 'data/ffh_players_compact.json'),
   readJson(args['name-map-input'] || 'data/fpl-player-display-names.json'),
   readJson(args['lineup-input'] || 'data/predicted-lineups.json'),
+  loadFplReviewWorkbook(args['fplreview-input'] || 'pred.xlsx'),
 ]);
+const { snapshot: players, coverage } = mergePredictionSources(ffhPlayers, names, fplReview);
 const lineups = buildLineupSnapshot(fixtures, players, names, lineupReview);
 await Promise.all([
   writeFile(join(assets, 'fixtures.json'), `${JSON.stringify(sanitizeFixtures(fixtures, names.nextGameweek))}\n`),
   writeFile(join(assets, 'players.json'), `${JSON.stringify(sanitizePlayers(players, names, fixtures))}\n`),
   writeFile(join(assets, 'lineups.json'), `${JSON.stringify(lineups)}\n`),
 ]);
-console.log(`Created static release bundle: ${output}`);
+console.log(`Created static release bundle: ${output} (${coverage.blendedFixtures} blended fixtures, ${coverage.fallbackFixtures} FFH fallbacks).`);

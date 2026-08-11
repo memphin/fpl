@@ -7,6 +7,8 @@ const METADATA_COLUMNS = [
   { key: 'club', label: 'Club', className: 'prediction-club-heading', width: 124 },
   { key: 'price', label: 'Price', className: 'prediction-price-heading', width: 68 },
   { key: 'selected', label: 'SEL%', className: 'prediction-selected-heading', width: 80 },
+  { key: 'elite', label: 'ELITE%', className: 'prediction-elite-heading', width: 80 },
+  { key: 'eliteDifference', label: 'ELITE% - SEL%', className: 'prediction-elite-difference-heading', width: 122 },
 ];
 const state = {
   data: null,
@@ -27,6 +29,10 @@ const state = {
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
+}
+
+function optionalNumber(value) {
+  return value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) ? Number(value) : null;
 }
 
 function loadPreferences() {
@@ -172,10 +178,14 @@ function sortedAndFilteredPlayers(gameweeks) {
       if (state.sort.column === 'total') return totalFor(player, gameweeks);
       if (state.sort.column === 'price') return player.price;
       if (state.sort.column === 'selected') return Number(player.ownership || 0);
+      if (state.sort.column === 'elite') return optionalNumber(player.eliteOwnership);
+      if (state.sort.column === 'eliteDifference') return optionalNumber(player.eliteSelectionDifference);
       if (state.sort.column === 'value') return valuePerMillionFor(player, gameweeks);
       return predictionFor(player, Number(state.sort.column));
     };
     const leftValue = sortValueFor(left), rightValue = sortValueFor(right);
+    if (leftValue === null && rightValue !== null) return 1;
+    if (rightValue === null && leftValue !== null) return -1;
     const comparison = typeof leftValue === 'string'
       ? leftValue.localeCompare(rightValue)
       : leftValue - rightValue;
@@ -240,9 +250,12 @@ function renderGrid() {
     const values = gameweeks.map((gameweek) => {
       const fixture = fixtureFor(player, gameweek);
       const points = Number(fixture?.points || 0);
+      const minutesValue = optionalNumber(fixture?.minutes);
+      const minutes = minutesValue === null ? null : Math.round(minutesValue);
       const fixtureCode = fixture?.venue === 'H' ? fixture.opponentShort : fixture?.opponentShort?.toLowerCase();
       const opponent = state.showFixtures && fixtureCode ? `<span class="prediction-fixture" aria-label="${escapeHtml(fixture.opponentName || fixtureCode)} ${fixture.venue === 'H' ? 'at home' : 'away'}">${escapeHtml(fixtureCode)}</span>` : '';
-      return `<td class="prediction-points" style="${greenCellStyle(points, 10)}">${opponent}<span class="prediction-points-value">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</span></td>`;
+      const expectedMinutes = minutes === null ? '' : `<span class="prediction-minutes" aria-label="${minutes} expected minutes" title="${minutes} expected minutes">${minutes}m</span>`;
+      return `<td class="prediction-points" style="${greenCellStyle(points, 10)}" aria-label="${points.toFixed(1)} predicted points${minutes === null ? '' : `, ${minutes} expected minutes`}">${opponent}${expectedMinutes}<span class="prediction-points-value">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</span></td>`;
     }).join('');
     const metadataCells = [
       columnVisible('player') && `<td class="prediction-player-cell" style="left:${metadataLeft('player')}px" title="${escapeHtml(player.fullName)}" aria-label="${escapeHtml(player.fullName)}"><span>${escapeHtml(displayNameFor(player))}</span><button class="inline-toggle" type="button" data-hide-player="${escapeHtml(player.fullName)}" aria-label="Hide ${escapeHtml(displayNameFor(player))}" title="Hide ${escapeHtml(displayNameFor(player))}">−</button></td>`,
@@ -250,6 +263,8 @@ function renderGrid() {
       columnVisible('club') && `<td class="prediction-club-cell" style="left:${metadataLeft('club')}px">${escapeHtml(player.team.fullName)}</td>`,
       columnVisible('price') && `<td class="prediction-price-cell" style="left:${metadataLeft('price')}px">£${Number(player.price).toFixed(1)}m${awardStar(priceAwards.has(player), `Highest total predicted points among ${player.position} players at £${Number(player.price).toFixed(1)}m`)}</td>`,
       columnVisible('selected') && `<td class="prediction-selected-cell" style="left:${metadataLeft('selected')}px">${Number(player.ownership || 0).toFixed(1)}%</td>`,
+      columnVisible('elite') && `<td class="prediction-elite-cell" style="left:${metadataLeft('elite')}px">${optionalNumber(player.eliteOwnership) === null ? '—' : `${optionalNumber(player.eliteOwnership).toFixed(1)}%`}</td>`,
+      columnVisible('eliteDifference') && `<td class="prediction-elite-difference-cell" style="left:${metadataLeft('eliteDifference')}px">${optionalNumber(player.eliteSelectionDifference) === null ? '—' : `${optionalNumber(player.eliteSelectionDifference) > 0 ? '+' : ''}${optionalNumber(player.eliteSelectionDifference).toFixed(1)}%`}</td>`,
     ].filter(Boolean).join('');
     const metricCells = `${columnVisible('total') ? `<td class="prediction-total-cell" style="${greenCellStyle(total, gameweeks.length * 10)}">${total.toFixed(1)}${awardStar(totalAwards.has(player), `Top ${player.position} total predicted points`)}</td>` : ''}${columnVisible('value') ? `<td class="prediction-value-cell" style="${greenCellStyle(value, 10)}">${value.toFixed(1)}${awardStar(valueAwards.has(player), `Top ${player.position} predicted points per £m`)}</td>` : ''}`;
     return `<tr>${metadataCells}${values}${metricCells}</tr>`;

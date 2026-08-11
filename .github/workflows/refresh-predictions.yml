@@ -22,6 +22,9 @@ jobs:
       max_gameweek: ${{ steps.refresh.outputs.max_gameweek }}
       player_count: ${{ steps.refresh.outputs.player_count }}
       fetched_at: ${{ steps.refresh.outputs.fetched_at }}
+      fplreview_players: ${{ steps.refresh.outputs.fplreview_players }}
+      blended_fixtures: ${{ steps.refresh.outputs.blended_fixtures }}
+      fallback_fixtures: ${{ steps.refresh.outputs.fallback_fixtures }}
       reviewed_lineups: ${{ steps.refresh.outputs.reviewed_lineups }}
       automatic_lineups: ${{ steps.refresh.outputs.automatic_lineups }}
     steps:
@@ -87,6 +90,9 @@ jobs:
           MAX_GAMEWEEK: ${{ steps.refresh.outputs.max_gameweek }}
           PLAYER_COUNT: ${{ steps.refresh.outputs.player_count }}
           FETCHED_AT: ${{ steps.refresh.outputs.fetched_at }}
+          FPLREVIEW_PLAYERS: ${{ steps.refresh.outputs.fplreview_players }}
+          BLENDED_FIXTURES: ${{ steps.refresh.outputs.blended_fixtures }}
+          FALLBACK_FIXTURES: ${{ steps.refresh.outputs.fallback_fixtures }}
           REVIEWED_LINEUPS: ${{ steps.refresh.outputs.reviewed_lineups }}
           AUTOMATIC_LINEUPS: ${{ steps.refresh.outputs.automatic_lineups }}
           CLOUDFLARE_URL: ${{ steps.cloudflare.outputs.deployment-url }}
@@ -98,6 +104,9 @@ jobs:
             echo "- Requested range: GW${MIN_GAMEWEEK}-${MAX_GAMEWEEK}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Players: ${PLAYER_COUNT}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Fetched at: ${FETCHED_AT}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- FPL Review matched players: ${FPLREVIEW_PLAYERS:-0}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- Blended player-gameweeks: ${BLENDED_FIXTURES:-0}" >> "$GITHUB_STEP_SUMMARY"
+            echo "- FFH fallback player-gameweeks: ${FALLBACK_FIXTURES:-0}" >> "$GITHUB_STEP_SUMMARY"
             echo "- Predicted lineups: ${REVIEWED_LINEUPS:-0} reviewed, ${AUTOMATIC_LINEUPS:-0} automatic" >> "$GITHUB_STEP_SUMMARY"
             echo "- Cloudflare Pages: ${CLOUDFLARE_URL:-deployment unavailable}" >> "$GITHUB_STEP_SUMMARY"
           fi

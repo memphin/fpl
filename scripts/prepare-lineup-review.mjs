@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { buildLineupSnapshot } from '../lineup-model.js';
+import { loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
 
 function parseArgs(argv) {
   const values = {};
@@ -14,11 +15,13 @@ function parseArgs(argv) {
 
 const readJson = async (path) => JSON.parse(await readFile(resolve(path), 'utf8'));
 const args = parseArgs(process.argv.slice(2));
-const [fixtures, players, names] = await Promise.all([
+const [fixtures, ffhPlayers, names, fplReview] = await Promise.all([
   readJson(args['fixture-input'] || 'data/fdr-data.json'),
   readJson(args['prediction-input'] || 'data/ffh_players_compact.json'),
   readJson(args['name-map-input'] || 'data/fpl-player-display-names.json'),
+  loadFplReviewWorkbook(args['fplreview-input'] || 'pred.xlsx'),
 ]);
+const { snapshot: players } = mergePredictionSources(ffhPlayers, names, fplReview);
 let previous = null;
 try { previous = await readJson(args['lineup-input'] || 'data/predicted-lineups.json'); } catch (error) { if (error.code !== 'ENOENT') throw error; }
 

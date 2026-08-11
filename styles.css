@@ -57,6 +57,8 @@ button { font:inherit; cursor:pointer; }
 .predictions-grid .prediction-club-heading { position:sticky; left:282px; z-index:5; min-width:124px; }
 .predictions-grid .prediction-price-heading { position:sticky; left:406px; z-index:5; min-width:68px; }
 .predictions-grid .prediction-selected-heading { position:sticky; left:474px; z-index:5; min-width:80px; }
+.predictions-grid .prediction-elite-heading { position:sticky; left:554px; z-index:5; min-width:80px; }
+.predictions-grid .prediction-elite-difference-heading { position:sticky; left:634px; z-index:5; min-width:122px; }
 .predictions-grid .prediction-player-cell { position:sticky; left:0; z-index:1; min-width:210px; padding:0 10px 0 16px !important; background:#fff; border-right:1px solid var(--line) !important; color:var(--ink); font-weight:800; text-align:left; white-space:nowrap; }
 .predictions-grid .prediction-position-cell { position:sticky; left:210px; z-index:1; min-width:72px; background:#fff; white-space:nowrap; color:#52606c; font-weight:700; }
 .predictions-grid .prediction-club-cell { position:sticky; left:282px; z-index:1; min-width:124px; background:#fff; white-space:nowrap; color:#52606c; font-weight:700; }
@@ -64,8 +66,11 @@ button { font:inherit; cursor:pointer; }
 .prediction-points { position:relative; }
 .prediction-points-value { display:block; }
 .prediction-fixture { position:absolute; top:3px; left:4px; color:inherit; font-size:.54rem; font-weight:800; line-height:1; opacity:.78; white-space:nowrap; }
+.prediction-minutes { position:absolute; top:3px; right:4px; color:inherit; font-size:.54rem; font-weight:800; line-height:1; opacity:.78; white-space:nowrap; }
 .prediction-price-cell { position:sticky; left:406px; z-index:1; min-width:68px; background:#fff; border-right:1px solid var(--line) !important; color:#52606c; }
-.prediction-selected-cell { position:sticky; left:474px; z-index:1; min-width:80px; background:#fff; border-right:1px solid var(--line) !important; color:#52606c; font-variant-numeric:tabular-nums; font-weight:800; }
+.prediction-selected-cell,.prediction-elite-cell,.prediction-elite-difference-cell { position:sticky; z-index:1; background:#fff; color:#52606c; font-variant-numeric:tabular-nums; font-weight:800; }
+.prediction-selected-cell,.prediction-elite-cell { min-width:80px; }
+.prediction-elite-difference-cell { min-width:122px; border-right:1px solid var(--line) !important; }
 .prediction-value-cell { min-width:68px; }
 .award-star { color:#a86d00; font-size:.86em; text-shadow:0 1px 0 rgba(255,255,255,.5); }
 .empty-cell { height:auto !important; padding:28px !important; color:var(--muted); font-weight:700; }
@@ -213,6 +218,9 @@ button { font:inherit; cursor:pointer; }
 }
 @media (max-width:640px) {
   .app-shell { padding-top:12px; }.page-tab { padding:9px 11px; }
+  .predictions-grid .prediction-player-heading,.predictions-grid .prediction-player-cell { min-width:150px; }
+  .predictions-grid .prediction-position-heading,.predictions-grid .prediction-club-heading,.predictions-grid .prediction-price-heading,.predictions-grid .prediction-selected-heading,.predictions-grid .prediction-elite-heading,.predictions-grid .prediction-elite-difference-heading,
+  .predictions-grid .prediction-position-cell,.predictions-grid .prediction-club-cell,.predictions-grid .prediction-price-cell,.predictions-grid .prediction-selected-cell,.predictions-grid .prediction-elite-cell,.predictions-grid .prediction-elite-difference-cell { position:static; }
   .toolbar { align-items:stretch; gap:8px; }.gameweek-range { width:100%; }.prediction-range,.price-range { flex-basis:100%; }
   .fixture-grid th.team-heading { min-width:138px; }.team-cell { padding-left:10px !important; }.team-cell span { max-width:95px; }
   .team-page-header { align-items:center; }.team-page-header p { max-width:230px; }.team-reset { padding:7px 9px; font-size:.72rem; }
