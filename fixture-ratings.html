@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Data-driven Fantasy Premier League fixture difficulty ratings." />
+    <title>FPL Jurke · Fixture Ratings</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <nav class="page-nav" aria-label="Primary navigation">
+        <a class="page-tab" href="index.html">Player Predictions</a>
+        <a class="page-tab" href="prediction-lineup.html">Prediction Lineups</a>
+        <a class="page-tab is-active" href="fixture-ratings.html" aria-current="page">Fixture Ratings</a>
+        <a class="page-tab" href="my-team.html">My Team</a>
+      </nav>
+      <div class="toolbar fixture-toolbar">
+        <section class="controls" aria-label="Fixture controls">
+          <div class="mode-control" role="group" aria-label="Rating type">
+            <button class="mode-button is-active" type="button" data-mode="overall" aria-pressed="true">Overall</button>
+            <button class="mode-button" type="button" data-mode="attack" aria-pressed="false">Attack</button>
+            <button class="mode-button" type="button" data-mode="defence" aria-pressed="false">Defence</button>
+          </div>
+        </section>
+        <section class="gameweek-range" aria-label="Visible gameweek range">
+          <div class="range-label"><span>Gameweeks</span><output id="gameweek-range-value">1–6</output></div>
+          <div class="range-sliders">
+            <input id="gameweek-start" type="range" min="1" max="19" value="1" aria-label="First visible gameweek" />
+            <input id="gameweek-end" type="range" min="1" max="19" value="6" aria-label="Last visible gameweek" />
+          </div>
+        </section>
+        <button class="reset-button filter-reset" type="button" id="reset-filters">Reset filters</button>
+      </div>
+      <details class="adjustments" id="adjustments">
+        <summary>Team adjustments</summary>
+        <div class="adjustments-content">
+          <p>Scoring above 1.00 raises expected goals. Conceding above 1.00 makes a team easier to score against.</p>
+          <div class="adjustments-list" id="adjustments-list"></div>
+          <button class="reset-button" type="button" id="reset-adjustments">Reset team adjustments</button>
+        </div>
+      </details>
+      <div class="restore-strip" id="restore-strip" aria-live="polite"></div>
+
+      <section class="fixture-panel" aria-label="Fixture difficulty grid">
+        <div class="fixture-grid-wrap" id="fixture-grid-wrap"></div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

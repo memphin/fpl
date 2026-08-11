@@ -1,14 +1,15 @@
 const PREFERENCES_KEY = 'fixture-lens-predictions-preferences-v2';
+const PREFERENCES_SCHEMA_VERSION = 3;
 const POSITION_ORDER = ['GK', 'DEF', 'MID', 'FWD'];
 const STAR_QUOTAS = { GK: 2, DEF: 5, MID: 5, FWD: 3 };
 const METADATA_COLUMNS = [
-  { key: 'player', label: 'Player', className: 'prediction-player-heading', width: 210 },
-  { key: 'position', label: 'POS', className: 'prediction-position-heading', width: 72 },
-  { key: 'club', label: 'Club', className: 'prediction-club-heading', width: 124 },
-  { key: 'price', label: 'Price', className: 'prediction-price-heading', width: 68 },
-  { key: 'selected', label: 'SEL%', className: 'prediction-selected-heading', width: 80 },
-  { key: 'elite', label: 'ELITE%', className: 'prediction-elite-heading', width: 80 },
-  { key: 'eliteDifference', label: 'ELITE% - SEL%', className: 'prediction-elite-difference-heading', width: 122 },
+  { key: 'player', label: 'Player', className: 'prediction-player-heading', width: 160 },
+  { key: 'position', label: 'POS', className: 'prediction-position-heading', width: 46 },
+  { key: 'club', label: 'Club', className: 'prediction-club-heading', width: 70 },
+  { key: 'price', label: 'Price', className: 'prediction-price-heading', width: 52 },
+  { key: 'selected', label: 'SEL%', className: 'prediction-selected-heading', width: 54 },
+  { key: 'elite', label: 'ELITE%', className: 'prediction-elite-heading', width: 58 },
+  { key: 'eliteDifference', label: 'DIFF %', className: 'prediction-elite-difference-heading', width: 62 },
 ];
 const state = {
   data: null,
@@ -21,6 +22,7 @@ const state = {
   position: '',
   club: '',
   showFixtures: true,
+  showExpectedMinutes: false,
   hiddenPlayers: new Set(),
   hiddenGameweeks: new Set(),
   hiddenColumns: new Set(),
@@ -47,6 +49,7 @@ function loadPreferences() {
     state.position = typeof saved.position === 'string' ? saved.position : '';
     state.club = typeof saved.club === 'string' ? saved.club : '';
     state.showFixtures = typeof saved.showFixtures === 'boolean' ? saved.showFixtures : true;
+    state.showExpectedMinutes = saved.version === PREFERENCES_SCHEMA_VERSION && typeof saved.showExpectedMinutes === 'boolean' ? saved.showExpectedMinutes : false;
     state.hiddenPlayers = new Set(saved.hiddenPlayers || []);
     state.hiddenGameweeks = new Set(saved.hiddenGameweeks || []);
     state.hiddenColumns = new Set((saved.hiddenColumns || []).filter((column) => column !== 'player'));
@@ -56,6 +59,7 @@ function loadPreferences() {
 
 function savePreferences() {
   localStorage.setItem(PREFERENCES_KEY, JSON.stringify({
+    version: PREFERENCES_SCHEMA_VERSION,
     startGameweek: state.startGameweek,
     endGameweek: state.endGameweek,
     minPrice: state.minPrice,
@@ -64,6 +68,7 @@ function savePreferences() {
     position: state.position,
     club: state.club,
     showFixtures: state.showFixtures,
+    showExpectedMinutes: state.showExpectedMinutes,
     hiddenPlayers: [...state.hiddenPlayers],
     hiddenGameweeks: [...state.hiddenGameweeks],
     hiddenColumns: [...state.hiddenColumns],
@@ -73,7 +78,9 @@ function savePreferences() {
 
 function availableGameweeks() {
   const { min, max } = state.data.gameweeks;
-  return Array.from({ length: max - min + 1 }, (_, index) => min + index);
+  const start = Math.max(min, state.nextGameweek || min);
+  const end = Math.min(max, start + 9);
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index);
 }
 
 function visibleGameweeks() {
@@ -254,7 +261,7 @@ function renderGrid() {
       const minutes = minutesValue === null ? null : Math.round(minutesValue);
       const fixtureCode = fixture?.venue === 'H' ? fixture.opponentShort : fixture?.opponentShort?.toLowerCase();
       const opponent = state.showFixtures && fixtureCode ? `<span class="prediction-fixture" aria-label="${escapeHtml(fixture.opponentName || fixtureCode)} ${fixture.venue === 'H' ? 'at home' : 'away'}">${escapeHtml(fixtureCode)}</span>` : '';
-      const expectedMinutes = minutes === null ? '' : `<span class="prediction-minutes" aria-label="${minutes} expected minutes" title="${minutes} expected minutes">${minutes}m</span>`;
+      const expectedMinutes = minutes === null || !state.showExpectedMinutes ? '' : `<span class="prediction-minutes" aria-label="${minutes} expected minutes" title="${minutes} expected minutes">${minutes} xMins</span>`;
       return `<td class="prediction-points" style="${greenCellStyle(points, 10)}" aria-label="${points.toFixed(1)} predicted points${minutes === null ? '' : `, ${minutes} expected minutes`}">${opponent}${expectedMinutes}<span class="prediction-points-value">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</span></td>`;
     }).join('');
     const metadataCells = [
@@ -279,6 +286,7 @@ function renderGrid() {
   document.querySelector('#price-end').value = state.maxPrice;
   document.querySelector('#price-range-value').textContent = `£${state.minPrice.toFixed(1)}m–£${state.maxPrice.toFixed(1)}m`;
   document.querySelector('#fixture-visibility').checked = state.showFixtures;
+  document.querySelector('#minutes-visibility').checked = state.showExpectedMinutes;
   renderRestoreStrip();
 }
 
@@ -293,6 +301,7 @@ function resetFilters() {
   state.position = '';
   state.club = '';
   state.showFixtures = true;
+  state.showExpectedMinutes = false;
   state.hiddenPlayers.clear();
   state.hiddenGameweeks.clear();
   state.hiddenColumns.clear();
@@ -301,6 +310,7 @@ function resetFilters() {
   document.querySelector('#position-filter').value = '';
   document.querySelector('#club-filter').value = '';
   document.querySelector('#fixture-visibility').checked = true;
+  document.querySelector('#minutes-visibility').checked = false;
   savePreferences();
   renderGrid();
 }
@@ -342,6 +352,7 @@ async function init() {
   document.querySelector('#position-filter').addEventListener('change', (event) => { state.position = event.target.value; savePreferences(); renderGrid(); });
   document.querySelector('#club-filter').addEventListener('change', (event) => { state.club = event.target.value; savePreferences(); renderGrid(); });
   document.querySelector('#fixture-visibility').addEventListener('change', (event) => { state.showFixtures = event.target.checked; savePreferences(); renderGrid(); });
+  document.querySelector('#minutes-visibility').addEventListener('change', (event) => { state.showExpectedMinutes = event.target.checked; savePreferences(); renderGrid(); });
   document.querySelector('#prediction-gameweek-start').addEventListener('input', (event) => { state.startGameweek = Math.min(Number(event.target.value), state.endGameweek); savePreferences(); renderGrid(); });
   document.querySelector('#prediction-gameweek-end').addEventListener('input', (event) => { state.endGameweek = Math.max(Number(event.target.value), state.startGameweek); savePreferences(); renderGrid(); });
   document.querySelector('#price-start').addEventListener('input', (event) => { state.minPrice = Math.min(Number(event.target.value), state.maxPrice); savePreferences(); renderGrid(); });

@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Fantasy Premier League player predicted points by gameweek." />
-    <title>FPL Jurke</title>
+    <title>FPL Jurke · Player Predictions</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
+    <main class="app-shell predictions-app-shell">
       <nav class="page-nav" aria-label="Primary navigation">
-        <a class="page-tab" href="index.html">Fixture Ratings</a>
-        <a class="page-tab is-active" href="predictions.html" aria-current="page">Predictions</a>
-        <a class="page-tab" href="prediction-lineup.html">Prediction Lineup</a>
+        <a class="page-tab is-active" href="index.html" aria-current="page">Player Predictions</a>
+        <a class="page-tab" href="prediction-lineup.html">Prediction Lineups</a>
+        <a class="page-tab" href="fixture-ratings.html">Fixture Ratings</a>
         <a class="page-tab" href="my-team.html">My Team</a>
       </nav>
 
@@ -30,26 +30,31 @@
             <span>Club</span>
             <select id="club-filter"><option value="">All clubs</option></select>
           </label>
+          <section class="gameweek-range prediction-range" aria-label="Visible prediction gameweek range">
+            <div class="range-label"><span>Gameweeks</span><output id="prediction-gameweek-range-value"></output></div>
+            <div class="range-sliders">
+              <input id="prediction-gameweek-start" type="range" aria-label="First visible prediction gameweek" />
+              <input id="prediction-gameweek-end" type="range" aria-label="Last visible prediction gameweek" />
+            </div>
+          </section>
+          <section class="gameweek-range price-range" aria-label="Visible player price range">
+            <div class="range-label"><span>Price</span><output id="price-range-value"></output></div>
+            <div class="range-sliders">
+              <input id="price-start" type="range" step="0.1" aria-label="Minimum player price" />
+              <input id="price-end" type="range" step="0.1" aria-label="Maximum player price" />
+            </div>
+          </section>
           <label class="fixture-toggle" for="fixture-visibility">
             <span>Fixtures</span>
             <input id="fixture-visibility" type="checkbox" checked />
             <span class="fixture-toggle-track" aria-hidden="true"></span>
           </label>
-          <button class="reset-button filter-reset" type="button" id="reset-prediction-filters">Reset</button>
-        </section>
-        <section class="gameweek-range prediction-range" aria-label="Visible prediction gameweek range">
-          <div class="range-label"><span>Gameweeks</span><output id="prediction-gameweek-range-value"></output></div>
-          <div class="range-sliders">
-            <input id="prediction-gameweek-start" type="range" aria-label="First visible prediction gameweek" />
-            <input id="prediction-gameweek-end" type="range" aria-label="Last visible prediction gameweek" />
-          </div>
-        </section>
-        <section class="gameweek-range price-range" aria-label="Visible player price range">
-          <div class="range-label"><span>Price</span><output id="price-range-value"></output></div>
-          <div class="range-sliders">
-            <input id="price-start" type="range" step="0.1" aria-label="Minimum player price" />
-            <input id="price-end" type="range" step="0.1" aria-label="Maximum player price" />
-          </div>
+          <label class="fixture-toggle" for="minutes-visibility">
+            <span>xMins</span>
+            <input id="minutes-visibility" type="checkbox" />
+            <span class="fixture-toggle-track" aria-hidden="true"></span>
+          </label>
+          <button class="reset-button filter-reset" type="button" id="reset-prediction-filters">Reset filters</button>
         </section>
       </div>
 

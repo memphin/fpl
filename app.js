@@ -1,4 +1,5 @@
 const STORAGE_KEY = 'fixture-lens-preferences-v1';
+const FIXTURE_GAMEWEEK_LIMIT = 19;
 const state = { data: null, mode: 'overall', hiddenClubs: new Set(), hiddenGameweeks: new Set(), startGameweek: null, endGameweek: null, adjustments: {}, sort: { target: null, direction: 1 } };
 const metricLabel = { overall: 'Overall', attack: 'Attack', defence: 'Defence' };
 
@@ -12,9 +13,10 @@ function savePreferences() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ 
 function ratingColor(value) { const position = Math.max(0, Math.min(1, (value - 2.5) / 5)); const hue = 132 - position * 132; return `hsl(${hue} 88% 77%)`; }
 function ratingTextColor(value) { return value >= 6 ? '#551010' : '#102d19'; }
 function visibleTeams() { return state.data.teams.filter((team) => !state.hiddenClubs.has(team.id)); }
-function visibleGameweeks() { return state.data.gameweeks.filter((gw) => gw >= state.startGameweek && gw <= state.endGameweek && !state.hiddenGameweeks.has(gw)); }
+function availableGameweeks() { return state.data.gameweeks.slice(0, FIXTURE_GAMEWEEK_LIMIT); }
+function visibleGameweeks() { return availableGameweeks().filter((gw) => gw >= state.startGameweek && gw <= state.endGameweek && !state.hiddenGameweeks.has(gw)); }
 function defaultGameweekRange() {
-  const gameweeks = state.data.gameweeks;
+  const gameweeks = availableGameweeks();
   const start = gameweeks.includes(state.data.nextGameweek) ? state.data.nextGameweek : gameweeks[0];
   return { start, end: Math.min(start + 5, gameweeks.at(-1)) };
 }
@@ -63,7 +65,7 @@ function renderGrid() {
     return `<td class="fixture-cell" tabindex="0" title="${title}" aria-label="${title}" style="background:${ratingColor(value)};color:${ratingTextColor(value)}">${opponentDisplay}<small>${fixture.venue} · ${displayedValue}</small></td>`;
   }).join('')}</tr>`).join('');
   document.querySelector('#fixture-grid-wrap').innerHTML = `<table class="fixture-grid"><thead><tr><th class="team-heading" scope="col"><span>Team</span><button class="sort-toggle" type="button" data-sort="all" aria-label="${sortAria('all', 'all visible gameweeks')}" title="Sort by all visible gameweeks">${sortIcon('all')}</button></th>${gameweeks.map((gw) => `<th scope="col"><span>GW ${gw}</span><button class="sort-toggle" type="button" data-sort="${gw}" aria-label="${sortAria(gw, `gameweek ${gw}`)}" title="Sort by GW ${gw}">${sortIcon(gw)}</button><button class="inline-toggle" type="button" data-hide-gameweek="${gw}" aria-label="Hide gameweek ${gw}" title="Hide gameweek ${gw}">−</button></th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
-  const restoreItems = [...state.data.gameweeks.filter((gw) => state.hiddenGameweeks.has(gw)).map((gw) => `<button class="restore-chip" type="button" data-show-gameweek="${gw}">+ GW ${gw}</button>`), ...state.data.teams.filter((team) => state.hiddenClubs.has(team.id)).map((team) => `<button class="restore-chip" type="button" data-show-club="${team.id}">+ ${team.name}</button>`)];
+  const restoreItems = [...availableGameweeks().filter((gw) => state.hiddenGameweeks.has(gw)).map((gw) => `<button class="restore-chip" type="button" data-show-gameweek="${gw}">+ GW ${gw}</button>`), ...state.data.teams.filter((team) => state.hiddenClubs.has(team.id)).map((team) => `<button class="restore-chip" type="button" data-show-club="${team.id}">+ ${team.name}</button>`)];
   document.querySelector('#restore-strip').innerHTML = restoreItems.length ? `<span>Show:</span>${restoreItems.join('')}` : '';
   document.querySelector('#gameweek-start').value = state.startGameweek;
   document.querySelector('#gameweek-end').value = state.endGameweek;
@@ -77,12 +79,13 @@ async function init() {
   const response = await fetch('assets/fixtures.json');
   if (!response.ok) throw new Error('Could not load the bundled fixture snapshot.');
   state.data = await response.json();
+  const gameweeks = availableGameweeks();
   const defaultRange = defaultGameweekRange();
-  state.startGameweek = Math.max(state.data.gameweeks[0], Math.min(state.startGameweek ?? defaultRange.start, state.data.gameweeks.at(-1)));
-  state.endGameweek = Math.max(state.startGameweek, Math.min(state.endGameweek ?? defaultRange.end, state.data.gameweeks.at(-1)));
+  state.startGameweek = Math.max(gameweeks[0], Math.min(state.startGameweek ?? defaultRange.start, gameweeks.at(-1)));
+  state.endGameweek = Math.max(state.startGameweek, Math.min(state.endGameweek ?? defaultRange.end, gameweeks.at(-1)));
   for (const input of document.querySelectorAll('#gameweek-start, #gameweek-end')) {
-    input.min = state.data.gameweeks[0];
-    input.max = state.data.gameweeks.at(-1);
+    input.min = gameweeks[0];
+    input.max = gameweeks.at(-1);
   }
   renderAdjustments();
   renderGrid();

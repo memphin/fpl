@@ -3,49 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Data-driven Fantasy Premier League fixture difficulty ratings." />
-    <title>FPL Jurke</title>
+    <meta name="description" content="Fantasy Premier League player predicted points by gameweek." />
+    <title>FPL Jurke · Player Predictions</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="app-shell">
+    <main class="app-shell predictions-app-shell">
       <nav class="page-nav" aria-label="Primary navigation">
-        <a class="page-tab is-active" href="index.html" aria-current="page">Fixture Ratings</a>
-        <a class="page-tab" href="predictions.html">Predictions</a>
-        <a class="page-tab" href="prediction-lineup.html">Prediction Lineup</a>
+        <a class="page-tab is-active" href="index.html" aria-current="page">Player Predictions</a>
+        <a class="page-tab" href="prediction-lineup.html">Prediction Lineups</a>
+        <a class="page-tab" href="fixture-ratings.html">Fixture Ratings</a>
         <a class="page-tab" href="my-team.html">My Team</a>
       </nav>
-      <div class="toolbar">
-        <section class="controls" aria-label="Fixture controls">
-          <div class="mode-control" role="group" aria-label="Rating type">
-            <button class="mode-button is-active" type="button" data-mode="overall" aria-pressed="true">Overall</button>
-            <button class="mode-button" type="button" data-mode="attack" aria-pressed="false">Attack</button>
-            <button class="mode-button" type="button" data-mode="defence" aria-pressed="false">Defence</button>
-          </div>
-          <button class="reset-button" type="button" id="reset-filters">Reset</button>
-        </section>
-        <section class="gameweek-range" aria-label="Visible gameweek range">
-          <div class="range-label"><span>Gameweeks</span><output id="gameweek-range-value">1–6</output></div>
-          <div class="range-sliders">
-            <input id="gameweek-start" type="range" min="1" max="38" value="1" aria-label="First visible gameweek" />
-            <input id="gameweek-end" type="range" min="1" max="38" value="6" aria-label="Last visible gameweek" />
-          </div>
+
+      <div class="predictions-toolbar">
+        <section class="prediction-filters" aria-label="Player prediction filters">
+          <label class="filter-field" for="player-search">
+            <span>Player</span>
+            <input id="player-search" type="search" placeholder="Search players" autocomplete="off" />
+          </label>
+          <label class="filter-field" for="position-filter">
+            <span>Position</span>
+            <select id="position-filter"><option value="">All positions</option></select>
+          </label>
+          <label class="filter-field" for="club-filter">
+            <span>Club</span>
+            <select id="club-filter"><option value="">All clubs</option></select>
+          </label>
+          <section class="gameweek-range prediction-range" aria-label="Visible prediction gameweek range">
+            <div class="range-label"><span>Gameweeks</span><output id="prediction-gameweek-range-value"></output></div>
+            <div class="range-sliders">
+              <input id="prediction-gameweek-start" type="range" aria-label="First visible prediction gameweek" />
+              <input id="prediction-gameweek-end" type="range" aria-label="Last visible prediction gameweek" />
+            </div>
+          </section>
+          <section class="gameweek-range price-range" aria-label="Visible player price range">
+            <div class="range-label"><span>Price</span><output id="price-range-value"></output></div>
+            <div class="range-sliders">
+              <input id="price-start" type="range" step="0.1" aria-label="Minimum player price" />
+              <input id="price-end" type="range" step="0.1" aria-label="Maximum player price" />
+            </div>
+          </section>
+          <label class="fixture-toggle" for="fixture-visibility">
+            <span>Fixtures</span>
+            <input id="fixture-visibility" type="checkbox" checked />
+            <span class="fixture-toggle-track" aria-hidden="true"></span>
+          </label>
+          <label class="fixture-toggle" for="minutes-visibility">
+            <span>xMins</span>
+            <input id="minutes-visibility" type="checkbox" />
+            <span class="fixture-toggle-track" aria-hidden="true"></span>
+          </label>
+          <button class="reset-button filter-reset" type="button" id="reset-prediction-filters">Reset filters</button>
         </section>
       </div>
-      <details class="adjustments" id="adjustments">
-        <summary>Team adjustments</summary>
-        <div class="adjustments-content">
-          <p>Scoring above 1.00 raises expected goals. Conceding above 1.00 makes a team easier to score against.</p>
-          <div class="adjustments-list" id="adjustments-list"></div>
-          <button class="reset-button" type="button" id="reset-adjustments">Reset team adjustments</button>
-        </div>
-      </details>
-      <div class="restore-strip" id="restore-strip" aria-live="polite"></div>
 
-      <section class="fixture-panel" aria-label="Fixture difficulty grid">
-        <div class="fixture-grid-wrap" id="fixture-grid-wrap"></div>
+      <p class="prediction-summary" id="prediction-summary" aria-live="polite"></p>
+      <div class="restore-strip" id="prediction-restore-strip" aria-live="polite"></div>
+      <section class="fixture-panel" aria-label="Player predicted points table">
+        <div class="fixture-grid-wrap" id="predictions-grid-wrap"></div>
       </section>
     </main>
-    <script src="app.js"></script>
+    <script src="predictions.js"></script>
   </body>
 </html>

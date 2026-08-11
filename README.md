@@ -2,7 +2,7 @@
 
 This workspace contains private source snapshots and refresh tooling. Do not deploy its root directory or make this repository public.
 
-Create the deployable static site with `node scripts/build-public.mjs`, then preview it with `node scripts/serve-public.mjs` and open [http://localhost:8080](http://localhost:8080). Deploy only the generated `public/` folder. Fixture Ratings is available at `/`; Player Predictions is at `/predictions.html`; Prediction Lineup is at `/prediction-lineup.html`.
+Create the deployable static site with `node scripts/build-public.mjs`, then preview it with `node scripts/serve-public.mjs` and open [http://localhost:8080](http://localhost:8080). Deploy only the generated `public/` folder. Player Predictions is available at `/`; Prediction Lineups is at `/prediction-lineup.html`; Fixture Ratings is at `/fixture-ratings.html`.
 
 Before releasing, run `node scripts/validate-public.mjs`. The public bundle deliberately contains only the values required to render the site and must not contain provider attribution, source URLs, credentials, or private inputs beyond the team-adjustment rates shown to the browser.
 
