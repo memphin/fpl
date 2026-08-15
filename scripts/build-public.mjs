@@ -1,7 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { buildLineupSnapshot } from '../lineup-model.js';
-import { loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
+import { displayPoints, loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
 
 const root = process.cwd();
 const args = {};
@@ -69,7 +69,7 @@ function sanitizePlayers(snapshot, nameSnapshot, fixtureSnapshot) {
         eliteSelectionDifference: eliteOwnership === null ? null : Number((eliteOwnership - ownership).toFixed(1)),
         fixtures: player.fixtures.map((fixture) => ({
           gameweek: fixture.gameweek,
-          points: Number(Number(fixture.predictions?.points || 0).toFixed(1)),
+          points: displayPoints(fixture.predictions?.points),
           minutes: optionalNumber(fixture.predictions?.minutes) === null ? null : Number(optionalNumber(fixture.predictions.minutes).toFixed(1)),
           opponentName: fixture.opponent?.fullName || fixture.opponent?.shortName || '',
           opponentShort: fixture.opponent?.shortName || '',

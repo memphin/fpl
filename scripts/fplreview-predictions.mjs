@@ -35,6 +35,11 @@ function optionalNumber(value) {
   return value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value)) ? Number(value) : null;
 }
 
+export function displayPoints(value) {
+  const points = optionalNumber(value);
+  return points === null ? 0 : Math.round((points + Number.EPSILON) * 10) / 10;
+}
+
 export function mergePredictionSources(ffhSnapshot, nameSnapshot, reviewSnapshot) {
   if (!Array.isArray(ffhSnapshot?.players) || !Array.isArray(reviewSnapshot?.players)) throw new Error('Prediction sources have an invalid shape.');
   const reviewById = new Map();

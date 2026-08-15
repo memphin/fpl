@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { mergePredictionSources } from '../scripts/fplreview-predictions.mjs';
+import { displayPoints, mergePredictionSources } from '../scripts/fplreview-predictions.mjs';
 import { assignFormation } from '../lineup-model.js';
 
 function sourcePlayer(name, id, fixtures, eliteOwnership = 20) {
@@ -26,6 +26,12 @@ test('averages points at full precision, treats zero as valid and prefers Review
   assert.equal(result.snapshot.players[0].fixtures[1].predictions.minutes, 70);
   assert.equal(result.snapshot.players[0].eliteOwnership, 20);
   assert.deepEqual(result.coverage, { matchedPlayers: 1, reviewOnlyPlayers: 0, fallbackPlayers: 0, blendedFixtures: 1, reviewOnlyFixtures: 0, fallbackFixtures: 1 });
+});
+
+test('rounds public points consistently at decimal half steps', () => {
+  assert.equal(displayPoints(0), 0);
+  assert.equal(displayPoints(0.15), 0.2);
+  assert.equal(displayPoints(2.65), 2.7);
 });
 
 test('falls back to FFH and publishes null elite ownership for an unmatched player', () => {

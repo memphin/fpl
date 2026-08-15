@@ -1,7 +1,7 @@
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 import { FORMATIONS } from '../lineup-model.js';
-import { loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
+import { displayPoints, loadFplReviewWorkbook, mergePredictionSources } from './fplreview-predictions.mjs';
 
 const args = {};
 for (let index = 2; index < process.argv.length; index += 1) {
@@ -67,8 +67,12 @@ for (const player of publicPlayers.players) {
   const expectedDifference = expectedElite === null ? null : Number((expectedElite - Number(privatePlayer.ownership || 0)).toFixed(1));
   if (player.eliteOwnership !== expectedElite || player.eliteSelectionDifference !== expectedDifference) fail(`Elite ownership mismatch for ${player.fullName}.`);
   for (const fixture of player.fixtures) {
-    const privateFixture = privatePlayer.fixtures.find((candidate) => candidate.gameweek === fixture.gameweek);
-    if (!privateFixture || !Number.isFinite(fixture.points) || fixture.points.toFixed(1) !== Number(privateFixture.predictions.points || 0).toFixed(1)) fail(`Displayed points mismatch for ${player.fullName}, GW ${fixture.gameweek}.`);
+    const privateFixture = privatePlayer.fixtures.find((candidate) => (
+      candidate.gameweek === fixture.gameweek
+      && (candidate.opponent?.shortName || '') === fixture.opponentShort
+      && (candidate.isHome ? 'H' : 'A') === fixture.venue
+    ));
+    if (!privateFixture || !Number.isFinite(fixture.points) || fixture.points !== displayPoints(privateFixture.predictions.points)) fail(`Displayed points mismatch for ${player.fullName}, GW ${fixture.gameweek}.`);
     const privateMinutes = optionalNumber(privateFixture.predictions.minutes);
     const expectedMinutes = privateMinutes === null ? null : Number(privateMinutes.toFixed(1));
     if (fixture.minutes !== expectedMinutes || (fixture.minutes !== null && (fixture.minutes < 0 || fixture.minutes > 95))) fail(`Displayed minutes mismatch for ${player.fullName}, GW ${fixture.gameweek}.`);
