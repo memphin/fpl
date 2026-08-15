@@ -3,17 +3,12 @@
 
 Authentication
 --------------
-The script can use an existing API bearer token or obtain a short-lived token
-from the Hub's authenticated access-token endpoint using a browser session
-cookie. A password-login option is included only for sessions where Hub does
-not require CAPTCHA/MFA; those challenges must be completed in a browser.
-Secrets are never included in the output file.
+The script uses a Hub API bearer token. A password-login option is included
+only for sessions where Hub does not require CAPTCHA/MFA; those challenges
+must be completed in a browser. Secrets are never included in the output file.
 
 Examples (PowerShell)
 ---------------------
-  $env:FFH_SESSION_COOKIE = 'cookie-name=value; other-cookie=value'
-  python ./fetch_predicted_points.py --min-gameweek 1 --max-gameweek 10
-
   $env:FFH_TOKEN = 'existing-bearer-token'
   python ./fetch_predicted_points.py --max-gameweek 5 --output players.json
 
@@ -95,11 +90,15 @@ def request_json(
             break
         except HTTPError as exc:
             body = exc.read().decode("utf-8", errors="replace")[:1000]
+            if exc.code == 400 and "PREDICTIONS_REQUIRE_AUTH" in body:
+                raise RuntimeError(
+                    "FFH prediction access was rejected. The bearer token is invalid or expired; "
+                    "replace FFH_TOKEN."
+                ) from exc
             if exc.code in (401, 403):
                 if url == TOKEN_URL:
                     raise RuntimeError(
-                        "FFH session is missing or expired. Set FFH_SESSION_COOKIE from an "
-                        "authenticated Fantasy Football Hub browser request, or set FFH_TOKEN."
+                        "FFH authentication failed. Set a valid FFH_TOKEN."
                     ) from exc
                 raise RuntimeError(f"FFH authentication failed (HTTP {exc.code}).") from exc
             retryable = exc.code == 429 or 500 <= exc.code < 600
@@ -158,7 +157,7 @@ def login(username: str, password: str, timeout: int) -> OpenerDirector:
     if form.requires_captcha:
         raise RuntimeError(
             "FFH password login currently requires a browser CAPTCHA. Complete the login "
-            "in a browser and set FFH_SESSION_COOKIE instead; this script will not bypass CAPTCHA."
+            "in a browser and obtain a valid FFH_TOKEN; this script will not bypass CAPTCHA."
         )
     form.fields.update({"username": username, "password": password, "action": "default"})
     post_url = form.form_action or page_url
@@ -184,27 +183,25 @@ def login(username: str, password: str, timeout: int) -> OpenerDirector:
     if final_url.startswith("https://auth.fantasyfootballhub.co.uk/"):
         raise RuntimeError(
             "FFH did not complete the password login. Check the credentials, or complete "
-            "any CAPTCHA/MFA in a browser and use FFH_SESSION_COOKIE instead."
+            "any CAPTCHA/MFA in a browser and obtain a valid FFH_TOKEN."
         )
     return opener
 
 
-def get_token(session_cookie: str | None, username: str | None, password: str | None, timeout: int) -> str:
-    token = (os.environ.get("FFH_TOKEN") or os.environ.get("FANTASY_FOOTBALL_HUB_TOKEN") or "").strip()
-    if token:
-        return token.removeprefix("Bearer ").strip()
+def get_token(username: str | None, password: str | None, timeout: int) -> str:
+    configured_token = (
+        os.environ.get("FFH_TOKEN") or os.environ.get("FANTASY_FOOTBALL_HUB_TOKEN") or ""
+    ).strip().removeprefix("Bearer ").strip()
     opener: OpenerDirector | None = None
-    # A browser session takes precedence over the configured account name:
-    # it has already passed Hub's CAPTCHA/MFA and is the most reliable path.
-    if session_cookie:
-        pass
-    elif username:
+    if configured_token:
+        return configured_token
+    if username:
         if not password:
             raise RuntimeError("FFH username was provided but no password was supplied.")
         opener = login(username, password, timeout)
     else:
         raise RuntimeError(
-            "No credentials found. Set FFH_TOKEN, FFH_SESSION_COOKIE, or FFH_USERNAME; see --help for examples."
+            "No credentials found. Set FFH_TOKEN or FFH_USERNAME; see --help for examples."
         )
 
     headers = {
@@ -213,8 +210,6 @@ def get_token(session_cookie: str | None, username: str | None, password: str | 
         "Referer": f"{ORIGIN}/",
         "User-Agent": USER_AGENT,
     }
-    if session_cookie:
-        headers["Cookie"] = session_cookie
     payload = request_json(
         TOKEN_URL,
         headers,
@@ -358,7 +353,6 @@ def write_compact_json(path: Path, payload: dict[str, Any]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--session-cookie", default=os.environ.get("FFH_SESSION_COOKIE"), help="Cookie header; prefer FFH_SESSION_COOKIE")
     parser.add_argument(
         "--username",
         default=os.environ.get("FFH_USERNAME") or DEFAULT_USERNAME,
@@ -411,11 +405,10 @@ def main() -> int:
         has_bearer_token = bool(
             (os.environ.get("FFH_TOKEN") or os.environ.get("FANTASY_FOOTBALL_HUB_TOKEN") or "").strip()
         )
-        # Do not prompt when an API token or an authenticated browser session
-        # was supplied: neither requires the account password.
-        if args.username and not has_bearer_token and not args.session_cookie:
+        # Do not prompt when an API token was supplied.
+        if args.username and not has_bearer_token:
             password = sys.stdin.readline().rstrip("\r\n") if args.password_stdin else getpass("Fantasy Football Hub password: ")
-        token = get_token(args.session_cookie, args.username, password, args.timeout)
+        token = get_token(args.username, password, args.timeout)
         combined: list[dict[str, Any]] = []
         for position in POSITIONS:
             records = fetch_position(args, token, position)

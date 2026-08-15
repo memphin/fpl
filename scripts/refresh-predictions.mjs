@@ -59,7 +59,9 @@ const maximumAge = Number(args['max-age-minutes'] ?? 60);
 const minimumPlayers = Number(args['minimum-player-count'] ?? 300);
 const suppliedPredictions = args['prediction-input'] ? resolve(args['prediction-input']) : null;
 const fplReviewPath = resolve(args['fplreview-input'] || 'pred.xlsx');
-if (!suppliedPredictions && !(process.env.FFH_TOKEN || '').trim()) {
+const hasFfhToken = [process.env.FFH_TOKEN, process.env.FANTASY_FOOTBALL_HUB_TOKEN]
+  .some((value) => (value || '').trim());
+if (!suppliedPredictions && !hasFfhToken) {
   throw new Error('FFH_TOKEN is required for a live prediction refresh.');
 }
 

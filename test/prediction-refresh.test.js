@@ -184,6 +184,7 @@ test('retries transient bootstrap errors and does not retry fatal responses', as
 test('requires FFH_TOKEN before a live refresh starts', async () => {
   const environment = { ...process.env };
   delete environment.FFH_TOKEN;
+  delete environment.FANTASY_FOOTBALL_HUB_TOKEN;
   await assert.rejects(() => execFileAsync(process.execPath, ['scripts/refresh-predictions.mjs'], { cwd: root, env: environment }), /FFH_TOKEN is required/);
 });
 
@@ -248,6 +249,7 @@ test('leaves the existing release untouched when the season has no next gameweek
 test('workflow deploys committed predictions on pushes and live refreshes otherwise', async () => {
   const workflow = await readFile(join(root, '.github', 'workflows', 'refresh-predictions.yml'), 'utf8');
   assert.match(workflow, /on:\s+push:\s+branches:\s+- main\s+schedule:/);
+  assert.doesNotMatch(workflow, /FFH_SESSION_COOKIE/);
   assert.match(workflow, /if \[ "\$GITHUB_EVENT_NAME" = 'push' \]; then\s+npm run build\s+npm run validate:public[\s\S]*else\s+npm run refresh:predictions/);
   assert.match(workflow, /Upload sanitized Pages artifact[\s\S]*if: steps\.release\.outputs\.has_upcoming == 'true'/);
   assert.match(workflow, /Deploy sanitized bundle to Cloudflare Pages[\s\S]*if: steps\.release\.outputs\.has_upcoming == 'true'[\s\S]*uses: cloudflare\/wrangler-action@v4/);

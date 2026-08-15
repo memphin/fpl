@@ -2,7 +2,7 @@
 
 This workspace contains private source snapshots and refresh tooling. Do not deploy its root directory or make this repository public.
 
-Create the deployable static site with `node scripts/build-public.mjs`, then preview it with `node scripts/serve-public.mjs` and open [http://localhost:8080](http://localhost:8080). Deploy only the generated `public/` folder. Player Predictions is available at `/`; Prediction Lineups is at `/prediction-lineup.html`; Fixture Ratings is at `/fixture-ratings.html`.
+Create the deployable static site with `node scripts/build-public.mjs`, then preview it with `node scripts/serve-public.mjs` and open [http://localhost:8080](http://localhost:8080). Deploy only the generated `public/` folder. Player Predictions is available at `/`; Predicted Lineups is at `/prediction-lineup.html`; Fixture Ratings is at `/fixture-ratings.html`.
 
 Before releasing, run `node scripts/validate-public.mjs`. The public bundle deliberately contains only the values required to render the site and must not contain provider attribution, source URLs, credentials, or private inputs beyond the team-adjustment rates shown to the browser.
 
@@ -25,7 +25,7 @@ The public bundle contains only blended points, the expected minutes required by
 For a one-off refresh of the tracked development snapshot, run:
 
 ```powershell
-$env:FFH_TOKEN = 'provider-issued-long-lived-token'
+$env:FFH_TOKEN = 'provider-issued-bearer-token'
 python fetch_predicted_points.py --output data/ffh_players_compact.json
 node scripts/build-player-display-names.mjs
 npm run build
@@ -40,14 +40,14 @@ One-time GitHub setup:
 
 1. Enable GitHub Actions for the repository.
 2. In **Settings → Pages**, select **GitHub Actions** as the publishing source.
-3. Add a repository Actions secret named `FFH_TOKEN` containing a provider-issued bearer token that is valid for unattended recurring access.
+3. Add a repository Actions secret named `FFH_TOKEN` containing a valid Hub bearer token.
 4. Restrict the `github-pages` environment to deployments from the default branch.
 5. Add the Cloudflare repository secret `CLOUDFLARE_API_TOKEN` with account-level **Cloudflare Pages: Edit** permission.
 6. Add repository variables `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_PAGES_PROJECT`.
 7. In the Cloudflare Pages project, disable automatic production and preview branch deployments so a Git build cannot overwrite the directly uploaded refreshed bundle with tracked development fixtures.
 8. Run **Prediction release** manually and verify both deployed URLs before relying on the schedule.
 
-Rotate the provider credential by replacing the `FFH_TOKEN` repository secret; no source change is required. An invalid FFH token blocks only scheduled and manual live refreshes, not push deployments of committed data. Rotate Cloudflare deployment access by replacing `CLOUDFLARE_API_TOKEN` with another Pages-only token. Tokens are passed only through process inputs or environments. Temporary private snapshots are deleted at the end of the job and are never uploaded as artifacts.
+Rotate the provider credential by replacing the `FFH_TOKEN` repository secret; no source change is required. Rejected Hub credentials block only scheduled and manual live refreshes, not push deployments of committed data. Rotate Cloudflare deployment access by replacing `CLOUDFLARE_API_TOKEN` with another Pages-only token. Credentials are passed only through process environments. Temporary private snapshots are deleted at the end of the job and are never uploaded as artifacts.
 
 Run the same staged pipeline locally with `npm run refresh:predictions`. It writes only the ignored `public/` directory and leaves tracked `data/` files unchanged. Missing or rejected credentials, incomplete data, player-identity mismatches, test failures, or public-bundle validation failures stop the workflow before artifact upload, leaving the previous Pages deployment live. When the season has no next gameweek, the workflow succeeds without deploying.
 

@@ -26,11 +26,21 @@ def http_error(code, headers=None):
     return HTTPError("https://example.test", code, "error", headers or {}, io.BytesIO(b"error"))
 
 
+def json_http_error(code, payload):
+    return HTTPError(
+        "https://example.test",
+        code,
+        "error",
+        {},
+        io.BytesIO(json.dumps(payload).encode("utf-8")),
+    )
+
+
 class RequestJsonTests(unittest.TestCase):
     def test_missing_credentials_fail_before_request(self):
         with patch.dict(os.environ, {}, clear=True):
             with self.assertRaisesRegex(RuntimeError, "No credentials found"):
-                fetcher.get_token(None, None, None, 1)
+                fetcher.get_token(None, None, 1)
 
     def test_authentication_errors_are_not_retried(self):
         for status in (401, 403):
@@ -40,6 +50,23 @@ class RequestJsonTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "authentication failed"):
                     fetcher.request_json("https://example.test", {}, 1, opener=opener, sleep=Mock())
                 self.assertEqual(opener.open.call_count, 1)
+
+    def test_prediction_auth_error_explains_credential_rotation(self):
+        opener = Mock()
+        opener.open.side_effect = json_http_error(
+            400,
+            {"error": {"code": "PREDICTIONS_REQUIRE_AUTH", "message": "authentication required"}},
+        )
+        with self.assertRaisesRegex(RuntimeError, "invalid or expired"):
+            fetcher.request_json("https://example.test", {}, 1, opener=opener, sleep=Mock())
+        self.assertEqual(opener.open.call_count, 1)
+
+    def test_configured_token_is_used_without_a_session_cookie(self):
+        with patch.dict(os.environ, {"FFH_TOKEN": "working-token"}, clear=True):
+            with patch.object(fetcher, "request_json") as request:
+                token = fetcher.get_token(None, None, 1)
+        self.assertEqual(token, "working-token")
+        request.assert_not_called()
 
     def test_rate_limit_retries_then_succeeds(self):
         opener = Mock()

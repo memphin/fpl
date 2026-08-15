@@ -319,7 +319,7 @@ function renderPlayerRow(player, gameweeks, awards, comparisonSlot = null) {
     const minutes = minutesValue === null ? null : Math.round(minutesValue);
     const fixtureCode = fixture?.venue === 'H' ? fixture.opponentShort : fixture?.opponentShort?.toLowerCase();
     const opponent = state.showFixtures && fixtureCode ? `<span class="prediction-fixture" aria-label="${escapeHtml(fixture.opponentName || fixtureCode)} ${fixture.venue === 'H' ? 'at home' : 'away'}">${escapeHtml(fixtureCode)}</span>` : '';
-    const expectedMinutes = minutes === null || !state.showExpectedMinutes ? '' : `<span class="prediction-minutes" aria-label="${minutes} expected minutes" title="${minutes} expected minutes">${minutes} xMins</span>`;
+    const expectedMinutes = minutes === null || !state.showExpectedMinutes ? '' : `<span class="prediction-minutes" aria-label="${minutes} expected minutes" title="${minutes} expected minutes">${minutes}</span>`;
     return `<td class="prediction-points" style="${greenCellStyle(points, 10)}" aria-label="${points.toFixed(1)} predicted points${minutes === null ? '' : `, ${minutes} expected minutes`}">${opponent}${expectedMinutes}<span class="prediction-points-value">${points.toFixed(1)}${awardStar(awardsByGameweek.get(gameweek).has(player), `Top ${player.position} predicted points for GW ${gameweek}`)}</span></td>`;
   }).join('');
   const metadataCells = [
