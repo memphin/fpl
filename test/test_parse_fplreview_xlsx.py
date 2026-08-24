@@ -38,9 +38,9 @@ class FplReviewParserTests(unittest.TestCase):
     def test_real_workbook_contract(self):
         workbook = Path(__file__).parents[1] / "pred.xlsx"
         result = parser.parse_workbook(workbook)
-        self.assertEqual(result["count"], 599)
-        self.assertEqual(result["gameweeks"], list(range(1, 11)))
-        self.assertEqual(len({player["id"] for player in result["players"]}), 599)
+        self.assertEqual(result["count"], 600)
+        self.assertEqual(result["gameweeks"], list(range(2, 12)))
+        self.assertEqual(len({player["id"] for player in result["players"]}), 600)
 
 
 if __name__ == "__main__":

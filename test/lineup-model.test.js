@@ -52,10 +52,11 @@ test('automatic assignment maximizes minutes, excludes unavailable players, and 
 });
 
 test('real editorial snapshot builds 20 reviewed teams and sanitized public values', async () => {
-  const [fixtures, players, names, review] = await Promise.all([
+  const [fixtures, players, trackedNames, review] = await Promise.all([
     readJson('../data/fdr-data.json'), readJson('../data/ffh_players_compact.json'),
     readJson('../data/fpl-player-display-names.json'), readJson('../data/predicted-lineups.json'),
   ]);
+  const names = { ...trackedNames, nextGameweek: review.gameweek };
   const output = buildLineupSnapshot(fixtures, players, names, review, '2026-08-10T14:30:00Z');
   const teams = output.fixtures.flatMap((fixture) => fixture.teams);
   assert.equal(output.fixtures.length, 10);
@@ -82,12 +83,13 @@ test('stale reviews and roster drift become automatic while malformed current re
     readJson('../data/fpl-player-display-names.json'), readJson('../data/predicted-lineups.json'),
   ]);
   const stale = structuredClone(review);
-  stale.gameweek = 2;
+  stale.gameweek = Number(names.nextGameweek) + 1;
   const automatic = buildLineupSnapshot(fixtures, players, names, stale, '2026-08-10T14:30:00Z').fixtures.flatMap((fixture) => fixture.teams);
   assert.equal(automatic.filter((team) => team.predictionStatus === 'automatic').length, 20);
 
   const transferred = structuredClone(names);
   transferred.matches['Saša Lukić'].teamId = 12;
+  transferred.nextGameweek = review.gameweek;
   const rosterChanged = buildLineupSnapshot(fixtures, players, transferred, review, '2026-08-11T05:00:00Z').fixtures.flatMap((fixture) => fixture.teams);
   assert.equal(rosterChanged.find((team) => team.teamName === 'Fulham').predictionStatus, 'automatic');
   assert.equal(rosterChanged.filter((team) => team.predictionStatus === 'reviewed').length, 19);
@@ -95,5 +97,6 @@ test('stale reviews and roster drift become automatic while malformed current re
 
   const malformed = structuredClone(review);
   malformed.teams[0].starters.pop();
-  assert.throws(() => buildLineupSnapshot(fixtures, players, names, malformed), /must have 11 starters/);
+  const current = { ...names, nextGameweek: review.gameweek };
+  assert.throws(() => buildLineupSnapshot(fixtures, players, current, malformed), /must have 11 starters/);
 });
