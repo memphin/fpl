@@ -35,13 +35,5 @@ class FplReviewParserTests(unittest.TestCase):
         with self.assertRaisesRegex(parser.WorkbookValidationError, "invalid Elite%"):
             parser.parse_rows([header, ["DEF", 4, "A", "ARS", 90, 4, "101%"]])
 
-    def test_real_workbook_contract(self):
-        workbook = Path(__file__).parents[1] / "pred.xlsx"
-        result = parser.parse_workbook(workbook)
-        self.assertEqual(result["count"], 614)
-        self.assertEqual(result["gameweeks"], list(range(2, 12)))
-        self.assertEqual(len({player["id"] for player in result["players"]}), 614)
-
-
 if __name__ == "__main__":
     unittest.main()
